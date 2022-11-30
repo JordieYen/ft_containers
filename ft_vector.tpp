@@ -11,14 +11,16 @@ namespace ft
 	}
 
 	template <typename T>
-	vector<T>::vector(unsigned int i)
+	vector<T>::vector(int i)
 	{
+		if (i < 0)
+			throw std::length_error("ft_vector");
 		if (i > 0)
 			this->_capacity = 1;
-		while (this->_capacity < i)
+		this->_size = i;
+		while (this->_capacity < this->_size)
 			this->_capacity *= 2;
 		this->_vector = new T[this->_capacity];
-		this->_size = i;
 	}
 
 	template <typename T>
@@ -66,6 +68,14 @@ namespace ft
 	// }
 
 	template <typename T>
+	void	vector<T>::push_back(T value)
+	{
+		this->_size++;
+		vector<T>::update_capacity();
+		this->_vector[this->_size - 1] = value;
+	}
+
+	template <typename T>
 	int	vector<T>::size(void)
 	{
 		return (this->_size);
@@ -77,4 +87,18 @@ namespace ft
 		return (this->_capacity);
 	}
 
+	template <typename T>
+	void	vector<T>::update_capacity(void)
+	{
+		T	*new_vector;
+
+		while (this->_capacity < this->_size)
+			this->_capacity *= 2;
+		new_vector = new T[this->_capacity];
+		for (int i = 0; i < this->_size; i++)
+			new_vector[i] = this->_vector[i];
+		delete[] this->_vector;
+		this->_vector = new_vector;
+		std::cout << "lol" << std::endl;
+	}
 }
