@@ -28,6 +28,7 @@ namespace ft
 			void	reserve(int size);
 			int		capacity(void);
 			void	shrink_to_fit(void);
+			void	clear(void);
 
 		private:
 			void	update_capacity(void);

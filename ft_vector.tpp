@@ -53,6 +53,7 @@ namespace ft
 	template <typename T>
 	T&	vector<T>::operator[](int i)
 	{
+		std::cout << "aple" << std::endl;
 		if (i < 0 || i > this->_size - 1)
 			throw std::out_of_range("out of raaange");
 		else
@@ -148,6 +149,12 @@ namespace ft
 			this->_capacity = this->_size;
 			this->reallocate(new_vector);
 		}
+	}
+
+	template <typename T>
+	void	vector<T>::clear(void)
+	{
+		this->_size = 0;
 	}
 
 	template <typename T>

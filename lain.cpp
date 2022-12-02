@@ -39,6 +39,7 @@ int	main(void)
 	real2.reserve(64);
 	real2.push_back(5);
 	real2.shrink_to_fit();
+	real2.clear();
 	cout << "real vector | size : " << real2.size() << " capacity : " << real2.capacity() << endl;
 
 
@@ -73,6 +74,7 @@ int	main(void)
 	mine2.reserve(64);
 	mine2.push_back(5);
 	mine2.shrink_to_fit();
+	mine2.clear();
 	cout << "my vector | size : " << mine2.size() << " capacity : " << mine2.capacity() << endl;
 
 	cout << "-------------------" << endl;
