@@ -2,6 +2,7 @@
 # define FTVECTOR_HPP
 
 # include <iostream>
+# include <limits>
 
 namespace ft
 {
@@ -16,12 +17,21 @@ namespace ft
 			T&	operator[](int i);
 			~vector();
 			
-			int		size(void);
 			void	push_back(T value);
+			T&		at(int index);
+			T&		front(void);
+			T&		back(void);
+			T		*data(void);
+			bool	empty(void);
+			int		size(void);
+			// int		max_size(void);
+			void	reserve(int size);
 			int		capacity(void);
+			void	shrink_to_fit(void);
 
 		private:
 			void	update_capacity(void);
+			void	reallocate(T *new_vector);
 
 			T		*_vector;
 			int		_capacity;
