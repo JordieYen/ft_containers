@@ -53,7 +53,6 @@ namespace ft
 	template <typename T>
 	T&	vector<T>::operator[](int i)
 	{
-		std::cout << "aple" << std::endl;
 		if (i < 0 || i > this->_size - 1)
 			throw std::out_of_range("out of raaange");
 		else
@@ -66,14 +65,6 @@ namespace ft
 	// 	this->_vector.append(input);
 	// 	this->_size++;
 	// }
-
-	template <typename T>
-	void	vector<T>::push_back(T value)
-	{
-		this->_size++;
-		vector<T>::update_capacity();
-		this->_vector[this->_size - 1] = value;
-	}
 
 	template <typename T>
 	T&	vector<T>::at(int index)
@@ -155,6 +146,62 @@ namespace ft
 	void	vector<T>::clear(void)
 	{
 		this->_size = 0;
+	}
+
+
+	template <typename T>
+	void	vector<T>::push_back(T value)
+	{
+		this->_size++;
+		vector<T>::update_capacity();
+		this->_vector[this->_size - 1] = value;
+	}
+
+
+	template <typename T>
+	void	vector<T>::pop_back(void)
+	{
+		this->_size--;
+	}
+
+	template <typename T>
+	void	vector<T>::resize(int size)
+	{
+		this->resize(size, 0);
+	}
+
+	template <typename T>
+	void	vector<T>::resize(int size, T value)
+	{
+		T	*new_vector;
+
+		if (size > this->_size)
+		{
+			this->_capacity = size;
+			new_vector = new T[this->_capacity];
+			for (int i = 0; i < size; i++)
+			{
+				if (i < this->_size)
+					new_vector[i] = this->_vector[i];
+				else
+					new_vector[i] = value;
+			}
+			delete[] this->_vector;
+			this->_vector = new_vector;
+			this->_size = size;
+		}
+		else
+			this->_size = size;
+	}
+
+	template <typename T>
+	void	vector<T>::swap(vector& other)
+	{
+		vector temp_vector;
+
+		temp_vector = other;
+		other = this;
+		this = temp_vector;
 	}
 
 	template <typename T>
