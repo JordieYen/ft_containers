@@ -5,8 +5,7 @@ namespace ft
 	template <typename T, class Allocator>
 	vector<T, Allocator>::vector(void)
 	{
-		this->_vector = new T[0];
-		// this->_vector = this->allocator.allocate(0);
+		this->_vector = this->allocator.allocate(0);
 		this->_capacity = 1;
 		this->_size = 0;
 	}
@@ -20,16 +19,14 @@ namespace ft
 		this->_size = i;
 		while (this->_capacity < this->_size)
 			this->_capacity *= 2;
-		// this->_vector = this->allocator.allocate(this->_capacity);
-		this->_vector = new T[this->_capacity];
+		this->_vector = this->allocator.allocate(this->_capacity);
 	}
 
 	template <typename T, class Allocator>
 	vector<T, Allocator>::vector(const vector& clone)
 	{
 		this->_capacity = clone._capacity;
-		// this->_vector = this->allocator.allocate(clone._capacity);
-		this->_vector = new T[clone._capacity];
+		this->_vector = this->allocator.allocate(clone._capacity);
 		for (int i = 0; i < clone._size; i++)
 			this->_vector[i] = clone._vector[i];
 		this->_size = clone._size;
@@ -39,7 +36,7 @@ namespace ft
 	vector<T, Allocator>&	vector<T, Allocator>::operator=(const vector& clone)
 	{
 		this->_capacity = clone._capacity;
-		this->_vector = new T[clone._capacity];
+		this->_vector = this->allocator.allocate(clone._capacity);
 		for (int i = 0; i < clone._size; i++)
 			this->_vector[i] = clone._vector[i];
 		this->_size = clone._size;
@@ -50,7 +47,7 @@ namespace ft
 	template <typename T, class Allocator>
 	vector<T, Allocator>::~vector()
 	{
-		delete[] this->_vector;
+		this->allocator.deallocate(this->_vector, this->_capacity);
 	}
 
 	template <typename T, class Allocator>
@@ -181,15 +178,17 @@ namespace ft
 		if (size > this->_size)
 		{
 			this->_capacity = size;
-			new_vector = new T[this->_capacity];
+			new_vector = this->allocator.allocate(this->_capacity);
+			// new_vector = new T[this->_capacity];
 			for (int i = 0; i < size; i++)
 			{
 				if (i < this->_size)
 					new_vector[i] = this->_vector[i];
 				else
 					new_vector[i] = value;
+				if (i + 1 == size)
+					this->allocator.deallocate(this->_vector, i);
 			}
-			delete[] this->_vector;
 			this->_vector = new_vector;
 			this->_size = size;
 		}
@@ -225,10 +224,13 @@ namespace ft
 	template <typename T, class Allocator>
 	void	vector<T, Allocator>::reallocate(T *new_vector)
 	{
-		new_vector = new T[this->_capacity];
+		new_vector = this->allocator.allocate(this->_capacity);
 		for (int i = 0; i < this->_size; i++)
+		{
 			new_vector[i] = this->_vector[i];
-		delete[] this->_vector;
+			if (i + 1 == this->_size)
+				this->allocator.deallocate(this->_vector, i);
+		}
 		this->_vector = new_vector;
 	}
 }
