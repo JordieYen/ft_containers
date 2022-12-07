@@ -1,5 +1,5 @@
-#ifndef FTVECTOR_HPP
-# define FTVECTOR_HPP
+#ifndef TEST_HPP
+# define TEST_HPP
 
 # include <iostream>
 # include <limits>
@@ -25,28 +25,8 @@ namespace ft
 			vector&	operator=(const vector& clone);
 			T&	operator[](int i);
 			~vector();
-			
-			T&		at(int index);
-			T&		front(void);
-			T&		back(void);
-			T		*data(void);
-			bool	empty(void);
-			int		size(void);
-			// int		max_size(void);
-			void	reserve(int size);
-			int		capacity(void);
-			void	shrink_to_fit(void);
-			void	clear(void);
-			void	push_back(T value);
-			void	pop_back(void);
-			void	resize(int size);
-			void	resize(int size, T value);
-			void	swap(vector& other);
 
 		private:
-			void	update_capacity(void);
-			void	reallocate(T *new_vector);
-
 			allocator_type	allocator;
 			T				*_vector;
 			int				_capacity;

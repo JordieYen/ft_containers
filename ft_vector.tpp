@@ -2,16 +2,17 @@
 
 namespace ft
 {
-	template <typename T>
-	vector<T>::vector(void)
+	template <typename T, class Allocator>
+	vector<T, Allocator>::vector(void)
 	{
 		this->_vector = new T[0];
+		// this->_vector = this->allocator.allocate(0);
 		this->_capacity = 1;
 		this->_size = 0;
 	}
 
-	template <typename T>
-	vector<T>::vector(int i)
+	template <typename T, class Allocator>
+	vector<T, Allocator>::vector(int i)
 	{
 		if (i < 0)
 			throw std::length_error("ft_vector");
@@ -19,21 +20,23 @@ namespace ft
 		this->_size = i;
 		while (this->_capacity < this->_size)
 			this->_capacity *= 2;
+		// this->_vector = this->allocator.allocate(this->_capacity);
 		this->_vector = new T[this->_capacity];
 	}
 
-	template <typename T>
-	vector<T>::vector(const vector& clone)
+	template <typename T, class Allocator>
+	vector<T, Allocator>::vector(const vector& clone)
 	{
 		this->_capacity = clone._capacity;
+		// this->_vector = this->allocator.allocate(clone._capacity);
 		this->_vector = new T[clone._capacity];
 		for (int i = 0; i < clone._size; i++)
 			this->_vector[i] = clone._vector[i];
 		this->_size = clone._size;
 	}
 
-	template <typename T>
-	vector<T>&	vector<T>::operator=(const vector& clone)
+	template <typename T, class Allocator>
+	vector<T, Allocator>&	vector<T, Allocator>::operator=(const vector& clone)
 	{
 		this->_capacity = clone._capacity;
 		this->_vector = new T[clone._capacity];
@@ -44,14 +47,14 @@ namespace ft
 		return (*this);
 	}
 
-	template <typename T>
-	vector<T>::~vector()
+	template <typename T, class Allocator>
+	vector<T, Allocator>::~vector()
 	{
 		delete[] this->_vector;
 	}
 
-	template <typename T>
-	T&	vector<T>::operator[](int i)
+	template <typename T, class Allocator>
+	T&	vector<T, Allocator>::operator[](int i)
 	{
 		if (i < 0 || i > this->_size - 1)
 			throw std::out_of_range("out of raaange");
@@ -59,61 +62,61 @@ namespace ft
 			return (this->_vector[i]);
 	}
 
-	// template <typename T>
-	// void	vector<T>::append(T input)
+	// template <typename T, class Allocator>
+	// void	vector<T, Allocator>::append(T input)
 	// {
 	// 	this->_vector.append(input);
 	// 	this->_size++;
 	// }
 
-	template <typename T>
-	T&	vector<T>::at(int index)
+	template <typename T, class Allocator>
+	T&	vector<T, Allocator>::at(int index)
 	{
 		if (index >= this->_size)
 			throw std::out_of_range("my vector");
 		return (this->_vector[index]);
 	}
 
-	template <typename T>
-	T&	vector<T>::front(void)
+	template <typename T, class Allocator>
+	T&	vector<T, Allocator>::front(void)
 	{
 		return (this->_vector[0]);
 	}
 
-	template <typename T>
-	T&	vector<T>::back(void)
+	template <typename T, class Allocator>
+	T&	vector<T, Allocator>::back(void)
 	{
 		return (this->_vector[this->_size - 1]);
 	}
 
-	template <typename T>
-	T	*vector<T>::data(void)
+	template <typename T, class Allocator>
+	T	*vector<T, Allocator>::data(void)
 	{
 		return (this->_vector);
 	}
 
-	template <typename T>
-	bool	vector<T>::empty(void)
+	template <typename T, class Allocator>
+	bool	vector<T, Allocator>::empty(void)
 	{
 		if (this->_size == 0)
 			return (true);
 		return (false);
 	}
 
-	template <typename T>
-	int	vector<T>::size(void)
+	template <typename T, class Allocator>
+	int	vector<T, Allocator>::size(void)
 	{
 		return (this->_size);
 	}
 
-	// template <typename T>
-	// int	vector<T>::max_size(void)
+	// template <typename T, class Allocator>
+	// int	vector<T, Allocator>::max_size(void)
 	// {
 	// 	return (std::numeric_limits<difference_type>::max());
 	// }
 
-	template <typename T>
-	void	vector<T>::reserve(int size)
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::reserve(int size)
 	{
 		T	*new_vector;
 
@@ -124,14 +127,14 @@ namespace ft
 		}
 	}
 
-	template <typename T>
-	int	vector<T>::capacity(void)
+	template <typename T, class Allocator>
+	int	vector<T, Allocator>::capacity(void)
 	{
 		return (this->_capacity);
 	}
 
-	template <typename T>
-	void	vector<T>::shrink_to_fit(void)
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::shrink_to_fit(void)
 	{
 		T	*new_vector;
 
@@ -142,36 +145,36 @@ namespace ft
 		}
 	}
 
-	template <typename T>
-	void	vector<T>::clear(void)
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::clear(void)
 	{
 		this->_size = 0;
 	}
 
 
-	template <typename T>
-	void	vector<T>::push_back(T value)
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::push_back(T value)
 	{
 		this->_size++;
-		vector<T>::update_capacity();
+		vector<T, Allocator>::update_capacity();
 		this->_vector[this->_size - 1] = value;
 	}
 
 
-	template <typename T>
-	void	vector<T>::pop_back(void)
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::pop_back(void)
 	{
 		this->_size--;
 	}
 
-	template <typename T>
-	void	vector<T>::resize(int size)
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::resize(int size)
 	{
 		this->resize(size, 0);
 	}
 
-	template <typename T>
-	void	vector<T>::resize(int size, T value)
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::resize(int size, T value)
 	{
 		T	*new_vector;
 
@@ -194,8 +197,8 @@ namespace ft
 			this->_size = size;
 	}
 
-	template <typename T>
-	void	vector<T>::swap(vector& other)
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::swap(vector& other)
 	{
 		vector temp_vector;
 
@@ -204,8 +207,8 @@ namespace ft
 		this = temp_vector;
 	}
 
-	template <typename T>
-	void	vector<T>::update_capacity(void)
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::update_capacity(void)
 	{
 		T	*new_vector;
 
@@ -219,8 +222,8 @@ namespace ft
 		}
 	}
 
-	template <typename T>
-	void	vector<T>::reallocate(T *new_vector)
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::reallocate(T *new_vector)
 	{
 		new_vector = new T[this->_capacity];
 		for (int i = 0; i < this->_size; i++)

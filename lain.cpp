@@ -1,4 +1,5 @@
 #include "ft_vector.tpp"
+// #include "test.tpp"
 #include <iostream>
 #include <vector>
 
@@ -7,6 +8,7 @@ using std::endl;
 
 int	main(void)
 {
+	// ft::vector<int> lol;
 	cout << "\033[0m-------------------" << endl;
 	cout << "\033[32m";
 
