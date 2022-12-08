@@ -41,7 +41,7 @@ int	main(void)
 	cout << endl;
 	if (real.empty() == false)
 		cout << "real vector is not empty." << endl;
-	// cout << "maximum size of a real vector is " << real.max_size() << endl;
+	cout << "maximum size of a real vector is " << real.max_size() << endl;
 	std::vector<int>	real2;
 
 	real2.reserve(64);
@@ -78,6 +78,39 @@ int	main(void)
 		cout << real4[i] << " ";
 	cout << endl;
 
+	real4.assign(11, 3);
+	cout << "real4 | size : " << real4.size() << " capacity : " << real4.capacity() << endl;
+	cout << "real4 : ";
+	for (int i = 0; i < real4.size(); i++)
+		cout << real4[i] << " ";
+	cout << endl;
+
+	std::vector<int>	real5;
+	std::vector<int>	real6;
+
+	real5.push_back(1);
+	real5.push_back(5);
+	real5.push_back(6);
+	// real5.push_back(7);
+	real6.push_back(1);
+	real6.push_back(5);
+	real6.push_back(6);
+	real6.push_back(7);
+
+	cout << "\nreal5 : ";
+	for (int i = 0; i < real5.size(); i++)
+		cout << real5[i] << " ";
+	cout << endl;
+	cout << "real6 : ";
+	for (int i = 0; i < real6.size(); i++)
+		cout << real6[i] << " ";
+	cout << endl;
+
+	if (real5 > real6)
+		cout << "true." << endl;
+	else
+		cout << "false." << endl;
+
 	cout << "\033[0m-------------------" << endl;
 	cout << "\033[34m";
 
@@ -110,6 +143,7 @@ int	main(void)
 	cout << endl;
 	if (mine.empty() == false)
 		cout << "my vector is not empty." << endl;
+	cout << "maximum size of a my vector is " << mine.max_size() << endl;
 	std::vector<int>	mine2;
 
 	mine2.reserve(64);
@@ -145,6 +179,39 @@ int	main(void)
 	for (int i = 0; i < mine4.size(); i++)
 		cout << mine4[i] << " ";
 	cout << endl;
+
+	mine4.assign(11, 3);
+	cout << "mine4 | size : " << mine4.size() << " capacity : " << mine4.capacity() << endl;
+	cout << "mine4 : ";
+	for (int i = 0; i < mine4.size(); i++)
+		cout << mine4[i] << " ";
+	cout << endl;
+
+	std::vector<int>	mine5;
+	std::vector<int>	mine6;
+
+	mine5.push_back(1);
+	mine5.push_back(5);
+	mine5.push_back(6);
+	mine5.push_back(7);
+	mine6.push_back(1);
+	mine6.push_back(5);
+	mine6.push_back(6);
+	// mine6.push_back(7);
+
+	cout << "\nmine5 : ";
+	for (int i = 0; i < mine5.size(); i++)
+		cout << mine5[i] << " ";
+	cout << endl;
+	cout << "mine6 : ";
+	for (int i = 0; i < mine6.size(); i++)
+		cout << mine6[i] << " ";
+	cout << endl;
+
+	if (mine5 > mine6)
+		cout << "true." << endl;
+	else
+		cout << "false." << endl;
 
 	cout << "\033[0m-------------------" << endl;
 

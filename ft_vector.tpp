@@ -59,12 +59,31 @@ namespace ft
 			return (this->_vector[i]);
 	}
 
-	// template <typename T, class Allocator>
-	// void	vector<T, Allocator>::append(T input)
-	// {
-	// 	this->_vector.append(input);
-	// 	this->_size++;
-	// }
+	template <typename T, class Allocator>
+	Allocator	vector<T, Allocator>::get_allocator(void)
+	{
+		return (this->allocator);
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::assign(int i, T value)
+	{
+		if (i < this->_capacity)
+		{
+			this->_size = i;
+			for (int i = 0; i < this->_size; i++)
+				this->_vector[i] = value;
+		}
+		else
+		{
+			this->allocator.deallocate(this->_vector, this->_capacity);
+			this->_capacity = i;
+			this->_size = i;
+			this->_vector = this->allocator.allocate(this->_capacity);
+			for (int i = 0; i < this->_size; i++)
+				this->_vector[i] = value;
+		}
+	}
 
 	template <typename T, class Allocator>
 	T&	vector<T, Allocator>::at(int index)
@@ -105,12 +124,13 @@ namespace ft
 	{
 		return (this->_size);
 	}
+	#include <limits>
 
-	// template <typename T, class Allocator>
-	// int	vector<T, Allocator>::max_size(void)
-	// {
-	// 	return (std::numeric_limits<difference_type>::max());
-	// }
+	template <typename T, class Allocator>
+	size_t	vector<T, Allocator>::max_size(void)
+	{
+		return (this->allocator.max_size());
+	}
 
 	template <typename T, class Allocator>
 	void	vector<T, Allocator>::reserve(int size)
@@ -179,7 +199,6 @@ namespace ft
 		{
 			this->_capacity = size;
 			new_vector = this->allocator.allocate(this->_capacity);
-			// new_vector = new T[this->_capacity];
 			for (int i = 0; i < size; i++)
 			{
 				if (i < this->_size)
@@ -233,4 +252,125 @@ namespace ft
 		}
 		this->_vector = new_vector;
 	}
+
+	template <typename T>
+	bool	operator==(const vector<T>& current, const vector<T>& other)
+	{
+		if (current->_size == other->_size)
+		{
+			for (int i = 0; i < current->_size; i++)
+			{
+				if (current->_vector[i] != other->_vector[i])
+					return (false);
+			}
+		}
+		else
+			return (false);
+		return (true);
+	}
+
+	template <typename T>
+	bool	operator!=(const vector<T>& current, const vector<T>& other)
+	{
+		if (current == other)
+			return (false);
+		return (true);
+	}
+
+	template <typename T>
+	bool	operator<(const vector<T>& current, const vector<T>& other)
+	{
+		int	tempsize;
+
+		if (current == other)
+			return (false);
+		if (current->_size < other->_size)
+			tempsize = current->_size;
+		else
+			tempsize = other->_size;
+		for (int i = 0; i < tempsize; i++)
+		{
+			if (current->_vector[i] != other->_vector[i])
+			{
+				if (current->_vector[i] > other->_vector[i])
+					return (false);
+			}
+		}
+		if (current->_size > other->_size)
+			return (false);
+		return (true);
+	}
+
+	template <typename T>
+	bool	operator<=(const vector<T>& current, const vector<T>& other)
+	{
+		int	tempsize;
+
+		if (current == other)
+			return (true);
+		if (current->_size < other->_size)
+			tempsize = current->_size;
+		else
+			tempsize = other->_size;
+		for (int i = 0; i < tempsize; i++)
+		{
+			if (current->_vector[i] != other->_vector[i])
+			{
+				if (current->_vector[i] > other->_vector[i])
+					return (false);
+			}
+		}
+		if (current->_size > other->_size)
+			return (false);
+		return (true);
+	}
+
+	template <typename T>
+	bool	operator>(const vector<T>& current, const vector<T>& other)
+	{
+		int	tempsize;
+
+		if (current == other)
+			return (false);
+		if (current->_size < other->_size)
+			tempsize = current->_size;
+		else
+			tempsize = other->_size;
+		for (int i = 0; i < tempsize; i++)
+		{
+			if (current->_vector[i] != other->_vector[i])
+			{
+				if (current->_vector[i] < other->_vector[i])
+					return (false);
+			}
+		}
+		if (current->_size < other->_size)
+			return (false);
+		return (true);
+	}
+
+	template <typename T>
+	bool	operator>=(const vector<T>& current, const vector<T>& other)
+	{
+		int	tempsize;
+
+		if (current == other)
+			return (true);
+		if (current->_size < other->_size)
+			tempsize = current->_size;
+		else
+			tempsize = other->_size;
+		for (int i = 0; i < tempsize; i++)
+		{
+			if (current->_vector[i] != other->_vector[i])
+			{
+				if (current->_vector[i] < other->_vector[i])
+					return (false);
+			}
+		}
+		if (current->_size < other->_size)
+			return (false);
+		return (true);
+	}
+
 }

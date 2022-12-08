@@ -26,22 +26,26 @@ namespace ft
 			T&	operator[](int i);
 			~vector();
 			
-			T&		at(int index);
-			T&		front(void);
-			T&		back(void);
-			T		*data(void);
-			bool	empty(void);
-			int		size(void);
-			// int		max_size(void);
-			void	reserve(int size);
-			int		capacity(void);
-			void	shrink_to_fit(void);
-			void	clear(void);
-			void	push_back(T value);
-			void	pop_back(void);
-			void	resize(int size);
-			void	resize(int size, T value);
-			void	swap(vector& other);
+			Allocator	get_allocator(void);
+			void		assign(int i, T value);
+			T&			at(int index);
+			T&			front(void);
+			T&			back(void);
+			T			*data(void);
+			bool		empty(void);
+			int			size(void);
+			size_t		max_size(void);
+			void		reserve(int size);
+			int			capacity(void);
+			void		shrink_to_fit(void); //c++11
+			void		clear(void);
+			// void		insert(void); //requires iterator
+			// void		erase(void); //requires iterator
+			void		push_back(T value);
+			void		pop_back(void);
+			void		resize(int size);
+			void		resize(int size, T value);
+			void		swap(vector& other);
 
 		private:
 			void	update_capacity(void);
@@ -52,6 +56,20 @@ namespace ft
 			int				_capacity;
 			int				_size;
 	};
+
+	template <typename T>
+	bool	operator==(const vector<T>& current, const vector<T>& other);
+	template <typename T>
+	bool	operator!=(const vector<T>& current, const vector<T>& other);
+	template <typename T>
+	bool	operator<(const vector<T>& current, const vector<T>& other);
+	template <typename T>
+	bool	operator<=(const vector<T>& current, const vector<T>& other);
+	template <typename T>
+	bool	operator>(const vector<T>& current, const vector<T>& other);
+	template <typename T>
+	bool	operator>=(const vector<T>& current, const vector<T>& other);
+
 }
 
 #endif
