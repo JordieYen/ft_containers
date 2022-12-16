@@ -3,60 +3,58 @@
 namespace ft
 {
 	template <typename T, class Allocator>
-	vector<T, Allocator>::vector(void)
+	vector<T, Allocator>::vector(const allocator_type& alloc)
 	{
 		this->_vector = this->allocator.allocate(0);
-		this->_capacity = 1;
+		this->_capacity = 0;
 		this->_size = 0;
 	}
 
 	template <typename T, class Allocator>
-	vector<T, Allocator>::vector(int i)
+	vector<T, Allocator>::vector(size_t n, const value_type& val, const allocator_type& alloc)
 	{
-		if (i < 0)
-			throw std::length_error("ft_vector");
-		this->_capacity = 1;
-		this->_size = i;
-		while (this->_capacity < this->_size)
-			this->_capacity *= 2;
-		this->_vector = this->allocator.allocate(this->_capacity);
+		this->_vector = this->allocator.allocate(n);
+		this->_capacity = n;
+		this->_size = n;
+		for (int i = 0; i < this->_size; i++)
+			this->allocator.construct(&this->_vector[i], val);
+			
+	}
+
+	template <typename T, class Allocator>
+	vector<T, Allocator>::vector(Iterator<T> first, Iterator<T> last, const allocator_type& alloc)
+	{
+		int	counter = 0;
+		for (Iterator<T> i = first; i != last; i++)
+			counter++;
+		this->_vector = this->allocator.allocate(counter);
+		this->_capacity = counter;
+		this->_size = counter;
+		for (int i = 0; i < this->_size; i++)
+		{
+			this->allocator.construct(&this->_vector[i], *first);
+			first++;
+		}
 	}
 
 	template <typename T, class Allocator>
 	vector<T, Allocator>::vector(const vector& clone)
 	{
+		this->allocator = clone.allocator;
 		this->_capacity = clone._capacity;
 		this->_vector = this->allocator.allocate(clone._capacity);
 		for (int i = 0; i < clone._size; i++)
-			this->_vector[i] = clone._vector[i];
+			this->allocator.construct(&this->_vector[i], clone._vector[i]);
 		this->_size = clone._size;
 	}
 
-	template <typename T, class Allocator>
-	vector<T, Allocator>&	vector<T, Allocator>::operator=(const vector& clone)
-	{
-		this->_capacity = clone._capacity;
-		this->_vector = this->allocator.allocate(clone._capacity);
-		for (int i = 0; i < clone._size; i++)
-			this->_vector[i] = clone._vector[i];
-		this->_size = clone._size;
-
-		return (*this);
-	}
 
 	template <typename T, class Allocator>
-	vector<T, Allocator>::~vector()
+	vector<T, Allocator>::~vector(void)
 	{
+		for (int i = 0; i < this->_size; i++)
+			this->allocator.destroy(&this->_vector[i]);
 		this->allocator.deallocate(this->_vector, this->_capacity);
-	}
-
-	template <typename T, class Allocator>
-	T&	vector<T, Allocator>::operator[](int i)
-	{
-		if (i < 0 || i > this->_size - 1)
-			throw std::out_of_range("out of raaange");
-		else
-			return (this->_vector[i]);
 	}
 
 	template <typename T, class Allocator>
@@ -66,31 +64,27 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	void	vector<T, Allocator>::assign(int i, T value)
+	size_t	vector<T, Allocator>::size(void)
 	{
-		if (i < this->_capacity)
-		{
-			this->_size = i;
-			for (int i = 0; i < this->_size; i++)
-				this->_vector[i] = value;
-		}
-		else
-		{
-			this->allocator.deallocate(this->_vector, this->_capacity);
-			this->_capacity = i;
-			this->_size = i;
-			this->_vector = this->allocator.allocate(this->_capacity);
-			for (int i = 0; i < this->_size; i++)
-				this->_vector[i] = value;
-		}
+		return (this->_size);
 	}
 
 	template <typename T, class Allocator>
-	T&	vector<T, Allocator>::at(int index)
+	int	vector<T, Allocator>::capacity(void)
 	{
-		if (index >= this->_size)
-			throw std::out_of_range("my vector");
-		return (this->_vector[index]);
+		return (this->_capacity);
+	}
+
+	template <typename T, class Allocator>
+	T	*vector<T, Allocator>::data(void)
+	{
+		return (this->_vector);
+	}
+
+	template <typename T, class Allocator>
+	size_t	vector<T, Allocator>::max_size(void)
+	{
+		return (this->allocator.max_size());
 	}
 
 	template <typename T, class Allocator>
@@ -106,113 +100,11 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	T	*vector<T, Allocator>::data(void)
-	{
-		return (this->_vector);
-	}
-
-	template <typename T, class Allocator>
 	bool	vector<T, Allocator>::empty(void)
 	{
 		if (this->_size == 0)
 			return (true);
 		return (false);
-	}
-
-	template <typename T, class Allocator>
-	int	vector<T, Allocator>::size(void) const
-	{
-		return (this->_size);
-	}
-	#include <limits>
-
-	template <typename T, class Allocator>
-	size_t	vector<T, Allocator>::max_size(void)
-	{
-		return (this->allocator.max_size());
-	}
-
-	template <typename T, class Allocator>
-	void	vector<T, Allocator>::reserve(int size)
-	{
-		T	*new_vector;
-
-		if (size > this->_capacity)
-		{
-			this->_capacity = size;
-			this->reallocate(new_vector);
-		}
-	}
-
-	template <typename T, class Allocator>
-	int	vector<T, Allocator>::capacity(void)
-	{
-		return (this->_capacity);
-	}
-
-	template <typename T, class Allocator>
-	void	vector<T, Allocator>::shrink_to_fit(void)
-	{
-		T	*new_vector;
-
-		if (this->_size != this->_capacity)
-		{
-			this->_capacity = this->_size;
-			this->reallocate(new_vector);
-		}
-	}
-
-	template <typename T, class Allocator>
-	void	vector<T, Allocator>::clear(void)
-	{
-		this->_size = 0;
-	}
-
-
-	template <typename T, class Allocator>
-	void	vector<T, Allocator>::push_back(T value)
-	{
-		this->_size++;
-		vector<T, Allocator>::update_capacity();
-		this->_vector[this->_size - 1] = value;
-	}
-
-
-	template <typename T, class Allocator>
-	void	vector<T, Allocator>::pop_back(void)
-	{
-		this->_size--;
-	}
-
-	template <typename T, class Allocator>
-	void	vector<T, Allocator>::resize(int size)
-	{
-		this->resize(size, 0);
-	}
-
-	template <typename T, class Allocator>
-	void	vector<T, Allocator>::resize(int size, T value)
-	{
-		T	*new_vector;
-
-		if (size > this->_size)
-		{
-			this->_capacity = size;
-			new_vector = this->allocator.allocate(this->_capacity);
-			for (int i = 0; i < size; i++)
-			{
-				if (i < this->_size)
-					new_vector[i] = this->_vector[i];
-				else
-					new_vector[i] = value;
-				if (i + 1 == size)
-					this->allocator.deallocate(this->_vector, i);
-			}
-			this->_vector = new_vector;
-			this->_size = size;
-		}
-		else
-			this->_size = size;
 	}
 
 	template <typename T, class Allocator>
@@ -223,6 +115,289 @@ namespace ft
 		temp_vector = other;
 		other = this;
 		this = temp_vector;
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::clear(void)
+	{
+		for (int i = 0; i < this->_size; i++)
+			this->allocator.destroy(&this->_vector[i]);
+		this->_size = 0;
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::assign(size_t i, T value)
+	{
+		if (i < this->_capacity)
+		{
+			for (int n = 0; n < i; i++)
+			{
+				if (n < this->_size)
+					this->_vector[n] = value;
+				else
+					this->allocator.construct(&this->_vector, value);
+			}
+			this->_size = i;
+		}
+		else
+		{
+			for (int i = 0; i < this->_size; i++)
+				this->allocator.destroy(&this->_vector[i]);
+			this->allocator.deallocate(this->_vector, this->_capacity);
+			this->_capacity = i;
+			this->_size = i;
+			this->_vector = this->allocator.allocate(this->_capacity);
+			for (int i = 0; i < this->_size; i++)
+				this->allocator.construct(&this->_vector, value);
+		}
+	}
+
+	template <typename T, class Allocator>
+	T&	vector<T, Allocator>::at(size_t index)
+	{
+		if (index >= this->_size)
+			throw std::out_of_range("my vector");
+		return (this->_vector[index]);
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::reserve(size_t size)
+	{
+		T	*new_vector;
+
+		if (size > this->_capacity)
+		{
+			new_vector = this->allocator.allocate(size);
+			for (int i = 0; i < this->_size; i++)
+				this->allocator.construct(&new_vector[i], this->_vector[i]);
+			this->destroy_vector();
+			this->_vector = new_vector;
+			this->_capacity = size;
+		}
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::push_back(T value)
+	{
+		T	*new_vector;
+
+		if (this->_size + 1 > this->_capacity)
+		{
+			new_vector = this->create_vector(this->_capacity * 2);
+			this->allocator.construct(&new_vector[this->_size], value);
+			this->destroy_vector();
+			this->_vector = new_vector;
+			this->_capacity = this->_capacity * 2;
+		}
+		else
+			this->allocator.construct(&new_vector[this->_size], value);
+		this->_size++;
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::pop_back(void)
+	{
+		this->allocator.destroy(&this->_vector[this->_size - 1]);
+		this->_size--;
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::resize(size_t size)
+	{
+		this->resize(size, 0);
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::resize(size_t size, T value)
+	{
+		T	*new_vector;
+
+		if (size > this->_size)
+		{
+			new_vector = this->create_vector(size);
+			for (int i = this->_size; i < size; i++)
+				this->allocator.construct(&new_vector[i], value);
+			this->destroy_vector();
+			this->_vector = new_vector;
+			this->_capacity = size;
+			this->_size = size;
+		}
+		else
+		{
+			for (int i = size; i < this->_size; i++)
+				this->allocator.destroy(&this->_vector[i]);
+			this->_size = size;
+		}
+	}
+
+	template <typename T, class Allocator>
+	vector<T>& vector<T, Allocator>::operator=(const vector& clone)
+	{
+		this->allocator = clone.allocator;
+		this->_capacity = clone._capacity;
+		this->_vector = this->allocator.allocate(clone._capacity);
+		for (int i = 0; i < clone._size; i++)
+			this->allocator.construct(&this->_vector[i], clone._vector[i]);
+		this->_size = clone._size;
+
+		return (*this);
+	}
+
+	template <typename T, class Allocator>
+	T&	vector<T, Allocator>::operator[](size_t i)
+	{
+		return (this->_vector[i]);
+	}
+
+	template <typename T, class Allocator>
+	Iterator<T>	vector<T, Allocator>::insert(Iterator<T> pos, const value_type& val)
+	{
+		int	i = 0;
+		int	ret = 0;
+
+		if (this->validate_iterator(pos) == false)
+			return (0);
+		for (Iterator<T> it = this->begin(); it != this->end(); it++)
+		{
+			if (it == pos)
+			{
+				ret = i;
+				i++;
+			}
+			i++;
+		}
+		this->insert(pos, 1, val);
+		return (this->begin() + ret);
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::insert(Iterator<T> pos, size_t n, const value_type& val)
+	{
+		T	*new_vector;
+		int	i = 0;
+		int	ret = 0;
+		int	temp_capacity = this->_capacity;
+
+		if (this->validate_iterator(pos) == true)
+		{
+			if (this->_size + n > this->_capacity)
+			{
+				while (this->_size + n > temp_capacity)
+					temp_capacity *= 2;
+			}
+			new_vector = this->allocator.allocate(temp_capacity);
+			for (Iterator<T> it = this->begin(); it != this->end(); it++)
+			{
+				if (it == pos)
+				{
+					for (int j = 0; j < n; j++)
+					{
+						this->allocator.construct(&new_vector[i], val);
+						i++;
+					}
+				}
+				this->allocator.construct(&new_vector[i], *it);
+				i++;
+			}
+			this->destroy_vector();
+			this->_size += n;
+			this->_capacity = temp_capacity;
+			this->_vector = new_vector;
+		}
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::insert(Iterator<T> pos, Iterator<T> first, Iterator<T> last)
+	{
+		T	*new_vector;
+		int	i = 0;
+		int	ret = 0;
+		int	temp_capacity = this->_capacity;
+		int	n = count_iterator(first, last);
+
+		if (this->_size + n > this->_capacity)
+		{
+			while (this->_size + n > temp_capacity)
+				temp_capacity *= 2;
+		}
+		new_vector = this->allocator.allocate(temp_capacity);
+		for (Iterator<T> it = this->begin(); it != this->end(); it++)
+		{
+			if (it == pos)
+			{
+				for (Iterator<T> sec_it = first; sec_it != last; sec_it++)
+				{
+					this->allocator.construct(&new_vector[i], *sec_it);
+					i++;
+				}
+			}
+			this->allocator.construct(&new_vector[i], *it);
+			i++;
+		}
+		this->destroy_vector();
+		this->_size += n;
+		this->_capacity = temp_capacity;
+		this->_vector = new_vector;
+	}
+
+	template <typename T, class Allocator>
+	Iterator<T>	vector<T, Allocator>::erase(Iterator<T> pos)
+	{
+		T	*new_vector;
+		int	i = 0;
+		int	ret = 0;
+
+		if (this->validate_iterator(pos) == false)
+			return (0);
+		new_vector = this->allocator.allocate(this->_capacity);
+		for (Iterator<T> it = this->begin(); it != this->end(); it++)
+		{
+			if (it != pos)
+			{
+				this->allocator.construct(&new_vector[i], *it);
+				i++;
+			}
+			else
+				ret = i;
+		}
+		this->destroy_vector();
+		this->_size--;
+		this->_vector = new_vector;
+		return (this->begin() + ret);
+	}
+
+	template <typename T, class Allocator>
+	Iterator<T>	vector<T, Allocator>::erase(Iterator<T> first, Iterator<T> last)
+	{
+		T			*new_vector;
+		int			i = 0;
+		int			ret = 0;
+		int			size = 0;
+		Iterator<T>	temp_it;
+
+		if (first == last)
+			return (first);
+		temp_it = first;
+		new_vector = this->allocator.allocate(this->_capacity);
+		for (Iterator<T> it = this->begin(); it != this->end(); it++)
+		{
+			if (it != temp_it)
+			{
+				this->allocator.construct(&new_vector[i], *it);
+				i++;
+			}
+			else
+			{
+				if (temp_it + 1 != last)
+					temp_it++;
+				size++;
+				ret = i;
+			}
+		}
+		this->destroy_vector();
+		this->_size -= size;
+		this->_vector = new_vector;
+		return (this->begin() + ret);
 	}
 
 	template <typename T, class Allocator>
@@ -244,31 +419,44 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	void	vector<T, Allocator>::update_capacity(void)
+	size_t	vector<T, Allocator>::count_iterator(Iterator<T> first, Iterator<T> last)
 	{
-		T	*new_vector;
+		size_t	i;
 
-		// std::cout << "update capacity called | new size : " << this->_size << std::endl;
-		if (this->_capacity < this->_size)
-		{
-			while (this->_capacity < this->_size)
-				this->_capacity *= 2;
-			this->reallocate(new_vector);
-			// std::cout << "new malloc | new capacity : " << this->_capacity << std::endl;
-		}
+		i = 0;
+		for (Iterator<T> it = first; it != last; it++)
+			i++;
+		return (i);
 	}
 
 	template <typename T, class Allocator>
-	void	vector<T, Allocator>::reallocate(T *new_vector)
+	bool	vector<T, Allocator>::validate_iterator(Iterator<T> pos)
 	{
-		new_vector = this->allocator.allocate(this->_capacity);
-		for (int i = 0; i < this->_size; i++)
+		for (Iterator<T> it = this->begin(); it != this->end(); it++)
 		{
-			new_vector[i] = this->_vector[i];
-			if (i + 1 == this->_size)
-				this->allocator.deallocate(this->_vector, i);
+			if (it == pos)
+				return (true);
 		}
-		this->_vector = new_vector;
+		return (false);
+	}
+
+	template <typename T, class Allocator>
+	void	vector<T, Allocator>::destroy_vector(void)
+	{
+		for (int i = 0; i < this->_size; i++)
+			this->allocator.destroy(&this->_vector[i]);
+		this->allocator.deallocate(this->_vector, this->_capacity);
+	}
+
+	template <typename T, class Allocator>
+	T*	vector<T, Allocator>::create_vector(size_t new_capacity)
+	{
+		T	*new_vector;
+
+		new_vector = this->allocator.allocate(new_capacity);
+		for (int i = 0; i < this->_size; i++)
+			this->allocator.construct(&new_vector[i], this->_vector[i]);
+		return(new_vector);
 	}
 
 	template <typename T>

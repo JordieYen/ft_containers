@@ -3,9 +3,8 @@
 
 # include <iostream>
 # include <limits>
-// # include <iterator>
 # include <memory>
-# include "ft_iterator.hpp"
+# include "ft_iterator.tpp"
 
 namespace ft
 {
@@ -20,43 +19,48 @@ namespace ft
 			typedef value_type&													reference;
 			typedef const value_type&											const_reference;
 
-			vector(void);
 			explicit vector(const allocator_type& alloc = allocator_type());
-			explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
-			template <class Iterator>
-			vector(Iterator first, Iterator last, const allocator_type& alloc = allocator_type());
-			vector(int i);
+			explicit vector(size_t n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
+			vector(Iterator<T> first, Iterator<T> last, const allocator_type& alloc = allocator_type());
 			vector(const vector& clone);
-			vector&	operator=(const vector& clone);
-			T&	operator[](int i);
-			~vector();
-			
+			~vector(void);
+
 			Allocator	get_allocator(void);
-			void		assign(int i, T value);
-			T&			at(int index);
+			size_t		size(void);
+			int			capacity(void);
+			T			*data(void);
+
+			size_t		max_size(void);
 			T&			front(void);
 			T&			back(void);
-			T			*data(void);
 			bool		empty(void);
-			int			size(void) const;
-			size_t		max_size(void);
-			void		reserve(int size);
-			int			capacity(void);
-			void		shrink_to_fit(void); //c++11
+			void		swap(vector& other);
+
 			void		clear(void);
-			// void		insert(void); //requires iterator
-			// void		erase(void); //requires iterator
+			void		assign(size_t i, T value);
+			T&			at(size_t index);
+			void		reserve(size_t size);
 			void		push_back(T value);
 			void		pop_back(void);
-			void		resize(int size);
-			void		resize(int size, T value);
-			void		swap(vector& other);
-			ft::Iterator<T>	begin(void);
-			ft::Iterator<T>	end(void);
+			void		resize(size_t size);
+			void		resize(size_t size, T value);
+
+			vector<T>&	operator=(const vector& clone);
+			T&			operator[](size_t i);
+
+			Iterator<T>	insert(Iterator<T> pos, const value_type& val);
+			void		insert(Iterator<T> pos, size_t n, const value_type& val);
+			void		insert(Iterator<T> pos, Iterator<T> first, Iterator<T> last);
+			Iterator<T>	erase(Iterator<T> pos);
+			Iterator<T>	erase(Iterator<T> first, Iterator<T> last);
+			Iterator<T>	begin(void);
+			Iterator<T>	end(void);
 
 		private:
-			void	update_capacity(void);
-			void	reallocate(T *new_vector);
+			size_t	count_iterator(Iterator<T> first, Iterator<T> last);
+			bool	validate_iterator(Iterator<T> pos);
+			void	destroy_vector(void);
+			T*		create_vector(size_t new_capacity);
 
 			allocator_type	allocator;
 			T				*_vector;
@@ -78,7 +82,6 @@ namespace ft
 	bool	operator>=(vector<T>& current, vector<T>& other);
 	template <typename T>
 	void	swap(vector<T>& current, vector<T>& other);
-
 }
 
 #endif
