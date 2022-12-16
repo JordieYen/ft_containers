@@ -1,7 +1,11 @@
-#include "ft_vector.tpp"
+// #include "ft_vector.tpp"
+#include "new_vector.tpp"
+// #include "ft_iterator.tpp"
 // #include "test.tpp"
 #include <iostream>
 #include <vector>
+#include <iterator>
+
 
 using std::cout;
 using std::endl;
@@ -25,6 +29,12 @@ int	main(void)
 	real.resize(10);
 	real.resize(1);
 	real.resize(10, 6);
+	real.at(1) = 1;
+	std::__1::vector<int>::iterator realte = real.erase(real.begin());
+	cout << "realte == " << *realte << endl;
+	std::__1::vector<int>::iterator realinsert = real.insert(real.begin(), 4);
+	cout << "realinsert == " << *realinsert << endl;
+	real.insert(realinsert, 3, 8);
 	// real[1000] = 1; // test out of range exception
 	// real.at(1000) = 1; 
 	cout << "real vector | size : " << real.size() << " capacity : " << real.capacity() << endl;
@@ -127,6 +137,12 @@ int	main(void)
 	mine.resize(10);
 	mine.resize(1);
 	mine.resize(10, 6);
+	mine.at(1) = 1;
+	ft::Iterator<int> myte = mine.erase(mine.begin());
+	cout << "myte = " << *myte << endl;
+	ft::Iterator<int> myinsert = mine.insert(mine.begin(), 4);
+	cout << "myinsert = " << *myinsert << endl;
+	mine.insert(myinsert, 3, 8);
 	// mine[1000] = 1; // test out of range exception
 	// mine.at(1000) = 1; 
 	cout << "my vector | size : " << mine.size() << " capacity : " << mine.capacity() << endl;
@@ -187,8 +203,8 @@ int	main(void)
 		cout << mine4[i] << " ";
 	cout << endl;
 
-	std::vector<int>	mine5;
-	std::vector<int>	mine6;
+	ft::vector<int>	mine5;
+	ft::vector<int>	mine6;
 
 	mine5.push_back(1);
 	mine5.push_back(5);
@@ -212,6 +228,10 @@ int	main(void)
 		cout << "true." << endl;
 	else
 		cout << "false." << endl;
+
+	for (ft::Iterator<int> it = mine6.begin(); it != mine6.end(); it++)
+		cout << *it << " ";
+	cout << endl;
 
 	cout << "\033[0m-------------------" << endl;
 

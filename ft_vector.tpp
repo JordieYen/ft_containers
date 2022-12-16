@@ -120,7 +120,7 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	int	vector<T, Allocator>::size(void)
+	int	vector<T, Allocator>::size(void) const
 	{
 		return (this->_size);
 	}
@@ -226,6 +226,24 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
+	Iterator<T>	vector<T, Allocator>::begin(void)
+	{
+		Iterator<T>	temp;
+
+		temp._pointer = &this->_vector[0];
+		return(temp);
+	}
+
+	template <typename T, class Allocator>
+	Iterator<T>	vector<T, Allocator>::end(void)
+	{
+		Iterator<T>	temp;
+
+		temp._pointer = &this->_vector[this->_size];
+		return(temp);
+	}
+
+	template <typename T, class Allocator>
 	void	vector<T, Allocator>::update_capacity(void)
 	{
 		T	*new_vector;
@@ -254,13 +272,13 @@ namespace ft
 	}
 
 	template <typename T>
-	bool	operator==(const vector<T>& current, const vector<T>& other)
+	bool	operator==(vector<T>& current, vector<T>& other)
 	{
-		if (current->_size == other->_size)
+		if (current.size() == other.size())
 		{
-			for (int i = 0; i < current->_size; i++)
+			for (int i = 0; i < current.size(); i++)
 			{
-				if (current->_vector[i] != other->_vector[i])
+				if (current[i] != other[i])
 					return (false);
 			}
 		}
@@ -270,7 +288,7 @@ namespace ft
 	}
 
 	template <typename T>
-	bool	operator!=(const vector<T>& current, const vector<T>& other)
+	bool	operator!=(vector<T>& current, vector<T>& other)
 	{
 		if (current == other)
 			return (false);
@@ -278,99 +296,108 @@ namespace ft
 	}
 
 	template <typename T>
-	bool	operator<(const vector<T>& current, const vector<T>& other)
+	bool	operator<(vector<T>& current, vector<T>& other)
 	{
 		int	tempsize;
 
 		if (current == other)
 			return (false);
-		if (current->_size < other->_size)
-			tempsize = current->_size;
+		if (current.size() < other.size())
+			tempsize = current.size();
 		else
-			tempsize = other->_size;
+			tempsize = other.size();
 		for (int i = 0; i < tempsize; i++)
 		{
-			if (current->_vector[i] != other->_vector[i])
+			if (current[i] != other[i])
 			{
-				if (current->_vector[i] > other->_vector[i])
+				if (current[i] > other[i])
 					return (false);
 			}
 		}
-		if (current->_size > other->_size)
+		if (current.size() > other.size())
 			return (false);
 		return (true);
 	}
 
 	template <typename T>
-	bool	operator<=(const vector<T>& current, const vector<T>& other)
-	{
-		int	tempsize;
-
-		if (current == other)
-			return (true);
-		if (current->_size < other->_size)
-			tempsize = current->_size;
-		else
-			tempsize = other->_size;
-		for (int i = 0; i < tempsize; i++)
-		{
-			if (current->_vector[i] != other->_vector[i])
-			{
-				if (current->_vector[i] > other->_vector[i])
-					return (false);
-			}
-		}
-		if (current->_size > other->_size)
-			return (false);
-		return (true);
-	}
-
-	template <typename T>
-	bool	operator>(const vector<T>& current, const vector<T>& other)
-	{
-		int	tempsize;
-
-		if (current == other)
-			return (false);
-		if (current->_size < other->_size)
-			tempsize = current->_size;
-		else
-			tempsize = other->_size;
-		for (int i = 0; i < tempsize; i++)
-		{
-			if (current->_vector[i] != other->_vector[i])
-			{
-				if (current->_vector[i] < other->_vector[i])
-					return (false);
-			}
-		}
-		if (current->_size < other->_size)
-			return (false);
-		return (true);
-	}
-
-	template <typename T>
-	bool	operator>=(const vector<T>& current, const vector<T>& other)
+	bool	operator<=(vector<T>& current, vector<T>& other)
 	{
 		int	tempsize;
 
 		if (current == other)
 			return (true);
-		if (current->_size < other->_size)
-			tempsize = current->_size;
+		if (current.size() < other.size())
+			tempsize = current.size();
 		else
-			tempsize = other->_size;
+			tempsize = other.size();
 		for (int i = 0; i < tempsize; i++)
 		{
-			if (current->_vector[i] != other->_vector[i])
+			if (current[i] != other[i])
 			{
-				if (current->_vector[i] < other->_vector[i])
+				if (current[i] > other[i])
 					return (false);
 			}
 		}
-		if (current->_size < other->_size)
+		if (current.size() > other.size())
 			return (false);
 		return (true);
 	}
 
+	template <typename T>
+	bool	operator>(vector<T>& current, vector<T>& other)
+	{
+		int	tempsize;
+
+		if (current == other)
+			return (false);
+		if (current.size() < other.size())
+			tempsize = current.size();
+		else
+			tempsize = other.size();
+		for (int i = 0; i < tempsize; i++)
+		{
+			if (current[i] != other[i])
+			{
+				if (current[i] < other[i])
+					return (false);
+			}
+		}
+		if (current.size() < other.size())
+			return (false);
+		return (true);
+	}
+
+	template <typename T>
+	bool	operator>=(vector<T>& current, vector<T>& other)
+	{
+		int	tempsize;
+
+		if (current == other)
+			return (true);
+		if (current.size() < other.size())
+			tempsize = current.size();
+		else
+			tempsize = other.size();
+		for (int i = 0; i < tempsize; i++)
+		{
+			if (current[i] != other[i])
+			{
+				if (current[i] < other[i])
+					return (false);
+			}
+		}
+		if (current.size() < other.size())
+			return (false);
+		return (true);
+	}
+
+	template <typename T, class Allocator>
+	void	swap(const vector<T>& current, const vector<T>& other)
+	{
+		vector<T> temp_vector;
+
+		temp_vector = other;
+		other = current;
+		current = temp_vector;
+	}
 }
