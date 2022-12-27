@@ -1,12 +1,12 @@
 NAME = con
 
-SRCS = lain.cpp
+SRCS = test_stack.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
 CC = c++
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
 
 all: $(NAME)
 

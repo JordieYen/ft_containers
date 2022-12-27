@@ -64,7 +64,7 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	size_t	vector<T, Allocator>::size(void)
+	size_t	vector<T, Allocator>::size(void) const
 	{
 		return (this->_size);
 	}
@@ -110,11 +110,10 @@ namespace ft
 	template <typename T, class Allocator>
 	void	vector<T, Allocator>::swap(vector& other)
 	{
-		vector temp_vector;
+		vector<T, Allocator> temp_vector(other);
 
-		temp_vector = other;
-		other = this;
-		this = temp_vector;
+		other = *this;
+		*this = temp_vector;
 	}
 
 	template <typename T, class Allocator>
@@ -135,7 +134,7 @@ namespace ft
 				if (n < this->_size)
 					this->_vector[n] = value;
 				else
-					this->allocator.construct(&this->_vector, value);
+					this->allocator.construct(&this->_vector[n], value);
 			}
 			this->_size = i;
 		}
@@ -148,7 +147,7 @@ namespace ft
 			this->_size = i;
 			this->_vector = this->allocator.allocate(this->_capacity);
 			for (int i = 0; i < this->_size; i++)
-				this->allocator.construct(&this->_vector, value);
+				this->allocator.construct(&this->_vector[i], value);
 		}
 	}
 
@@ -181,7 +180,14 @@ namespace ft
 	{
 		T	*new_vector;
 
-		if (this->_size + 1 > this->_capacity)
+		if (this->_capacity == 0)
+		{
+			this->_capacity = 1;
+			this->allocator.deallocate(this->_vector, this->_capacity);
+			this->_vector = this->allocator.allocate(1);
+			this->allocator.construct(&this->_vector[this->_size], value);
+		}
+		else if (this->_size + 1 > this->_capacity)
 		{
 			new_vector = this->create_vector(this->_capacity * 2);
 			this->allocator.construct(&new_vector[this->_size], value);
@@ -190,7 +196,7 @@ namespace ft
 			this->_capacity = this->_capacity * 2;
 		}
 		else
-			this->allocator.construct(&new_vector[this->_size], value);
+			this->allocator.construct(&this->_vector[this->_size], value);
 		this->_size++;
 	}
 
@@ -233,6 +239,7 @@ namespace ft
 	template <typename T, class Allocator>
 	vector<T>& vector<T, Allocator>::operator=(const vector& clone)
 	{
+		this->~vector();
 		this->allocator = clone.allocator;
 		this->_capacity = clone._capacity;
 		this->_vector = this->allocator.allocate(clone._capacity);
@@ -273,18 +280,17 @@ namespace ft
 	template <typename T, class Allocator>
 	void	vector<T, Allocator>::insert(Iterator<T> pos, size_t n, const value_type& val)
 	{
-		T	*new_vector;
-		int	i = 0;
-		int	ret = 0;
-		int	temp_capacity = this->_capacity;
+		T				*new_vector;
+		difference_type	dif = pos._pointer - this->begin()._pointer;
+		int				min = 0;
+		int				temp_capacity = this->_capacity;
 
-		if (this->validate_iterator(pos) == true)
+		if (this->validate_iterator(pos) == false)
+			return ;
+		if (this->_size + n > this->_capacity)
 		{
-			if (this->_size + n > this->_capacity)
-			{
-				while (this->_size + n > temp_capacity)
-					temp_capacity *= 2;
-			}
+			while (this->_size + n > temp_capacity)
+				temp_capacity *= 2;
 			new_vector = this->allocator.allocate(temp_capacity);
 			for (Iterator<T> it = this->begin(); it != this->end(); it++)
 			{
@@ -292,111 +298,128 @@ namespace ft
 				{
 					for (int j = 0; j < n; j++)
 					{
-						this->allocator.construct(&new_vector[i], val);
-						i++;
+						this->allocator.construct(&new_vector[min], val);
+						min++;
 					}
 				}
-				this->allocator.construct(&new_vector[i], *it);
-				i++;
+				this->allocator.construct(&new_vector[min], *it);
+				min++;
 			}
 			this->destroy_vector();
-			this->_size += n;
 			this->_capacity = temp_capacity;
 			this->_vector = new_vector;
 		}
+		else
+		{
+			min = dif - n - 1;
+			for (int j = this->size() - 1; j > min; j--)
+			{
+				if (j + n > this->size() - 1)
+					this->allocator.construct(&this->_vector[j + n], this->_vector[j]);
+				else if (j + n >= dif + n)
+					this->_vector[j + n] = this->_vector[j];
+				else
+					this->_vector[j + n] = val;
+			}
+		}
+		this->_size += n;
 	}
 
 	template <typename T, class Allocator>
 	void	vector<T, Allocator>::insert(Iterator<T> pos, Iterator<T> first, Iterator<T> last)
 	{
-		T	*new_vector;
-		int	i = 0;
-		int	ret = 0;
-		int	temp_capacity = this->_capacity;
-		int	n = count_iterator(first, last);
+		T				*new_vector;
+		int				min = 0;
+		int				temp_capacity = this->_capacity;
+		difference_type	dif = pos._pointer - this->begin()._pointer;
+		difference_type	n = last._pointer - first._pointer;
 
 		if (this->_size + n > this->_capacity)
 		{
 			while (this->_size + n > temp_capacity)
 				temp_capacity *= 2;
-		}
-		new_vector = this->allocator.allocate(temp_capacity);
-		for (Iterator<T> it = this->begin(); it != this->end(); it++)
-		{
-			if (it == pos)
+			new_vector = this->allocator.allocate(temp_capacity);
+			for (Iterator<T> it = this->begin(); it != this->end(); it++)
 			{
-				for (Iterator<T> sec_it = first; sec_it != last; sec_it++)
+				if (it == pos)
 				{
-					this->allocator.construct(&new_vector[i], *sec_it);
-					i++;
+					for (Iterator<T> sec_it = first; sec_it != last; sec_it++)
+					{
+						this->allocator.construct(&new_vector[min], *sec_it);
+						min++;
+					}
+				}
+				this->allocator.construct(&new_vector[min], *it);
+				min++;
+			}
+			this->destroy_vector();
+			this->_capacity = temp_capacity;
+			this->_vector = new_vector;
+		}
+		else
+		{
+			min = dif - n - 1;
+			for (int j = this->size() - 1; j > min; j--)
+			{
+				if (j + n > this->size() - 1)
+					this->allocator.construct(&this->_vector[j + n], this->_vector[j]);
+				else if (j + n >= dif + n)
+					this->_vector[j + n] = this->_vector[j];
+				else
+				{
+					this->_vector[j + n] = *first;
+					first++;
 				}
 			}
-			this->allocator.construct(&new_vector[i], *it);
-			i++;
 		}
-		this->destroy_vector();
 		this->_size += n;
-		this->_capacity = temp_capacity;
-		this->_vector = new_vector;
 	}
 
 	template <typename T, class Allocator>
 	Iterator<T>	vector<T, Allocator>::erase(Iterator<T> pos)
 	{
-		T	*new_vector;
-		int	i = 0;
-		int	ret = 0;
+		difference_type	dif = pos._pointer - this->begin()._pointer;
+		int				ret = dif;
 
 		if (this->validate_iterator(pos) == false)
 			return (0);
-		new_vector = this->allocator.allocate(this->_capacity);
-		for (Iterator<T> it = this->begin(); it != this->end(); it++)
+		for (int i = 0; i < this->size(); i++)
 		{
-			if (it != pos)
+			if (dif == i)
 			{
-				this->allocator.construct(&new_vector[i], *it);
-				i++;
+				this->allocator.destroy(&this->_vector[i]);
+				if (i + 1 != this->size())
+					this->allocator.construct(&this->_vector[i], this->_vector[i + 1]);
+				dif++;
 			}
-			else
-				ret = i;
 		}
-		this->destroy_vector();
 		this->_size--;
-		this->_vector = new_vector;
 		return (this->begin() + ret);
 	}
 
 	template <typename T, class Allocator>
 	Iterator<T>	vector<T, Allocator>::erase(Iterator<T> first, Iterator<T> last)
 	{
-		T			*new_vector;
-		int			i = 0;
-		int			ret = 0;
-		int			size = 0;
-		Iterator<T>	temp_it;
+		difference_type	first_dif = first._pointer - this->begin()._pointer;
+		difference_type	last_dif = last._pointer - this->begin()._pointer;
+		difference_type	dif = last_dif - first_dif;
+		int				ret = first_dif;
 
+		if (this->validate_iterator(first) == false || this->validate_iterator(last) == false || dif < 0)
+			return (0);
 		if (first == last)
-			return (first);
-		temp_it = first;
-		new_vector = this->allocator.allocate(this->_capacity);
-		for (Iterator<T> it = this->begin(); it != this->end(); it++)
+			return (last);
+		for (int i = 0; i < this->size(); i++)
 		{
-			if (it != temp_it)
+			if (first_dif == i)
 			{
-				this->allocator.construct(&new_vector[i], *it);
-				i++;
-			}
-			else
-			{
-				if (temp_it + 1 != last)
-					temp_it++;
-				size++;
-				ret = i;
+				this->allocator.destroy(&this->_vector[i]);
+				if (i + dif != this->size())
+					this->allocator.construct(&this->_vector[i], this->_vector[i + dif]);
+				first_dif++;
 			}
 		}
-		this->destroy_vector();
-		this->_size -= size;
-		this->_vector = new_vector;
+		this->_size -= dif;
 		return (this->begin() + ret);
 	}
 
@@ -415,6 +438,60 @@ namespace ft
 		Iterator<T>	temp;
 
 		temp._pointer = &this->_vector[this->_size];
+		return(temp);
+	}
+
+	template <typename T, class Allocator>
+	Iterator<T>	vector<T, Allocator>::begin(void) const
+	{
+		Iterator<T>	temp;
+
+		temp._pointer = &this->_vector[0];
+		return(temp);
+	}
+
+	template <typename T, class Allocator>
+	Iterator<T>	vector<T, Allocator>::end(void) const
+	{
+		Iterator<T>	temp;
+
+		temp._pointer = &this->_vector[this->_size];
+		return(temp);
+	}
+
+	template <typename T, class Allocator>
+	reverseIterator<T>	vector<T, Allocator>::rbegin(void)
+	{
+		reverseIterator<T>	temp;
+
+		temp._pointer = &this->_vector[this->_size - 1];
+		return(temp);
+	}
+
+	template <typename T, class Allocator>
+	reverseIterator<T>	vector<T, Allocator>::rend(void)
+	{
+		reverseIterator<T>	temp;
+
+		temp._pointer = &this->_vector[0] - 1;
+		return(temp);
+	}
+
+	template <typename T, class Allocator>
+	reverseIterator<T>	vector<T, Allocator>::rbegin(void) const
+	{
+		reverseIterator<T>	temp;
+
+		temp._pointer = &this->_vector[this->_size - 1];
+		return(temp);
+	}
+
+	template <typename T, class Allocator>
+	reverseIterator<T>	vector<T, Allocator>::rend(void) const
+	{
+		reverseIterator<T>	temp;
+
+		temp._pointer = &this->_vector[0] - 1;
 		return(temp);
 	}
 
@@ -459,133 +536,63 @@ namespace ft
 		return(new_vector);
 	}
 
-	template <typename T>
-	bool	operator==(vector<T>& current, vector<T>& other)
+	template <typename T, class Allocator>
+	bool	operator==(const vector<T, Allocator>& current, const vector<T, Allocator>& other)
 	{
-		if (current.size() == other.size())
-		{
-			for (int i = 0; i < current.size(); i++)
-			{
-				if (current[i] != other[i])
-					return (false);
-			}
-		}
-		else
-			return (false);
-		return (true);
-	}
+		bool	ret;
 
-	template <typename T>
-	bool	operator!=(vector<T>& current, vector<T>& other)
-	{
-		if (current == other)
-			return (false);
-		return (true);
-	}
-
-	template <typename T>
-	bool	operator<(vector<T>& current, vector<T>& other)
-	{
-		int	tempsize;
-
-		if (current == other)
-			return (false);
-		if (current.size() < other.size())
-			tempsize = current.size();
-		else
-			tempsize = other.size();
-		for (int i = 0; i < tempsize; i++)
-		{
-			if (current[i] != other[i])
-			{
-				if (current[i] > other[i])
-					return (false);
-			}
-		}
-		if (current.size() > other.size())
-			return (false);
-		return (true);
-	}
-
-	template <typename T>
-	bool	operator<=(vector<T>& current, vector<T>& other)
-	{
-		int	tempsize;
-
-		if (current == other)
-			return (true);
-		if (current.size() < other.size())
-			tempsize = current.size();
-		else
-			tempsize = other.size();
-		for (int i = 0; i < tempsize; i++)
-		{
-			if (current[i] != other[i])
-			{
-				if (current[i] > other[i])
-					return (false);
-			}
-		}
-		if (current.size() > other.size())
-			return (false);
-		return (true);
-	}
-
-	template <typename T>
-	bool	operator>(vector<T>& current, vector<T>& other)
-	{
-		int	tempsize;
-
-		if (current == other)
-			return (false);
-		if (current.size() < other.size())
-			tempsize = current.size();
-		else
-			tempsize = other.size();
-		for (int i = 0; i < tempsize; i++)
-		{
-			if (current[i] != other[i])
-			{
-				if (current[i] < other[i])
-					return (false);
-			}
-		}
-		if (current.size() < other.size())
-			return (false);
-		return (true);
-	}
-
-	template <typename T>
-	bool	operator>=(vector<T>& current, vector<T>& other)
-	{
-		int	tempsize;
-
-		if (current == other)
-			return (true);
-		if (current.size() < other.size())
-			tempsize = current.size();
-		else
-			tempsize = other.size();
-		for (int i = 0; i < tempsize; i++)
-		{
-			if (current[i] != other[i])
-			{
-				if (current[i] < other[i])
-					return (false);
-			}
-		}
-		if (current.size() < other.size())
-			return (false);
-		return (true);
+		ret = ft::equal(current.begin(), current.end(), other.begin());
+		return (ret);
 	}
 
 	template <typename T, class Allocator>
-	void	swap(const vector<T>& current, const vector<T>& other)
+	bool	operator!=(const vector<T, Allocator>& current, const vector<T, Allocator>& other)
 	{
-		vector<T> temp_vector;
+		bool	ret;
 
-		temp_vector = other;
-		other = current;
-		current = temp_vector;
+		ret = ft::equal(current.begin(), current.end(), other.begin());
+		return (!(ret));
+	}
+
+	template <typename T, class Allocator>
+	bool	operator<(const vector<T, Allocator>& current, const vector<T, Allocator>& other)
+	{
+		bool	ret;
+
+		ret = ft::lexicographical_compare(current.begin(), current.end(), other.begin(), other.end());
+		return (ret);
+	}
+
+	template <typename T, class Allocator>
+	bool	operator<=(const vector<T, Allocator>& current, const vector<T, Allocator>& other)
+	{
+		bool	ret;
+
+		ret = ft::lexicographical_compare(other.begin(), other.end(), current.begin(), current.end());
+		return (!(ret));
+	}
+
+	template <typename T, class Allocator>
+	bool	operator>(const vector<T, Allocator>& current, const vector<T, Allocator>& other)
+	{
+		bool	ret;
+
+		ret = ft::lexicographical_compare(other.begin(), other.end(), current.begin(), current.end());
+		return (ret);
+	}
+
+	template <typename T, class Allocator>
+	bool	operator>=(const vector<T, Allocator>& current, const vector<T, Allocator>& other)
+	{
+		bool	ret;
+
+		ret = ft::lexicographical_compare(current.begin(), current.end(), other.begin(), other.end());
+		return (!(ret));
+	}
+
+	template <typename T>
+	void	swap(vector<T>& current, vector<T>& other)
+	{
+		current.swap(other);
 	}
 }

@@ -5,6 +5,7 @@
 # include <limits>
 # include <iterator>
 # include <memory>
+# include "ft_iterator_traits.hpp"
 
 namespace ft
 {
@@ -18,9 +19,9 @@ namespace ft
 			typedef Reference reference;
 			typedef Category  iterator_category;
 	};
-
+	
 	template <typename T>
-	struct Iterator : public ft::iterator<std::random_access_iterator_tag, T>
+	struct Iterator : public ft::iterator_traits<T*>
 	{
 		public:
 			Iterator(void);
@@ -31,9 +32,9 @@ namespace ft
 
 			Iterator	operator+(int n);
 			Iterator	operator-(int n);
-			Iterator&	operator++();
+			Iterator	operator++();
 			Iterator	operator++(int);
-			Iterator&	operator--();
+			Iterator	operator--();
 			Iterator	operator--(int);
 			void		operator+=(int n);
 			void		operator-=(int n);
@@ -57,5 +58,7 @@ namespace ft
 	template <typename T>
 	bool		operator!=(Iterator<T> current, Iterator<T> other);
 }
+
+#include "ft_iterator.tpp"
 
 #endif
