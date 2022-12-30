@@ -1,6 +1,6 @@
 NAME = con
 
-SRCS = test_stack.cpp
+SRCS = isintegral_test.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
