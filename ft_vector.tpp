@@ -281,7 +281,7 @@ namespace ft
 	void	vector<T, Allocator>::insert(Iterator<T> pos, size_t n, const value_type& val)
 	{
 		T				*new_vector;
-		difference_type	dif = pos._pointer - this->begin()._pointer;
+		difference_type	dif = pos.base - this->begin().base;
 		int				min = 0;
 		int				temp_capacity = this->_capacity;
 
@@ -331,8 +331,8 @@ namespace ft
 		T				*new_vector;
 		int				min = 0;
 		int				temp_capacity = this->_capacity;
-		difference_type	dif = pos._pointer - this->begin()._pointer;
-		difference_type	n = last._pointer - first._pointer;
+		difference_type	dif = pos.base - this->begin().base;
+		difference_type	n = last.base - first.base;
 
 		if (this->_size + n > this->_capacity)
 		{
@@ -378,7 +378,7 @@ namespace ft
 	template <typename T, class Allocator>
 	Iterator<T>	vector<T, Allocator>::erase(Iterator<T> pos)
 	{
-		difference_type	dif = pos._pointer - this->begin()._pointer;
+		difference_type	dif = pos.base - this->begin().base;
 		int				ret = dif;
 
 		if (this->validate_iterator(pos) == false)
@@ -400,8 +400,8 @@ namespace ft
 	template <typename T, class Allocator>
 	Iterator<T>	vector<T, Allocator>::erase(Iterator<T> first, Iterator<T> last)
 	{
-		difference_type	first_dif = first._pointer - this->begin()._pointer;
-		difference_type	last_dif = last._pointer - this->begin()._pointer;
+		difference_type	first_dif = first.base - this->begin().base;
+		difference_type	last_dif = last.base - this->begin().base;
 		difference_type	dif = last_dif - first_dif;
 		int				ret = first_dif;
 
@@ -428,7 +428,7 @@ namespace ft
 	{
 		Iterator<T>	temp;
 
-		temp._pointer = &this->_vector[0];
+		temp.base = &this->_vector[0];
 		return(temp);
 	}
 
@@ -437,7 +437,7 @@ namespace ft
 	{
 		Iterator<T>	temp;
 
-		temp._pointer = &this->_vector[this->_size];
+		temp.base = &this->_vector[this->_size];
 		return(temp);
 	}
 
@@ -446,7 +446,7 @@ namespace ft
 	{
 		Iterator<T>	temp;
 
-		temp._pointer = &this->_vector[0];
+		temp.base = &this->_vector[0];
 		return(temp);
 	}
 
@@ -455,43 +455,43 @@ namespace ft
 	{
 		Iterator<T>	temp;
 
-		temp._pointer = &this->_vector[this->_size];
+		temp.base = &this->_vector[this->_size];
 		return(temp);
 	}
 
 	template <typename T, class Allocator>
-	reverseIterator<T>	vector<T, Allocator>::rbegin(void)
+	reverse_iterator<T>	vector<T, Allocator>::rbegin(void)
 	{
-		reverseIterator<T>	temp;
+		reverse_iterator<T>	temp;
 
-		temp._pointer = &this->_vector[this->_size - 1];
+		temp.base = &this->_vector[this->_size - 1];
 		return(temp);
 	}
 
 	template <typename T, class Allocator>
-	reverseIterator<T>	vector<T, Allocator>::rend(void)
+	reverse_iterator<T>	vector<T, Allocator>::rend(void)
 	{
-		reverseIterator<T>	temp;
+		reverse_iterator<T>	temp;
 
-		temp._pointer = &this->_vector[0] - 1;
+		temp.base = &this->_vector[0] - 1;
 		return(temp);
 	}
 
 	template <typename T, class Allocator>
-	reverseIterator<T>	vector<T, Allocator>::rbegin(void) const
+	reverse_iterator<T>	vector<T, Allocator>::rbegin(void) const
 	{
-		reverseIterator<T>	temp;
+		reverse_iterator<T>	temp;
 
-		temp._pointer = &this->_vector[this->_size - 1];
+		temp.base = &this->_vector[this->_size - 1];
 		return(temp);
 	}
 
 	template <typename T, class Allocator>
-	reverseIterator<T>	vector<T, Allocator>::rend(void) const
+	reverse_iterator<T>	vector<T, Allocator>::rend(void) const
 	{
-		reverseIterator<T>	temp;
+		reverse_iterator<T>	temp;
 
-		temp._pointer = &this->_vector[0] - 1;
+		temp.base = &this->_vector[0] - 1;
 		return(temp);
 	}
 

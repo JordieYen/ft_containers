@@ -12,7 +12,7 @@
 namespace ft
 {
 	template <typename T, class Allocator = std::allocator<T> >
-	class vector : public ft::Iterator<T>, public ft::reverseIterator<T>
+	class vector : public ft::Iterator<T>
 	{
 		public:
 			typedef T															value_type;
@@ -62,10 +62,10 @@ namespace ft
 			Iterator<T>			end(void);
 			Iterator<T>			begin(void) const;
 			Iterator<T>			end(void) const;
-			reverseIterator<T>	rbegin(void);
-			reverseIterator<T>	rend(void);
-			reverseIterator<T>	rbegin(void) const;
-			reverseIterator<T>	rend(void) const;
+			reverse_iterator<T>	rbegin(void);
+			reverse_iterator<T>	rend(void);
+			reverse_iterator<T>	rbegin(void) const;
+			reverse_iterator<T>	rend(void) const;
 
 		private:
 			size_t	count_iterator(Iterator<T> first, Iterator<T> last);

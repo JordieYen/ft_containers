@@ -21,9 +21,15 @@ namespace ft
 	};
 	
 	template <typename T>
-	struct Iterator : public ft::iterator_traits<T*>
+	struct Iterator
 	{
 		public:
+			typedef	typename ft::iterator_traits<T*>::difference_type		difference_type;
+			typedef	typename ft::iterator_traits<T*>::value_type			value_type;
+			typedef	typename ft::iterator_traits<T*>::pointer				pointer;
+			typedef	typename ft::iterator_traits<T*>::reference				reference;
+			typedef	typename ft::iterator_traits<T*>::iterator_category		iterator_category;
+
 			Iterator(void);
 			Iterator(T *value);
 			Iterator(const Iterator& clone);
@@ -42,7 +48,7 @@ namespace ft
 			T			*operator->();
 			T&			operator[](int i);
 
-			T	*_pointer;
+			T	*base;
 	};
 
 	template <typename T>

@@ -1,6 +1,6 @@
 NAME = con
 
-SRCS = isintegral_test.cpp
+SRCS = revit.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

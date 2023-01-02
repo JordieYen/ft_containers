@@ -5,25 +5,25 @@ namespace ft
 	template<typename T>
 	Iterator<T>::Iterator(void)
 	{
-		this->_pointer = nullptr;
+		this->base = nullptr;
 	}
 
 	template<typename T>
 	Iterator<T>::Iterator(T *value)
 	{
-		this->_pointer = value;
+		this->base = value;
 	}
 
 	template<typename T>
 	Iterator<T>::Iterator(const Iterator& clone)
 	{
-		this->_pointer = clone._pointer;
+		this->base = clone.base;
 	}
 
 	template<typename T>
 	Iterator<T>&	Iterator<T>::operator=(const Iterator& clone)
 	{
-		this->_pointer = clone._pointer;
+		this->base = clone.base;
 		return (*this);
 	}
 
@@ -35,77 +35,77 @@ namespace ft
 	template<typename T>
 	Iterator<T>	Iterator<T>::operator++(int)
 	{
-		this->_pointer++;
+		this->base++;
 		return (*this);
 	}
 
 	template<typename T>
 	Iterator<T>	Iterator<T>::operator++()
 	{
-		Iterator	temp(this->_pointer);
+		Iterator	temp(this->base);
 
-		this->_pointer++;
+		this->base++;
 		return (temp);
 	}
 
 	template<typename T>
 	Iterator<T>	Iterator<T>::operator--(int)
 	{
-		this->_pointer--;
+		this->base--;
 		return (*this);
 	}
 
 	template<typename T>
 	Iterator<T>	Iterator<T>::operator--()
 	{
-		Iterator	temp(this->_pointer);
+		Iterator	temp(this->base);
 
-		this->_pointer--;
+		this->base--;
 		return (temp);
 	}
 
 	template<typename T>
 	T&	Iterator<T>::operator*()
 	{
-		return (*this->_pointer);
+		return (*this->base);
 	}
 
 	template<typename T>
 	T*	Iterator<T>::operator->()
 	{
-		return (this->_pointer);
+		return (this->base);
 	}
 
 	template<typename T>
 	T&	Iterator<T>::operator[](int i)
 	{
-		return (this->_pointer[i]);
+		return (this->base[i]);
 	}
 
 	template<typename T>
 	Iterator<T>	Iterator<T>::operator+(int n)
 	{
-		Iterator	temp(this->_pointer);
+		Iterator	temp(this->base);
 
 		for (int i = 0; i < n; i++)
-			temp._pointer++;
+			temp.base++;
 		return (temp);
 	}
 
 	template<typename T>
 	Iterator<T>	Iterator<T>::operator-(int n)
 	{
-		Iterator	temp(this->_pointer);
+		Iterator	temp(this->base);
 
 		for (int i = 0; i < n; i++)
-			temp._pointer--;
+			temp.base--;
 		return (temp);
 	}
 
 	template<typename T>
 	bool		operator==(Iterator<T> current, Iterator<T> other)
 	{
-		if (current._pointer == other._pointer)
+		if (current.base == other.base)
 			return (true);
 		return (false);
 	}
@@ -113,7 +113,7 @@ namespace ft
 	template<typename T>
 	bool		operator!=(Iterator<T> current, Iterator<T> other)
 	{
-		if (current._pointer != other._pointer)
+		if (current.base != other.base)
 			return (true);
 		return (false);
 	}
@@ -121,7 +121,7 @@ namespace ft
 	template<typename T>
 	bool		operator<(Iterator<T> current, Iterator<T> other)
 	{
-		if (current._pointer < other._pointer)
+		if (current.base < other.base)
 			return (true);
 		return (false);
 	}
@@ -129,7 +129,7 @@ namespace ft
 	template<typename T>
 	bool		operator>(Iterator<T> current, Iterator<T> other)
 	{
-		if (current._pointer > other._pointer)
+		if (current.base > other.base)
 			return (true);
 		return (false);
 	}
@@ -137,9 +137,9 @@ namespace ft
 	template<typename T>
 	bool		operator<=(Iterator<T> current, Iterator<T> other)
 	{
-		if (current._pointer == other._pointer)
+		if (current.base == other.base)
 			return (true);
-		if (current._pointer < other._pointer)
+		if (current.base < other.base)
 			return (true);
 		return (false);
 	}
@@ -147,9 +147,9 @@ namespace ft
 	template<typename T>
 	bool		operator>=(Iterator<T> current, Iterator<T> other)
 	{
-		if (current._pointer == other._pointer)
+		if (current.base == other.base)
 			return (true);
-		if (current._pointer > other._pointer)
+		if (current.base > other.base)
 			return (true);
 		return (false);
 	}
@@ -158,13 +158,13 @@ namespace ft
 	void	Iterator<T>::operator+=(int n)
 	{
 		for (int i = 0; i < n; i++)
-			this->_pointer++;
+			this->base++;
 	}
 
 	template<typename T>
 	void	Iterator<T>::operator-=(int n)
 	{
 		for (int i = 0; i < n; i++)
-			this->_pointer--;
+			this->base--;
 	}
 }
