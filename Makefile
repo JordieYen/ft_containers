@@ -1,6 +1,6 @@
 NAME = con
 
-SRCS = revit.cpp
+SRCS = lain.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

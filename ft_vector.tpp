@@ -460,38 +460,34 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	reverse_iterator<T>	vector<T, Allocator>::rbegin(void)
+	typename vector<T, Allocator>::reverse_iterator	vector<T, Allocator>::rbegin(void)
 	{
-		reverse_iterator<T>	temp;
+		typename vector<T, Allocator>::reverse_iterator	temp(this->end() - 1);
 
-		temp.base = &this->_vector[this->_size - 1];
 		return(temp);
 	}
 
 	template <typename T, class Allocator>
-	reverse_iterator<T>	vector<T, Allocator>::rend(void)
+	typename vector<T, Allocator>::reverse_iterator	vector<T, Allocator>::rend(void)
 	{
-		reverse_iterator<T>	temp;
+		typename vector<T, Allocator>::reverse_iterator	temp(this->begin() - 1);
 
-		temp.base = &this->_vector[0] - 1;
 		return(temp);
 	}
 
 	template <typename T, class Allocator>
-	reverse_iterator<T>	vector<T, Allocator>::rbegin(void) const
+	typename vector<T, Allocator>::reverse_iterator	vector<T, Allocator>::rbegin(void) const
 	{
-		reverse_iterator<T>	temp;
+		typename vector<T, Allocator>::reverse_iterator	temp(this->end() - 1);
 
-		temp.base = &this->_vector[this->_size - 1];
 		return(temp);
 	}
 
 	template <typename T, class Allocator>
-	reverse_iterator<T>	vector<T, Allocator>::rend(void) const
+	typename vector<T, Allocator>::reverse_iterator	vector<T, Allocator>::rend(void) const
 	{
-		reverse_iterator<T>	temp;
+		typename vector<T, Allocator>::reverse_iterator	temp(this->begin() - 1);
 
-		temp.base = &this->_vector[0] - 1;
 		return(temp);
 	}
 

@@ -21,6 +21,8 @@ namespace ft
 			typedef typename std::allocator_traits<Allocator>::const_pointer	const_pointer;
 			typedef value_type&													reference;
 			typedef const value_type&											const_reference;
+			typedef typename ft::Iterator<T>												iterator;
+			typedef typename ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef std::ptrdiff_t												difference_type;
 
 			explicit vector(const allocator_type& alloc = allocator_type());
@@ -62,10 +64,10 @@ namespace ft
 			Iterator<T>			end(void);
 			Iterator<T>			begin(void) const;
 			Iterator<T>			end(void) const;
-			reverse_iterator<T>	rbegin(void);
-			reverse_iterator<T>	rend(void);
-			reverse_iterator<T>	rbegin(void) const;
-			reverse_iterator<T>	rend(void) const;
+			reverse_iterator	rbegin(void);
+			reverse_iterator	rend(void);
+			reverse_iterator	rbegin(void) const;
+			reverse_iterator	rend(void) const;
 
 		private:
 			size_t	count_iterator(Iterator<T> first, Iterator<T> last);

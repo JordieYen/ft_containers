@@ -266,7 +266,7 @@ int	main(void)
 	cout << endl;
 
 	cout << "elemnts printed with T pointer using reverse iterator : ";
-	for (ft::reverseIterator<int> it = mine6.rbegin(); it != mine6.rend(); it++)
+	for (ft::vector<int>::reverse_iterator it = mine6.rbegin(); it != mine6.rend(); it++)
 		cout << *it << " ";
 	cout << endl;
 	if (std::is_integral<int>::value)
