@@ -8,6 +8,8 @@
 # include "ft_reverse_iterator.hpp"
 # include "ft_equal.hpp"
 # include "ft_lexicographical_compare.hpp"
+# include "ft_enable_if.hpp"
+# include "ft_is_integral.hpp"
 
 namespace ft
 {
@@ -17,19 +19,28 @@ namespace ft
 		public:
 			typedef T															value_type;
 			typedef Allocator													allocator_type;
-			typedef typename std::allocator_traits<Allocator>::pointer			pointer;
-			typedef typename std::allocator_traits<Allocator>::const_pointer	const_pointer;
 			typedef value_type&													reference;
 			typedef const value_type&											const_reference;
-			typedef typename ft::Iterator<T>												iterator;
-			typedef typename ft::reverse_iterator<iterator>								reverse_iterator;
+			typedef typename std::allocator_traits<Allocator>::pointer			pointer;
+			typedef typename std::allocator_traits<Allocator>::const_pointer	const_pointer;
+			typedef typename ft::Iterator<T>									iterator;
+			typedef const iterator												const_iterator;
+			typedef typename ft::reverse_iterator<iterator>						reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 			typedef std::ptrdiff_t												difference_type;
+			typedef std::size_t													size_type;
 
 			explicit vector(const allocator_type& alloc = allocator_type());
 			explicit vector(size_t n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
-			vector(Iterator<T> first, Iterator<T> last, const allocator_type& alloc = allocator_type());
 			vector(const vector& clone);
 			~vector(void);
+
+			// template <class InputIterator>
+			// vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+			// 	typename ft::enable_if<!ft::is_integral<InputIterator>::value,InputIterator>::type* = nullptr);
+			template <class InputIterator>
+			vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value,InputIterator>::type first,
+				InputIterator last, const allocator_type& alloc = allocator_type());
 
 			Allocator			get_allocator(void);
 			size_t				size(void) const;

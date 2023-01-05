@@ -21,11 +21,17 @@ namespace ft
 			
 	}
 
+	// template <typename T, class Allocator>
+	// template <class InputIterator>
+	// vector<T, Allocator>::vector(InputIterator first, InputIterator last, const allocator_type& alloc,
+	// 	typename ft::enable_if<!ft::is_integral<InputIterator>::value,InputIterator>::type*)
 	template <typename T, class Allocator>
-	vector<T, Allocator>::vector(Iterator<T> first, Iterator<T> last, const allocator_type& alloc)
+	template <class InputIterator>
+	vector<T, Allocator>::vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value,InputIterator>::type first,
+		InputIterator last, const allocator_type& alloc)
 	{
 		int	counter = 0;
-		for (Iterator<T> i = first; i != last; i++)
+		for (InputIterator i = first; i != last; i++)
 			counter++;
 		this->_vector = this->allocator.allocate(counter);
 		this->_capacity = counter;
@@ -220,6 +226,7 @@ namespace ft
 
 		if (size > this->_size)
 		{
+			std::cout << "apple" << std::endl;
 			new_vector = this->create_vector(size);
 			for (int i = this->_size; i < size; i++)
 				this->allocator.construct(&new_vector[i], value);
