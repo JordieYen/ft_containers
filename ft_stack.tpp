@@ -13,6 +13,19 @@ namespace ft
 	}
 
 	template <class T, class Container>
+	stack<T, Container>::stack( const stack<T, Container>& other )
+	{
+		this->_stack = other._stack;
+	}
+
+	template <class T, class Container>
+	stack<T, Container>& stack<T, Container>::operator=( const stack<T, Container>& other )
+	{
+		this->_stack = other._stack;
+		return (*this);
+	}
+
+	template <class T, class Container>
 	bool	stack<T, Container>::empty(void)
 	{
 		return (this->_stack.empty());

@@ -321,6 +321,21 @@ void	stack_test(void)
 	printstackdata(temprealstack, "temprealstack");
 	printstackdata(tempmystack, "tempmystack  ");
 
+	// operator=( const stack& other ) test
+	cout << "\nRan operator=(tempstacks) on stacks: " << endl;
+	realstack = temprealstack;
+	mystack = tempmystack;
+	printstackdata(realstack, "realstack");
+	printstackdata(mystack, "mystack  ");
+	printstackdata(temprealstack, "temprealstack");
+	printstackdata(tempmystack, "tempmystack  ");
+
+	cout << "\nInitialized copystacks with copy constructor(stack):" << endl;
+	std::stack<std::string>	copyrealstack(realstack);
+	ft::stack<std::string>	copymystack(mystack);
+	printstackdata(copyrealstack, "copyrealstack");
+	printstackdata(copymystack, "copymystack  ");
+
 	cout << "\n------------------------ Stack test end ------------------------\n" << endl;
 }
 

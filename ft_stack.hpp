@@ -15,7 +15,9 @@ namespace ft
 			typedef size_t		size_type;
 
 			explicit stack(const container_type& ctnr = container_type());
+			stack(const stack& other);
 			~stack(void);
+			stack&		operator=( const stack& other);
 
 			bool		empty(void); //
 			size_t		size(void); //
