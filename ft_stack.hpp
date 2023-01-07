@@ -17,11 +17,11 @@ namespace ft
 			explicit stack(const container_type& ctnr = container_type());
 			~stack(void);
 
-			bool		empty(void);
-			size_t		size(void);
-			T			top(void);
-			void		push(T val);
-			void		pop(void);
+			bool		empty(void); //
+			size_t		size(void); //
+			T			top(void); //
+			void		push(T val); //
+			void		pop(void); //
 			void		swap(stack& other);
 
 			friend bool	operator==(const stack<T, Container>& current, const stack<T, Container>& other)

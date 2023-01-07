@@ -1,7 +1,9 @@
 #include "ft_vector.hpp"
+#include "ft_stack.hpp"
 #include "ft_reverse_iterator.hpp"
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <iterator>
 #include "ft_is_integral.hpp"
 
@@ -12,6 +14,7 @@ using std::endl;
 template< class T>
 void	printvector(T& _vector, std::string name)
 {
+	// size(void), capacity(void), empty(void) test
 	cout << "\033[34m";
 	cout << name << ": [";
 	for (int i = 0; i < _vector.size(); i++)
@@ -23,12 +26,13 @@ void	printvector(T& _vector, std::string name)
 		cout << "false";
 	else
 		cout << "true";
-	cout << endl;
-	cout << "\033[0m";
+	cout << "\033[0m" << endl;
 }
 
 void	vector_test(void)
 {
+	cout << "\n----------------------- Vector test start -----------------------" << endl;
+
 	std::vector<std::string>	realvector;
 	ft::vector<std::string>		myvector;
 
@@ -233,7 +237,7 @@ void	vector_test(void)
 		cout << *it << " ";
 	cout << "\033[0m" << endl;
 	cout <<  "\033[34mmyvector   :" ;
-	for (ft::vector<std::string>::Iterator it = myvector.begin(); it != myvector.end(); it++)
+	for (ft::vector<std::string>::iterator it = myvector.begin(); it != myvector.end(); it++)
 		cout << *it << " ";
 	cout << "\033[0m" << endl;
 
@@ -247,12 +251,83 @@ void	vector_test(void)
 		cout << *it << " ";
 	cout << "\033[0m" << endl;
 
-	cout << endl;
+	cout << "\n------------------------ Vector test end ------------------------\n" << endl;
+}
+
+template <class T>
+void	printstackdata(T _stack, std::string name)
+{
+	// empty(void), size(void), top(void) test
+	cout << "\033[34m";
+	cout << name << " :";
+	cout << " top: [";
+	if (_stack.size() > 0)
+		cout << _stack.top();
+	else
+		cout << "stack is empty";
+	cout << "] size: " << _stack.size();
+	cout << " empty: ";
+	if (_stack.empty() == 0)
+		cout << "false";
+	else
+		cout << "true";
+	cout << "\033[0m" << endl;
+}
+
+void	stack_test(void)
+{
+	cout << "\n----------------------- Stack test start -----------------------" << endl;
+
+	std::stack<std::string>	realstack;
+	ft::stack<std::string>	mystack;
+
+	cout << "\nInitialized stacks with default constructor:" << endl;
+	printstackdata(realstack, "realstack");
+	printstackdata(mystack, "mystack  ");
+
+	// push(T val) test
+	cout << "\nRan push() [apple] [bottom] [jeans] on stacks: " << endl;
+	realstack.push("apple");
+	realstack.push("bottom");
+	realstack.push("jeans");
+	mystack.push("apple");
+	mystack.push("bottom");
+	mystack.push("jeans");
+	printstackdata(realstack, "realstack");
+	printstackdata(mystack, "mystack  ");
+
+	// push(T val) test
+	cout << "\nRan pop() on stacks: " << endl;
+	realstack.pop();
+	mystack.pop();
+	printstackdata(realstack, "realstack");
+	printstackdata(mystack, "mystack  ");
+
+	std::stack<std::string>	temprealstack;
+	ft::stack<std::string>	tempmystack;
+
+	cout << "\nInitialized tempstacks with default constructor and push() [new]:" << endl;
+	temprealstack.push("new");
+	tempmystack.push("new");
+	printstackdata(temprealstack, "temprealstack");
+	printstackdata(tempmystack, "tempmystack  ");
+
+	// swap(stack& other) test
+	cout << "\nRan stack.swap(tempstack) on stacks: " << endl;
+	realstack.swap(temprealstack);
+	mystack.swap(tempmystack);
+	printstackdata(realstack, "realstack");
+	printstackdata(mystack, "mystack  ");
+	printstackdata(temprealstack, "temprealstack");
+	printstackdata(tempmystack, "tempmystack  ");
+
+	cout << "\n------------------------ Stack test end ------------------------\n" << endl;
 }
 
 int	main(void)
 {
 	vector_test();
+	stack_test();
 
 	// system("leaks con");
 

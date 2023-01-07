@@ -45,6 +45,6 @@ namespace ft
 	template <class T, class Container>
 	void	stack<T, Container>::swap(stack& other)
 	{
-		this->_stack.swap(other);
+		this->_stack.swap(other._stack);
 	}
 }
