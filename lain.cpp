@@ -34,8 +34,14 @@ void	vector_test(void)
 
 	cout <<"\nInitialized vectors with default constructor:" << endl;
 	printvector(realvector, "realvector");
-	printvector(myvector, "myvector");
+	printvector(myvector, "myvector  ");
 
+	// max_size(void) test 
+	cout << "\nRan max_size() on vectors: " << endl;
+	cout << "\033[34mrealvector: " << realvector.max_size() << "\033[0m" << endl; 
+	cout << "\033[34mmyvector  : " << myvector.max_size() << "\033[0m" << endl;
+
+	// push_back(T value) test
 	cout << "\nRan push_back [apple], [bottom], [jeans] on vectors: " << endl;
 	realvector.push_back("apple");
 	realvector.push_back("bottom");
@@ -44,43 +50,202 @@ void	vector_test(void)
 	myvector.push_back("bottom");
 	myvector.push_back("jeans");
 	printvector(realvector, "realvector");
-	printvector(myvector, "myvector");
+	printvector(myvector, "myvector  ");
 
+	// pop_back(void) test 
 	cout << "\nRan pop_back on vectors: " << endl;
 	realvector.pop_back();
 	myvector.pop_back();
 	printvector(realvector, "realvector");
-	printvector(myvector, "myvector");
+	printvector(myvector, "myvector  ");
 
+	// front(void) back(void) test 
 	cout << "\nRan front() and back() on vectors: " << endl;
 	cout << "\033[34mfront: realvector.front() - [" << realvector.front() << "] myvector.front() - [" << myvector.front() << "]\033[0m" << endl;
-	cout << "\033[34mback: realvector.back() - [" << realvector.back() << "] myvector.back() - [" << myvector.back() << "]\033[0m" << endl;
+	cout << "\033[34mback : realvector.back() - [" << realvector.back() << "] myvector.back() - [" << myvector.back() << "]\033[0m" << endl;
 
+	// reserve(size_t size) test 
 	cout << "\nRan reserve(5) on vectors: " << endl;
 	realvector.reserve(5);
 	myvector.reserve(5);
 	printvector(realvector, "realvector");
-	printvector(myvector, "myvector");
-	cout << "reserve(4): //reserving less than capacity does nothing" << endl;
+	printvector(myvector, "myvector  ");
+	cout << "reserve(4):" << endl;
 	realvector.reserve(4);
 	myvector.reserve(4);
 	printvector(realvector, "realvector");
-	printvector(myvector, "myvector");
+	printvector(myvector, "myvector  ");
 
+	// resize(size_t size) test 
 	cout << "\nRan resize(10) on vectors: " << endl;
 	realvector.resize(10);
 	myvector.resize(10);
 	printvector(realvector, "realvector");
-	printvector(myvector, "myvector");
+	printvector(myvector, "myvector  ");
+	cout << "resize(4):" << endl;
+	realvector.resize(4);
+	myvector.resize(4);
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+	cout << "resize(0):" << endl;
+	realvector.resize(0);
+	myvector.resize(0);
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
 
+	// resize(size_t size, T value) test 
+	cout << "\nRan resize(5, [extra]) on vectors: " << endl;
+	realvector.resize(5, "extra");
+	myvector.resize(5, "extra");
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+	cout << "resize(12, [extra1]): " << endl;
+	realvector.resize(12, "extra1");
+	myvector.resize(12, "extra1");
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
 
-	std::vector<int>	realvector1;
-	ft::vector<int>		myvector1;
+	// clear(void) test 
+	cout << "\nRan clear() on vectors: " << endl;
+	realvector.clear();
+	myvector.clear();
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
 
-	realvector1.resize(10);
-	myvector1.resize(10);
-	printvector(realvector1, "realvector1");
-	printvector(myvector1, "myvector1");
+	std::vector<std::string>	temprealvector(3, "test");
+	ft::vector<std::string>		tempmyvector(3, "test");
+
+	cout <<"\nInitialized temp vectors with \033[33mvector(size_t, const value_type&, const allocator_type&)\033[0m constructor:" << endl;
+	printvector(temprealvector, "temprealvector");
+	printvector(tempmyvector, "tempmyvector  ");
+
+	// swap(vector& other) test 
+	cout << "\nRan vector.swap(vector1) on vectors: " << endl;
+	cout << "before swap(): " << endl;
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+	printvector(temprealvector, "temprealvector");
+	printvector(tempmyvector, "tempmyvector  ");
+	realvector.swap(temprealvector);
+	myvector.swap(tempmyvector);
+	cout << "after swap(): " << endl;
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+	printvector(temprealvector, "temprealvector");
+	printvector(tempmyvector, "tempmyvector  ");
+
+	// at(size_t index) test 
+	cout << "\nRan vector.at(1) and vector.at(1) = [in] on vectors: " << endl;
+	cout << "\033[34mrealvector at [1] : " << realvector.at(1) << "\033[0m" << endl;
+	cout << "\033[34mmyvector   at [1] : " << myvector.at(1) << "\033[0m" << endl;
+	cout << "vector.at(1) = [in]: " << endl;
+	realvector.at(1) = "in";
+	myvector.at(1) = "in";
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+
+	// assign(size_t i, T value) test 
+	cout << "\nRan assign(2, lol) on vectors: " << endl;
+	realvector.assign(2, "lol");
+	myvector.assign(2, "lol");
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+	cout << "assign(0, lol): " << endl;
+	realvector.assign(0, "lol");
+	myvector.assign(0, "lol");
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+	cout << "assign(5, lol): " << endl;
+	realvector.assign(5, "lol");
+	myvector.assign(5, "lol");
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+
+	// operator[](size_t i) test 
+	cout << "\nRan vector[1] on vectors: " << endl;
+	cout << "\033[34mrealvector[1] : " << realvector[1] << "\033[0m" << endl;
+	cout << "\033[34mmyvector[1]   : " << myvector[1] << "\033[0m" << endl;
+	cout << "vector[1] = [in]: " << endl;
+	realvector[1] = "in";
+	myvector[1] = "in";
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+	cout << "vector[6]: out of range test (no exception but will segfault if vector tries to access malloced mem)" << endl;
+	cout << "\033[34mrealvector[6] : " << "\033[0m" << endl;
+	cout << "\033[34mmyvector[6]   : " << "\033[0m" << endl;
+	
+	// insert(Iterator<T> pos, const value_type& val) test 
+	cout << "\nRan vector.insert(vector.begin() + 1, poop) on vectors: " << endl;
+	realvector.insert(realvector.begin() + 1, "poop");
+	myvector.insert(myvector.begin() + 1, "poop");
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+
+	// insert(Iterator<T> pos, size_t n, const value_type& val) test 
+	cout << "\nRan vector.insert(vector.begin() + 1, 2, bruh) on vectors: " << endl;
+	realvector.insert(realvector.begin() + 1, 2, "bruh");
+	myvector.insert(myvector.begin() + 1, 2, "bruh");
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+	cout << "vector.insert(vector.begin() + 1, 3, okay): " << endl;
+	realvector.insert(realvector.begin() + 1, 3, "okay");
+	myvector.insert(myvector.begin() + 1, 3, "okay");
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+
+	// insert(Iterator<T> pos, Iterator<T> first, Iterator<T> last) test 
+	cout << "\nRan vector.insert(vector.begin() + 1, tempvector.begin(), tempvector.last()) on vectors: " << endl;
+	temprealvector.assign(5, "new");
+	tempmyvector.assign(5, "new");
+	printvector(temprealvector, "temprealvector");
+	printvector(tempmyvector, "tempmyvector  ");
+	realvector.insert(realvector.begin() + 1, temprealvector.begin(), temprealvector.end());
+	myvector.insert(myvector.begin() + 1, tempmyvector.begin(), tempmyvector.end());
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+	cout << "vector.insert(vector.begin() + 1, tempvector.begin(), tempvector.last()): " << endl;
+	temprealvector.assign(5, "pew");
+	tempmyvector.assign(5, "pew");
+	printvector(temprealvector, "temprealvector");
+	printvector(tempmyvector, "tempmyvector  ");
+	realvector.insert(realvector.begin() + 1, temprealvector.begin(), temprealvector.end());
+	myvector.insert(myvector.begin() + 1, tempmyvector.begin(), tempmyvector.end());
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+
+	// erase(Iterator<T> pos) test 
+	cout << "\nRan vector.erase(vector.begin()) on vectors: " << endl;
+	realvector.erase(realvector.begin());
+	myvector.erase(myvector.begin());
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+
+	// erase(Iterator<T> first, Iterator<T> last) test 
+	cout << "\nRan vector.erase(vector.begin(), vector.begin() + 5) on vectors: " << endl;
+	realvector.erase(realvector.begin(), realvector.begin() + 5);
+	myvector.erase(myvector.begin(), myvector.begin() + 5);
+	printvector(realvector, "realvector");
+	printvector(myvector, "myvector  ");
+
+	cout << "\nElements printed with T pointer using iterator : " << endl;
+	cout <<  "\033[34mrealvector :" ;
+	for (std::vector<std::string>::iterator it = realvector.begin(); it != realvector.end(); it++)
+		cout << *it << " ";
+	cout << "\033[0m" << endl;
+	cout <<  "\033[34mmyvector   :" ;
+	for (ft::vector<std::string>::Iterator it = myvector.begin(); it != myvector.end(); it++)
+		cout << *it << " ";
+	cout << "\033[0m" << endl;
+
+	cout << "\nElements printed with T pointer using reverse iterator : " << endl;
+	cout <<  "\033[34mrealvector :" ;
+	for (std::vector<std::string>::reverse_iterator it = realvector.rbegin(); it != realvector.rend(); it++)
+		cout << *it << " ";
+	cout << "\033[0m" << endl;
+	cout <<  "\033[34mmyvector   :" ;
+	for (ft::vector<std::string>::reverse_iterator it = myvector.rbegin(); it != myvector.rend(); it++)
+		cout << *it << " ";
+	cout << "\033[0m" << endl;
 
 	cout << endl;
 }
@@ -88,269 +253,8 @@ void	vector_test(void)
 int	main(void)
 {
 	vector_test();
-	// ft::vector<int> lol;
-	// cout << "\033[0m-------------------" << endl;
-	// cout << "\033[32m";
-
-	// // real vector tests
-	// std::vector<int>	real(1);
-	// int					*tempreal;
-
-	// if (real.empty() == true)
-	// 	cout << "real vector is empty." << endl;
-	// real.push_back(5);
-	// real.push_back(5);
-	// real.at(1) = 1;
-	// real.pop_back();
-	// real.resize(10);
-	// real.resize(1);
-	// real.push_back(1);
-	// real.push_back(2);
-	// real.push_back(3);
-	// real.push_back(4);
-	// real.push_back(5);
-	// // real.resize(10, 6);
-	// // real.at(1) = 1;
-	// // std::__1::vector<int>::iterator realte = real.erase(real.begin());
-	// // cout << "realte == " << *realte << endl;
-	// // std::__1::vector<int>::iterator realinsert = real.insert(real.begin(), 4);
-	// // cout << "realinsert == " << *realinsert << endl;
-	// // real.insert(realinsert, 3, 8);
-	// // real.resize(6);
-	// // real.erase(real.begin() + 2, real.begin() + 5);
-	// std::vector<int>		testreal(10, 8);
-	// real.insert(real.begin() + 1, testreal.begin(), testreal.end());
-	// // real[1000] = 1; // test out of range exception
-	// // real.at(1000) = 1; 
-	// // real.erase(real.begin() + 1);
-	// // real.erase(real.begin() + 1, real.begin() + 3);
-	// cout << "real vector | size : " << real.size() << " capacity : " << real.capacity() << endl;
-	// cout << "elemnts printed with vector using [] : ";
-	// for (int i = 0; i < real.size(); i++)
-	// 	cout << real[i] << " ";
-	// cout << endl;
-	// cout << "front element in real vector is " << real.front() << endl;
-	// cout << "back element in real vector is " << real.back() << endl;
-	// tempreal = real.data();
-	// cout << "elemnts printed with T pointer using [] : ";
-	// for (int i = 0; i < real.size(); i++)
-	// 	cout << tempreal[i] << " ";
-	// cout << endl;
-	// if (real.empty() == false)
-	// 	cout << "real vector is not empty." << endl;
-	// cout << "maximum size of a real vector is " << real.max_size() << endl;
-	// std::vector<int>	real2;
-
-	// real2.reserve(64);
-	// real2.push_back(5);
-	// real2.clear();
-	// cout << "real vector | size : " << real2.size() << " capacity : " << real2.capacity() << endl;
-
-	// std::vector<int>	real3;
-	// std::vector<int>	real4;
-
-	// real3.resize(5, 5);
-	// real4.resize(3, 3);
-	// real3.reserve(10);
-	// cout << "real3 | size : " << real3.size() << " capacity : " << real3.capacity() << endl;
-	// cout << "real3 : ";
-	// for (int i = 0; i < real3.size(); i++)
-	// 	cout << real3[i] << " ";
-	// cout << endl;
-	// cout << "real4 | size : " << real4.size() << " capacity : " << real4.capacity() << endl;
-	// cout << "real4 : ";
-	// for (int i = 0; i < real4.size(); i++)
-	// 	cout << real4[i] << " ";
-	// cout << endl;
-	// real3.swap(real4);
-	// cout << "real3 | size : " << real3.size() << " capacity : " << real3.capacity() << endl;
-	// cout << "real3 : ";
-	// for (int i = 0; i < real3.size(); i++)
-	// 	cout << real3[i] << " ";
-	// cout << endl;
-	// cout << "real4 | size : " << real4.size() << " capacity : " << real4.capacity() << endl;
-	// cout << "real4 : ";
-	// for (int i = 0; i < real4.size(); i++)
-	// 	cout << real4[i] << " ";
-	// cout << endl;
-
-	// real4.assign(11, 3);
-	// cout << "real4 | size : " << real4.size() << " capacity : " << real4.capacity() << endl;
-	// cout << "real4 : ";
-	// for (int i = 0; i < real4.size(); i++)
-	// 	cout << real4[i] << " ";
-	// cout << endl;
-
-	// std::vector<int>	real5;
-	// std::vector<int>	real6;
-
-	// real5.push_back(1);
-	// real5.push_back(5);
-	// real5.push_back(6);
-	// // real5.push_back(7);
-	// real6.push_back(1);
-	// real6.push_back(5);
-	// real6.push_back(6);
-	// real6.push_back(7);
-
-	// cout << "\nreal5 : ";
-	// for (int i = 0; i < real5.size(); i++)
-	// 	cout << real5[i] << " ";
-	// cout << endl;
-	// cout << "real6 : ";
-	// for (int i = 0; i < real6.size(); i++)
-	// 	cout << real6[i] << " ";
-	// cout << endl;
-
-	// if (real5 > real6)
-	// 	cout << "true." << endl;
-	// else
-	// 	cout << "false." << endl;
-
-	// for (std::vector<int>::iterator it = real6.begin(); it != real6.end(); it++)
-	// 	cout << *it << " ";
-	// cout << endl;
-
-	// cout << "\033[0m-------------------" << endl;
-	// cout << "\033[34m";
-
-	// // my vector tests
-	// ft::vector<int>		mine(1);
-	// int					*tempmine;
-
-	// if (mine.empty() == true)
-	// 	cout << "my vector is empty." << endl;
-	// mine.push_back(5);
-	// mine.push_back(5);
-	// mine.at(1) = 1;
-	// mine.pop_back();
-	// mine.resize(10);
-	// mine.resize(1);
-	// mine.push_back(1);
-	// mine.push_back(2);
-	// mine.push_back(3);
-	// mine.push_back(4);
-	// mine.push_back(5);
-	// // mine.resize(10, 6);
-	// // mine.at(1) = 1;
-	// // ft::Iterator<int> myte = mine.erase(mine.begin() + 1);
-	// // cout << "myte = " << *myte << endl;
-	// // ft::Iterator<int> myinsert = mine.insert(mine.begin(), 4);
-	// // cout << "myinsert = " << *myinsert << endl;
-	// // mine.insert(myinsert, 3, 8);
-	// // mine.resize(6);
-	// // mine.erase(mine.begin() + 2, mine.begin() + 5);
-	// ft::vector<int>		testmine(10, 8);
-	// mine.insert(mine.begin() + 1, testmine.begin(), testmine.end());
-	// // mine[1000] = 1; // test out of range exception
-	// // mine.at(1000) = 1; 
-	// // ft::vector<int>::Iterator start = mine.begin();
-	// // mine.erase(mine.begin() + 1);
-	// // mine.erase(mine.begin() + 1, mine.begin() + 3);
-	// // mine.insert(mine.begin() + 1, 10, 8);
-	// // for (ft::Iterator<int> i = start; i != mine.end(); i++)
-	// // 	cout << *i << "-";
-	// // cout << endl;
-	
-	// cout << "my vector | size : " << mine.size() << " capacity : " << mine.capacity() << endl;
-	// cout << "elemnts printed with vector using [] : ";
-	// for (int i = 0; i < mine.size(); i++)
-	// 	cout << mine[i] << " ";
-	// cout << endl;
-	// cout << "front element in my vector is " << mine.front() << endl;
-	// cout << "back element in my vector is " << mine.back() << endl;
-	// tempmine = mine.data();
-	// cout << "elemnts printed with T pointer using [] : ";
-	// for (int i = 0; i < mine.size(); i++)
-	// 	cout << tempmine[i] << " ";
-	// cout << endl;
-	// if (mine.empty() == false)
-	// 	cout << "my vector is not empty." << endl;
-	// cout << "maximum size of a my vector is " << mine.max_size() << endl;
-	// ft::vector<int>	mine2;
-
-	// mine2.reserve(64);
-	// mine2.push_back(5);
-	// mine2.clear();
-	// cout << "my vector | size : " << mine2.size() << " capacity : " << mine2.capacity() << endl;
-	
-	// ft::vector<int>	mine3;
-	// ft::vector<int>	mine4;
-
-	// mine3.resize(5, 5);
-	// mine4.resize(3, 3);
-	// mine3.reserve(10);
-	// cout << "mine3 | size : " << mine3.size() << " capacity : " << mine3.capacity() << endl;
-	// cout << "mine3 : ";
-	// for (int i = 0; i < mine3.size(); i++)
-	// 	cout << mine3[i] << " ";
-	// cout << endl;
-	// cout << "mine4 | size : " << mine4.size() << " capacity : " << mine4.capacity() << endl;
-	// cout << "mine4 : ";
-	// for (int i = 0; i < mine4.size(); i++)
-	// 	cout << mine4[i] << " ";
-	// cout << endl;
-	// ft::swap(mine3, mine4);
-	// // mine3.swap(mine4);
-	// cout << "mine3 | size : " << mine3.size() << " capacity : " << mine3.capacity() << endl;
-	// cout << "mine3 : ";
-	// for (int i = 0; i < mine3.size(); i++)
-	// 	cout << mine3[i] << " ";
-	// cout << endl;
-	// cout << "mine4 | size : " << mine4.size() << " capacity : " << mine4.capacity() << endl;
-	// cout << "mine4 : ";
-	// for (int i = 0; i < mine4.size(); i++)
-	// 	cout << mine4[i] << " ";
-	// cout << endl;
-
-	// mine4.assign(11, 3);
-	// cout << "mine4 | size : " << mine4.size() << " capacity : " << mine4.capacity() << endl;
-	// cout << "mine4 : ";
-	// for (int i = 0; i < mine4.size(); i++)
-	// 	cout << mine4[i] << " ";
-	// cout << endl;
-
-	// ft::vector<int>	mine5;
-	// ft::vector<int>	mine6;
-
-	// mine5.push_back(1);
-	// mine5.push_back(5);
-	// mine5.push_back(6);
-	// // mine5.push_back(7);
-	// mine6.push_back(1);
-	// mine6.push_back(5);
-	// mine6.push_back(6);
-	// mine6.push_back(7);
-	// // mine6[3] = 8;
-
-	// cout << "\nmine5 : ";
-	// for (int i = 0; i < mine5.size(); i++)
-	// 	cout << mine5[i] << " ";
-	// cout << endl;
-	// cout << "mine6 : ";
-	// for (int i = 0; i < mine6.size(); i++)
-	// 	cout << mine6[i] << " ";
-	// cout << endl;
-
-	// if (mine5 > mine6)
-	// 	cout << "true." << endl;
-	// else
-	// 	cout << "false." << endl;
-
-	// cout << "elemnts printed with T pointer using iterator : ";
-	// for (ft::vector<int>::Iterator<int> it = mine6.begin(); it != mine6.end(); it++)
-	// 	cout << *it << " ";
-	// cout << endl;
-
-	// cout << "elemnts printed with T pointer using reverse iterator : ";
-	// for (ft::vector<int>::reverse_iterator it = mine6.rbegin(); it != mine6.rend(); it++)
-	// 	cout << *it << " ";
-	// cout << endl;
-	// if (std::is_integral<int>::value)
-	// 	cout << "true" << endl;
-
-	// cout << "\033[0m-------------------" << endl;
 
 	// system("leaks con");
+
 	return (0);
 }

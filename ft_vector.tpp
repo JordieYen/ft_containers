@@ -135,12 +135,25 @@ namespace ft
 	{
 		if (i < this->_capacity)
 		{
-			for (int n = 0; n < i; i++)
+			if (i > this->_size)
 			{
-				if (n < this->_size)
-					this->_vector[n] = value;
-				else
-					this->allocator.construct(&this->_vector[n], value);
+				for (int n = 0; n < i; n++)
+				{
+					if (n < this->_size)
+						this->_vector[n] = value;
+					else
+						this->allocator.construct(&this->_vector[n], value);
+				}
+			}
+			else
+			{
+				for (int n = 0; n < this->_size; n++)
+				{
+					if (n < i)
+						this->_vector[n] = value;
+					else
+						this->allocator.destroy(&this->_vector[n]);
+				}
 			}
 			this->_size = i;
 		}
@@ -216,23 +229,31 @@ namespace ft
 	template <typename T, class Allocator>
 	void	vector<T, Allocator>::resize(size_t size)
 	{
-		this->resize(size, 0);
+		this->resize(size, T());
 	}
 
 	template <typename T, class Allocator>
 	void	vector<T, Allocator>::resize(size_t size, T value)
 	{
 		T	*new_vector;
+		int	temp_capacity = this->_capacity;
 
-		if (size > this->_size)
+		if (size > this->_capacity)
 		{
-			std::cout << "apple" << std::endl;
-			new_vector = this->create_vector(size);
+			while (size > temp_capacity)
+				temp_capacity = temp_capacity * 2;
+			new_vector = this->create_vector(temp_capacity);
 			for (int i = this->_size; i < size; i++)
 				this->allocator.construct(&new_vector[i], value);
 			this->destroy_vector();
 			this->_vector = new_vector;
-			this->_capacity = size;
+			this->_capacity = temp_capacity;
+			this->_size = size;
+		}
+		if (size > this->_size)
+		{
+			for (int i = this->_size; i < size; i++)
+				this->allocator.construct(&this->_vector[i], value);
 			this->_size = size;
 		}
 		else
