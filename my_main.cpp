@@ -3,6 +3,7 @@
 #include "ft_reverse_iterator.hpp"
 #include <iostream>
 #include <vector>
+#include <map>
 #include <stack>
 #include <iterator>
 #include "ft_is_integral.hpp"
@@ -337,6 +338,12 @@ void	stack_test(void)
 	printstackdata(copymystack, "copymystack  ");
 
 	cout << "\n------------------------ Stack test end ------------------------\n" << endl;
+}
+
+void	map_test(void)
+{
+	std::map<std::string, int> realmap;
+
 }
 
 int	main(void)
