@@ -6,9 +6,12 @@
 
 namespace ft
 {
-	template <typename T>
+	template <class T>
 	struct	node
 	{
+		node();
+		~node();
+		
 		bool	color;
 		T		key;
 		node*	left_child;
@@ -38,56 +41,56 @@ namespace ft
 			map(const map& clone);
 			~map();
 
-			map&					operator=(const map& clone);
+			map&									operator=(const map& clone);
 
-			iterator				begin(void);
-			const_iterator			begin(void) const;
-			iterator				end(void);
-			const_iterator			end(void) const;
-			reverse_iterator		rbegin(void);
-			const_reverse_iterator	rbegin(void) const;
-			reverse_iterator		rend(void);
-			const_reverse_iterator	rend(void) const;
+			iterator								begin(void);
+			const_iterator							begin(void) const;
+			iterator								end(void);
+			const_iterator							end(void) const;
+			reverse_iterator						rbegin(void);
+			const_reverse_iterator					rbegin(void) const;
+			reverse_iterator						rend(void);
+			const_reverse_iterator					rend(void) const;
 
-			bool					empty(void) const;
-			size_type				size(void) const;
-			size_type				max_size(void) const;
+			bool									empty(void) const;
+			size_type								size(void) const;
+			size_type								max_size(void) const;
 
-			mapped_type&			operator[](const key_type& key);
-			mapped_type&			at(const key_type& key);
-			const mapped_type&		at(const key_type& key) const;
+			mapped_type&							operator[](const key_type& key);
+			mapped_type&							at(const key_type& key);
+			const mapped_type&						at(const key_type& key) const;
 
-			pair<iterator,bool>		insert(const value_type& val);
-			iterator				insert(iterator position, const value_type& val);
+			pair<iterator,bool>						insert(const value_type& val);
+			iterator								insert(iterator position, const value_type& val);
 			template <class InputIterator>
-			void					insert(InputIterator first, InputIterator last);
+			void									insert(InputIterator first, InputIterator last);
 
-			void					erase(iterator position);
-			size_type				erase(const key_type& key);
-			void					erase(iterator first, iterator last);
+			void									erase(iterator position);
+			size_type								erase(const key_type& key);
+			void									erase(iterator first, iterator last);
 
-			void					swap( map& other );
-			void					clear(void);
+			void									swap( map& other );
+			void									clear(void);
 
-			key_compare				key_comp(void) const;
-			value_compare			value_comp(void) const;
+			key_compare								key_comp(void) const;
+			value_compare							value_comp(void) const;
 
-			iterator							find(const key_type& key);
-			const_iterator						find(const key_type& key) const;
-			size_type							count(const key_type& key) const;
-			iterator							lower_bound(const key_type& key);
-			const_iterator						lower_bound(const key_type& key) const;
-			iterator							upper_bound(const key_type& key);
-			const_iterator						upper_bound(const key_type& key) const;
-			pair<iterator,iterator>				equal_range(const key_type& key);
-			pair<const_iterator,const_iterator>	equal_range(const key_type& key) const;
+			iterator								find(const key_type& key);
+			const_iterator							find(const key_type& key) const;
+			size_type								count(const key_type& key) const;
+			iterator								lower_bound(const key_type& key);
+			const_iterator							lower_bound(const key_type& key) const;
+			iterator								upper_bound(const key_type& key);
+			const_iterator							upper_bound(const key_type& key) const;
+			pair<iterator,iterator>					equal_range(const key_type& key);
+			pair<const_iterator,const_iterator>		equal_range(const key_type& key) const;
 
-			allocator_type						get_allocator(void) const;
+			allocator_type							get_allocator(void) const;
 
 		private:
 
-	}
-} // namespace ft
+	};
+}
 
 
 #include "ft_map.tpp"
