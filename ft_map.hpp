@@ -17,6 +17,7 @@ namespace ft
 		node*	left_child;
 		node*	right_child;
 		node*	parent;
+		node*	root;
 	};
 
 	template< class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > >
@@ -88,6 +89,7 @@ namespace ft
 			allocator_type							get_allocator(void) const;
 
 		private:
+			node<value_type>	_nil;
 
 	};
 }
