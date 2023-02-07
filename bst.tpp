@@ -89,9 +89,11 @@ namespace ft
 		node<T> *newnode = this->allocatenode();
 
 		*newnode->key = key;
+		newnode->parent = this->_nil;
 		newnode->left_child = this->_nil;
 		newnode->right_child = this->_nil;
-		if (*this->_root->key == T())
+		
+		if (this->_root == this->_nil)
 			this->_root = newnode;
 		else
 			this->bstinsert(newnode);
@@ -101,9 +103,9 @@ namespace ft
 	template < typename T, class Compare, class Allocator>
 	void    bst<T, Compare, Allocator>::setextrema(node<T> *x)
 	{
-		if (*x->key < *this->_nil->left_child->key || *this->_nil->left_child->key == T())
+		if (this->comp(*x->key, *this->_nil->left_child->key) || this->_nil->left_child == this->_nil)
 			this->_nil->left_child = x;
-		if (*this->_nil->right_child->key < *x->key || *this->_nil->right_child->key == T())
+		if (this->comp(*this->_nil->right_child->key, *x->key) || this->_nil->right_child == this->_nil)
 			this->_nil->right_child = x;
 	}
 
@@ -114,15 +116,7 @@ namespace ft
 			return ;
 		node<T> *x = this->_root;
 
-		while (key != *x->key)
-		{
-			if (key < *x->key)
-				x = x->left_child;
-			else
-				x = x->right_child;
-			if (x == this->_nil)
-				break;
-		}
+		x = this->iterativebstsearch(this->_root, key);
 		if (x != this->_nil)
 		{
 			this->bstdelete(x);
@@ -163,25 +157,29 @@ namespace ft
 	template < typename T, class Compare, class Allocator>
 	ft::node<T>* bst<T, Compare, Allocator>::bstsearch(node<T> *x, T key)
 	{
-		if ((x == this->_nil) || (key == *x->key))
+		if (x == this->_nil)
 			return (x);
-		if (key < *x->key)
+		if (this->comp(key, *x->key))
 			return (bstsearch(x->left_child, key));
-		else
+		else if (this->comp(*x->key, key))
 			return (bstsearch(x->right_child, key));
+		return (x);
 	}
 
 	template < typename T, class Compare, class Allocator>
 	ft::node<T>* bst<T, Compare, Allocator>::iterativebstsearch(node<T> *x, T key)
 	{
-		while ((x != this->_nil) && (key != *x->key))
+		node<T> *y = x;
+		while ((y != this->_nil))
 		{
-			if (key < *x->key)
-				x = x->left_child;
+			if (this->comp(key, *y->key))
+				y = y->left_child;
+			else if (this->comp(*y->key, key))
+				y = y->right_child;
 			else
-				x = x->right_child;
+				break;
 		}
-		return (x);
+		return (y);
 	}
 
 	template < typename T, class Compare, class Allocator>
@@ -229,7 +227,7 @@ namespace ft
 		while (x != this->_nil)
 		{
 			y = x;
-			if (*z->key < *x->key)
+			if (this->comp(*z->key, *x->key))
 				x = x->left_child;
 			else
 				x = x->right_child;
@@ -237,7 +235,7 @@ namespace ft
 		z->parent = y;
 		if (y == this->_nil)
 			this->_root = z;
-		else if (*z->key < *y->key)
+		else if (this->comp(*z->key, *y->key))
 			y->left_child = z;
 		else
 			y->right_child = z;

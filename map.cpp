@@ -8,7 +8,7 @@ using std::endl;
 
 int main(void)
 {
-	ft::bst<int, std::value_compare, std::allocator>	tree();
+	ft::bst<int, std::less<int>, std::allocator<int> >	tree;
 	
 	tree.insertnode(9);
 	tree.insertnode(1);
@@ -17,10 +17,10 @@ int main(void)
 	tree.insertnode(1);
 	tree.insertnode(3);
 
-	// tree.deletenode(9);
-	// tree.deletenode(10);
-	// tree.deletenode(1);
-	// tree.deletenode(30);
+	tree.deletenode(9);
+	tree.deletenode(10);
+	tree.deletenode(1);
+	tree.deletenode(30);
 
 
 

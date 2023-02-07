@@ -16,13 +16,13 @@ namespace ft
 		~node(){};
 			void  printdata(std::string name)
 			{
-				  std::cout << "----------------------------------" << std::endl;
-				  std::cout << "temp name of node   : " << name << std::endl;
-				  std::cout << "parent of node      : " << *this->parent->key << std::endl;
-				  std::cout << "left child of node  : " << *this->left_child->key << std::endl;
-				  std::cout << "right child of node : " << *this->right_child->key << std::endl;
-				  std::cout << "key of node         : " << *this->key << std::endl;
-				  std::cout << "----------------------------------" << std::endl;
+				std::cout << "----------------------------------" << std::endl;
+				std::cout << "temp name of node   : " << name << std::endl;
+				std::cout << "parent of node      : " << *this->parent->key << std::endl;
+				std::cout << "left child of node  : " << *this->left_child->key << std::endl;
+				std::cout << "right child of node : " << *this->right_child->key << std::endl;
+				std::cout << "key of node         : " << *this->key << std::endl;
+				std::cout << "----------------------------------" << std::endl;
 			}
 		
 		T*		key;
