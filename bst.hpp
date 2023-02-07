@@ -1,7 +1,7 @@
 #ifndef FTBST_HPP
 # define FTBST_HPP
 
-#include <iostream>
+# include <iostream>
 
 namespace ft
 {
@@ -18,14 +18,14 @@ namespace ft
 			{
 				  std::cout << "----------------------------------" << std::endl;
 				  std::cout << "temp name of node   : " << name << std::endl;
-				  std::cout << "parent of node      : " << this->parent->key << std::endl;
-				  std::cout << "left child of node  : " << this->left_child->key << std::endl;
-				  std::cout << "right child of node : " << this->right_child->key << std::endl;
-				  std::cout << "key of node         : " << this->key << std::endl;
+				  std::cout << "parent of node      : " << *this->parent->key << std::endl;
+				  std::cout << "left child of node  : " << *this->left_child->key << std::endl;
+				  std::cout << "right child of node : " << *this->right_child->key << std::endl;
+				  std::cout << "key of node         : " << *this->key << std::endl;
 				  std::cout << "----------------------------------" << std::endl;
 			}
 		
-		T		key;
+		T*		key;
 		node*	left_child;
 		node*	right_child;
 		node*	parent;
@@ -43,6 +43,9 @@ namespace ft
 			bst(const bst& clone);
 			~bst();
 
+			T			min(void);
+			T			max(void);
+			void		setextrema(node<T> *x);
 			void		insertnode(T key);
 			void		deletenode(T key);
 			node<T>*	searchnode(T key);
@@ -61,6 +64,7 @@ namespace ft
 			void		bstdelete(node<T> *z);
 			void		printBT(const std::string& prefix, const node<T>* node, bool isLeft);
 			void		bstclear(node<T> *x);
+			node<T>*	allocatenode(void);
 
 			node_allocator	n_alloc;
 			t_allocator		t_alloc;
@@ -70,6 +74,6 @@ namespace ft
 }
 
 
-#include "bst.tpp"
+# include "bst.tpp"
 
 #endif

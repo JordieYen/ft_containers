@@ -5,27 +5,23 @@ namespace ft
 	template < typename T, class Compare, class Allocator>
 	bst<T, Compare, Allocator>::bst(void)
 	{
-		this->_nil = new node<T>();
-		this->_root = new node<T>();
-		// this->_nil = this->n_alloc.allocate(1);
-		// this->_root = new node<T>();
+		this->_nil = this->allocatenode();
 
 		this->_nil->parent = NULL;
-		this->_nil->left_child = NULL;
-		this->_nil->right_child = NULL;
-		this->_nil->key = T();
+		this->_nil->left_child = this->_nil;
+		this->_nil->right_child = this->_nil;
 
-		this->_root->parent = this->_nil;
-		this->_root->left_child = this->_nil;
-		this->_root->right_child = this->_nil;
-		this->_root->key = this->_nil->key;
+		this->_root = this->_nil;
 	}
 
 	template < typename T, class Compare, class Allocator>
 	bst<T, Compare, Allocator>::~bst(void)
 	{
 		this->bstclear(this->_root);
-		delete this->_nil;
+		this->t_alloc.destroy(this->_nil->key);
+		this->t_alloc.deallocate(this->_nil->key, 1);
+		this->n_alloc.destroy(this->_nil);
+		this->n_alloc.deallocate(this->_nil, 1);
 	}
 
 	template < typename T, class Compare, class Allocator>
@@ -34,9 +30,24 @@ namespace ft
 		if (x != this->_nil)
 		{
 			bstclear(x->left_child);
-			delete x;
+			this->t_alloc.destroy(x->key);
+			this->t_alloc.deallocate(x->key, 1);
+			this->n_alloc.destroy(x);
+			this->n_alloc.deallocate(x, 1);
 			bstclear(x->right_child);
 		}
+	}
+
+	template < typename T, class Compare, class Allocator>
+	node<T>*    bst<T, Compare, Allocator>::allocatenode(void)
+	{
+		node<T>	*newnode = this->n_alloc.allocate(1);
+
+		this->n_alloc.construct(newnode, node<T>());
+		newnode->key = this->t_alloc.allocate(1);
+		this->t_alloc.construct(newnode->key, T());
+
+		return (newnode);
 	}
 
 	template < typename T, class Compare, class Allocator>
@@ -45,13 +56,8 @@ namespace ft
 		if( node != this->_nil)
 		{
 			std::cout << prefix;
-
 			std::cout << (isLeft ? "├─l──" : "└─r──" );
-
-			// print the value of the node
-			std::cout << node->key << std::endl;
-
-			// enter the next tree level - left and right branch
+			std::cout << *node->key << std::endl;
 			printBT( prefix + (isLeft ? "│   " : "    "), node->left_child, true);
 			printBT( prefix + (isLeft ? "│   " : "    "), node->right_child, false);
 		}
@@ -66,50 +72,51 @@ namespace ft
 	}
 
 	template < typename T, class Compare, class Allocator>
+	T	bst<T, Compare, Allocator>::min(void)
+	{
+		return (*this->_nil->left_child->key);
+	}
+
+	template < typename T, class Compare, class Allocator>
+	T	bst<T, Compare, Allocator>::max(void)
+	{
+		return (*this->_nil->right_child->key);
+	}
+
+	template < typename T, class Compare, class Allocator>
 	void    bst<T, Compare, Allocator>::insertnode(T key)
 	{
-		// std::cout << "inserted " << key << std::endl;
-		if (this->_root->key == T())
-		{
-			this->_root->key = key;
-			this->_nil->parent = this->_root;
-			this->_nil->left_child = this->_root;
-			this->_nil->right_child = this->_root;
+		node<T> *newnode = this->allocatenode();
 
-			// std::cout << "parent of root : " << this->_root->parent->key << std::endl;
-			// std::cout << "left child of root : " << this->_root->left_child->key << std::endl;
-			// std::cout << "right child of root : " << this->_root->right_child->key << std::endl;
-			// std::cout << "key of root : " << this->_root->key << std::endl;
-		}
+		*newnode->key = key;
+		newnode->left_child = this->_nil;
+		newnode->right_child = this->_nil;
+		if (*this->_root->key == T())
+			this->_root = newnode;
 		else
-		{
-			node<T> *newnode = new node<T>(key);
-
-			newnode->left_child = this->_nil;
-			newnode->right_child = this->_nil;
 			this->bstinsert(newnode);
+		this->setextrema(newnode);
+	}
 
-			// std::cout << "parent of newnode : " << newnode->parent->key << std::endl;
-			// std::cout << "left child of newnode : " << newnode->left_child->key << std::endl;
-			// std::cout << "right child of newnode : " << newnode->right_child->key << std::endl;
-			// std::cout << "key of newnode : " << newnode->key << std::endl;
-		}
-
-		// std::cout << "\nparent of root : " << this->_root->parent->key << std::endl;
-		// std::cout << "left child of root : " << this->_root->left_child->key << std::endl;
-		// std::cout << "right child of root : " << this->_root->right_child->key << std::endl;
-		// std::cout << "key of root : " << this->_root->key << std::endl;
-		// std::cout << "\n---------------" << std::endl;
+	template < typename T, class Compare, class Allocator>
+	void    bst<T, Compare, Allocator>::setextrema(node<T> *x)
+	{
+		if (*x->key < *this->_nil->left_child->key || *this->_nil->left_child->key == T())
+			this->_nil->left_child = x;
+		if (*this->_nil->right_child->key < *x->key || *this->_nil->right_child->key == T())
+			this->_nil->right_child = x;
 	}
 
 	template < typename T, class Compare, class Allocator>
 	void    bst<T, Compare, Allocator>::deletenode(T key)
 	{
+		if (this->_root == this->_nil)
+			return ;
 		node<T> *x = this->_root;
 
-		while (key != x->key)
+		while (key != *x->key)
 		{
-			if (key < x->key)
+			if (key < *x->key)
 				x = x->left_child;
 			else
 				x = x->right_child;
@@ -119,7 +126,14 @@ namespace ft
 		if (x != this->_nil)
 		{
 			this->bstdelete(x);
-			delete x;
+			if (this->_nil->left_child == x)
+				this->_nil->left_child = this->bstminimum(this->_root);
+			if (this->_nil->right_child == x)
+				this->_nil->right_child = this->bstmaximum(this->_root);
+			this->t_alloc.destroy(x->key);
+			this->t_alloc.deallocate(x->key, 1);
+			this->n_alloc.destroy(x);
+			this->n_alloc.deallocate(x, 1);
 		}
 	}
 
@@ -141,7 +155,7 @@ namespace ft
 		if (x != this->_nil)
 		{
 			bstwalk(x->left_child);
-			std::cout << x->key << " ";
+			std::cout << *x->key << " ";
 			bstwalk(x->right_child);
 		}
 	}
@@ -149,9 +163,9 @@ namespace ft
 	template < typename T, class Compare, class Allocator>
 	ft::node<T>* bst<T, Compare, Allocator>::bstsearch(node<T> *x, T key)
 	{
-		if ((x == this->_nil) || (key == x->key))
+		if ((x == this->_nil) || (key == *x->key))
 			return (x);
-		if (key < x->key)
+		if (key < *x->key)
 			return (bstsearch(x->left_child, key));
 		else
 			return (bstsearch(x->right_child, key));
@@ -160,9 +174,9 @@ namespace ft
 	template < typename T, class Compare, class Allocator>
 	ft::node<T>* bst<T, Compare, Allocator>::iterativebstsearch(node<T> *x, T key)
 	{
-		while ((x != this->_nil) && (key != x->key))
+		while ((x != this->_nil) && (key != *x->key))
 		{
-			if (key < x->key)
+			if (key < *x->key)
 				x = x->left_child;
 			else
 				x = x->right_child;
@@ -215,7 +229,7 @@ namespace ft
 		while (x != this->_nil)
 		{
 			y = x;
-			if (z->key < x->key)
+			if (*z->key < *x->key)
 				x = x->left_child;
 			else
 				x = x->right_child;
@@ -223,7 +237,7 @@ namespace ft
 		z->parent = y;
 		if (y == this->_nil)
 			this->_root = z;
-		else if (z->key < y->key)
+		else if (*z->key < *y->key)
 			y->left_child = z;
 		else
 			y->right_child = z;
