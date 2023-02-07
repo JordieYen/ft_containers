@@ -38,6 +38,7 @@ namespace ft
 			typedef Allocator														allocator_type;
 			typedef	typename allocator_type::template rebind< node<T> >::other		node_allocator;
 			typedef	typename allocator_type::template rebind< T >::other			t_allocator;
+			typedef Compare															compare;
 
 			bst();
 			bst(const bst& clone);
@@ -70,6 +71,7 @@ namespace ft
 			t_allocator		t_alloc;
 			node<T>			*_root;
 			node<T>			*_nil;
+			compare			comp;
 	};
 }
 
