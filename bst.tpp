@@ -3,7 +3,20 @@
 namespace ft
 {
 	template < typename T, class Compare, class Allocator>
-	bst<T, Compare, Allocator>::bst(void)
+	bst<T, Compare, Allocator>::bst(const compare& compp)
+	{
+		this->comp = compp;
+		this->_nil = this->allocatenode();
+
+		this->_nil->parent = NULL;
+		this->_nil->left_child = this->_nil;
+		this->_nil->right_child = this->_nil;
+
+		this->_root = this->_nil;
+	}
+
+	template < typename T, class Compare, class Allocator>
+	bst<T, Compare, Allocator>::bst(const compare& compp, const allocator_type& alloc)
 	{
 		this->_nil = this->allocatenode();
 

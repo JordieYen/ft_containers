@@ -31,7 +31,7 @@ namespace ft
 		node*	parent;
 	};
 
-	template < typename T, class Compare = std::less<T> , class Allocator = std::allocator<T> >
+	template < typename T, class Compare , class Allocator = std::allocator<T> >
 	class bst
 	{
 		public:
@@ -40,7 +40,8 @@ namespace ft
 			typedef	typename allocator_type::template rebind< T >::other			t_allocator;
 			typedef Compare															compare;
 
-			bst();
+			bst(const compare& compp);
+			explicit bst(const compare& compp = compare(), const allocator_type& alloc = allocator_type());
 			bst(const bst& clone);
 			~bst();
 
@@ -49,6 +50,7 @@ namespace ft
 			void		setextrema(node<T> *x);
 			void		insertnode(T key);
 			void		deletenode(T key);
+			// void		deletenode();
 			node<T>*	searchnode(T key);
 			node<T>*	iterativesearchnode(T key);
 			void		printBT(void);

@@ -18,15 +18,17 @@ namespace ft
 	template<class U, class V>
 	pair<T1, T2>::pair(const pair<U, V>& clone)
 	{
-		this->first = clone.a;
-		this->second = clone.b;
+		this->first = clone.first;
+		this->second = clone.second;
 	}
 
 	template <class T1, class T2>
 	pair<T1, T2>&	pair<T1, T2>::operator=(const pair& other)
 	{
-		this->first = other.a;
-		this->second = other.b;
+		this->first = other.first;
+		this->second = other.second;
+
+		return (*this);
 	}
 
 	template <class T1, class T2>

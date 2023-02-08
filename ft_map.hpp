@@ -3,20 +3,10 @@
 
 #include <iostream>
 #include "ft_pair.hpp"
+#include "bst.hpp"
 
 namespace ft
 {
-	template <class T>
-	struct	node
-	{
-		node();
-		~node();
-		
-		T		key;
-		node*	left_child;
-		node*	right_child;
-		node*	parent;
-	};
 
 	template< class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > >
 	class map

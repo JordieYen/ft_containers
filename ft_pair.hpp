@@ -38,10 +38,13 @@ namespace ft
 	void	swap (pair<T1,T2>& x, pair<T1,T2>& y);
 	template< class T1, class T2 >
 	ft::pair<T1, T2> make_pair( T1 t, T2 u );
-	// template <size_t I, class T1, class T2> 
-	// typename std::tuple_element< I, pair<T1,T2> >::type&	get(pair<T1,T2>&  pr);
-	// template <size_t I, class T1, class T2>
-	// const typename std::tuple_element< I, pair<T1,T2> >::type&	get (const pair<T1,T2>& pr);
+
+	template< class T1, class T2 >
+	std::ostream& operator<<(std::ostream& os, const pair<T1, T2>& pr)
+	{
+		os << "(key [" << pr.first << "] value [" << pr.second << "])";
+		return os;
+	}
 }
 
 #include "ft_pair.tpp"
