@@ -14,12 +14,12 @@ namespace ft
 		pair(void);
 		pair(const first_type& a, const second_type& b);
 		template<class U, class V>	pair(const pair<U, V>& clone);
-		pair& operator=(const pair& other);
+		// pair& operator=(const pair& other);
 
 		void swap (pair& pr);
 
-		first_type	first;
-		second_type	second;
+		const first_type	first;
+		second_type			second;
 	};
 
 	template <class T1, class T2>
@@ -37,7 +37,7 @@ namespace ft
 	template <class T1, class T2>
 	void	swap (pair<T1,T2>& x, pair<T1,T2>& y);
 	template< class T1, class T2 >
-	ft::pair<T1, T2> make_pair( T1 t, T2 u );
+	ft::pair<T1, T2> make_pair(const T1& t, const T2 u );
 
 	template< class T1, class T2 >
 	std::ostream& operator<<(std::ostream& os, const pair<T1, T2>& pr)

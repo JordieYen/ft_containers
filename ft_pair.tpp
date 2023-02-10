@@ -3,33 +3,36 @@
 namespace ft
 {
 	template <class T1, class T2>
-	pair<T1, T2>::pair(void)
+	pair<T1, T2>::pair(void) : first(T1())
 	{
+		// this->first = T1();
+		this->second = T2();
 	}
 
 	template <class T1, class T2>
-	pair<T1, T2>::pair(const first_type& a, const second_type& b)
+	pair<T1, T2>::pair(const first_type& a, const second_type& b) : first(a)
 	{
-		this->first = a;
+		// this->first = a;
 		this->second = b;
 	}
 
 	template <class T1, class T2>
 	template<class U, class V>
-	pair<T1, T2>::pair(const pair<U, V>& clone)
+	pair<T1, T2>::pair(const pair<U, V>& clone) : first(clone.first)
 	{
-		this->first = clone.first;
+		// this->first = clone.first;
 		this->second = clone.second;
 	}
 
-	template <class T1, class T2>
-	pair<T1, T2>&	pair<T1, T2>::operator=(const pair& other)
-	{
-		this->first = other.first;
-		this->second = other.second;
+	// template <class T1, class T2>
+	// pair<T1, T2>&	pair<T1, T2>::operator=(const pair& other)
+	// {
+	// 	pair<>
+	// 	// this->first = other.first;
+	// 	this->second = other.second;
 
-		return (*this);
-	}
+	// 	return (*this);
+	// }
 
 	template <class T1, class T2>
 	void	pair<T1, T2>::swap(pair& other)
@@ -88,7 +91,7 @@ namespace ft
 	}
 
 	template< class T1, class T2 >
-	ft::pair<T1, T2> make_pair( T1 t, T2 u )
+	ft::pair<T1, T2> make_pair(const T1& t, const T2 u )
 	{
 		ft::pair<T1, T2>	ret(t, u);
 

@@ -42,7 +42,8 @@ namespace ft
 
 			bst(const compare& compp);
 			explicit bst(const compare& compp = compare(), const allocator_type& alloc = allocator_type());
-			bst(const bst& clone);
+			bst(bst& clone);
+			bst<T, Compare, Allocator>&			operator=(bst& clone);
 			~bst();
 
 			T			min(void);
@@ -50,13 +51,13 @@ namespace ft
 			void		setextrema(node<T> *x);
 			void		insertnode(T key);
 			void		deletenode(T key);
-			// void		deletenode();
 			node<T>*	searchnode(T key);
 			node<T>*	iterativesearchnode(T key);
 			void		printBT(void);
 			node<T>*	bstsuccessor(node<T> *x);
 
 		private:
+			void		bstclone(node<T> *x, node<T> *nil);
 			void		bstwalk(node<T> *x);
 			node<T>*	bstsearch(node<T> *x, T key);
 			node<T>*	iterativebstsearch(node<T> *x, T key);
@@ -67,7 +68,7 @@ namespace ft
 			void		bstdelete(node<T> *z);
 			void		printBT(const std::string& prefix, const node<T>* node, bool isLeft);
 			void		bstclear(node<T> *x);
-			node<T>*	allocatenode(void);
+			node<T>*	allocatenode(T key);
 
 			node_allocator	n_alloc;
 			t_allocator		t_alloc;

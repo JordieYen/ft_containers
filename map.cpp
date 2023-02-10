@@ -1,4 +1,4 @@
-// #include "ft_map.hpp"
+#include "ft_map.hpp"
 #include "bst.hpp"
 #include "ft_pair.hpp"
 #include <iostream>
@@ -54,6 +54,7 @@ int main(void)
 	// 	cout << "IT WORKSS" << endl;
 
 	ft::bst< ft::pair<int, std::string>, ft::value_compare<int, std::string > >	btree;
+	// ft::bst< ft::pair<int, std::string>, ft::value_compare<int, std::string > >	ctree(btree);
 	// ft::bst< ft::pair<int, std::string>, ft::value_compare<int, std::string>, std::allocator<ft::pair<int, std::string> > >	btree2();
 
 	btree.insertnode(ft::make_pair(9, "a"));
@@ -63,25 +64,24 @@ int main(void)
 	btree.insertnode(ft::make_pair(1, "e"));
 	btree.insertnode(ft::make_pair(3, "f"));
 
-	btree.deletenode(ft::make_pair(9, std::string()));
-	// btree.deletenode(10);
-	// btree.deletenode(1);
-	// btree.deletenode(30);
+	// btree.deletenode(ft::make_pair(9, std::string()));
 
-	btree.printBT();
-	// ft::bst< ft::pair<int, std::string> >	btree(std::less<int>);
+	// ft::node<ft::pair<int, std::string> > *bp = btree.searchnode(ft::make_pair(1, std::string()));
+	// bp->printdata("bp");
+	// cout << "min : " << btree.min() << " max : " << btree.max() << endl;
 
-	// btree.insertnode(ft::make_pair(1, "lol"));
-	ft::bst<int, std::less<int>, std::allocator<int> >	tree;
+	// btree.printBT();
+
+	// ft::bst<int, std::less<int>, std::allocator<int> >	tree;
 	
-	tree.insertnode(9);
-	tree.insertnode(1);
-	tree.insertnode(10);
-	tree.insertnode(2);
-	tree.insertnode(1);
-	tree.insertnode(3);
+	// tree.insertnode(9);
+	// tree.insertnode(1);
+	// tree.insertnode(10);
+	// tree.insertnode(2);
+	// tree.insertnode(1);
+	// tree.insertnode(3);
 
-	tree.deletenode(9);
+	// tree.deletenode(9);
 	// tree.deletenode(10);
 	// tree.deletenode(1);
 	// tree.deletenode(30);
@@ -91,7 +91,39 @@ int main(void)
 	// ft::node<int> *p = tree.searchnode(1);
 	// p->printdata("p");
 	// cout << "min : " << tree.min() << " max : " << tree.max() << endl;
-	tree.printBT();
+	// tree.printBT();
+
+	// ft::bst<int, std::less<int> >	tree;
+	// tree.insertnode(9);
+	// tree.insertnode(1);
+	// tree.insertnode(10);
+	// tree.insertnode(2);
+	// tree.insertnode(1);
+	// tree.insertnode(3);
+
+	// ft::node<int> *lol = tree.searchnode(90);
+
+	// if (lol == NULL)
+	// 	cout << "NULL" << endl;
+	// else
+	// 	cout << "NOT NULL" << endl;
+	// ft::bst<int, std::less<int> >	btree = tree;
+
+	// tree.printBT();
+	// btree.printBT();
+
+	// ft::map<int, std::string>	mp;
+
+	// mp._bt.insertnode(ft::make_pair(9, "a"));
+	// mp._bt.insertnode(ft::make_pair(1, "b"));
+	// mp._bt.insertnode(ft::make_pair(10, "c"));
+	// mp._bt.insertnode(ft::make_pair(2, "d"));
+	// mp._bt.insertnode(ft::make_pair(1, "e"));
+	// mp._bt.insertnode(ft::make_pair(3, "f"));
+
+	// mp._bt.deletenode(ft::make_pair(9, std::string()));
+
+	// mp._bt.printBT();
 
 	// system("leaks con");
 	return (0);
