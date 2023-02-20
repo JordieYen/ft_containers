@@ -24,15 +24,14 @@ namespace ft
 		this->second = clone.second;
 	}
 
-	// template <class T1, class T2>
-	// pair<T1, T2>&	pair<T1, T2>::operator=(const pair& other)
-	// {
-	// 	pair<>
-	// 	// this->first = other.first;
-	// 	this->second = other.second;
+	template <class T1, class T2>
+	pair<T1, T2>&	pair<T1, T2>::operator=(const pair& other)
+	{
+		// this->first = other.first;
+		this->second = other.second;
 
-	// 	return (*this);
-	// }
+		return (*this);
+	}
 
 	template <class T1, class T2>
 	void	pair<T1, T2>::swap(pair& other)

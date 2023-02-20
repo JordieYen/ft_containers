@@ -6,20 +6,10 @@
 # include <iterator>
 # include <memory>
 # include "ft_iterator_traits.hpp"
+# include "bst.hpp"
 
 namespace ft
-{
-	template<class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	struct iterator
-	{
-		public:
-			typedef T         value_type;
-			typedef Distance  difference_type;
-			typedef Pointer   pointer;
-			typedef Reference reference;
-			typedef Category  iterator_category;
-	};
-	
+{	
 	template <typename T>
 	struct mIterator
 	{
@@ -31,10 +21,13 @@ namespace ft
 			typedef	typename ft::iterator_traits<T*>::iterator_category		iterator_category;
 
 			mIterator(void);
-			mIterator(T *value);
-			mIterator(const Iterator& clone);
-			mIterator&	operator=(const Iterator& clone);
+			mIterator(ft::node<T> *node);
+			mIterator(const mIterator& clone);
+			mIterator&	operator=(const mIterator& clone);
 			~mIterator(void);
+
+			ft::node<T>*			minimum(ft::node<T> *x);
+			ft::node<T>*			maximum(ft::node<T> *x);
 
 			mIterator	operator+(int n);
 			mIterator	operator-(int n);
@@ -46,9 +39,10 @@ namespace ft
 			void		operator-=(int n);
 			T&			operator*();
 			T			*operator->();
-			T&			operator[](int i);
 
-			T	*base;
+			T				*base;
+			ft::node<T>		*_node;
+
 	};
 
 	template <typename T>

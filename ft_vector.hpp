@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <limits>
+# include <algorithm>
 # include <memory>
 # include "ft_iterator.hpp"
 # include "ft_reverse_iterator.hpp"

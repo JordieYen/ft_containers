@@ -3,7 +3,7 @@
 namespace ft
 {
 	template <class T, class Container>
-	stack<T, Container>::stack(const container_type& ctnr)
+	stack<T, Container>::stack(const container_type& ctnr) : _stack(ctnr)
 	{
 	}
 

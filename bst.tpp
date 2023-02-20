@@ -3,27 +3,28 @@
 namespace ft
 {
 	template < typename T, class Compare, class Allocator>
-	bst<T, Compare, Allocator>::bst(const compare& compp)
+	bst<T, Compare, Allocator>::bst(const compare& compp, const allocator_type& alloc) : t_alloc(alloc), comp(compp)
 	{
 		this->_nil = this->allocatenode(T());
 
-		this->_nil->parent = NULL;
+		this->_nil->parent = this->_nil;
 		this->_nil->left_child = this->_nil;
 		this->_nil->right_child = this->_nil;
+		this->_nil->is_nil = true;
 
 		this->_root = this->_nil;
+
+		this->_size = 0;
 	}
 
 	template < typename T, class Compare, class Allocator>
-	bst<T, Compare, Allocator>::bst(const compare& compp, const allocator_type& alloc)
+	bst<T, Compare, Allocator>::~bst(void)
 	{
-		this->_nil = this->allocatenode(T());
-
-		this->_nil->parent = NULL;
-		this->_nil->left_child = this->_nil;
-		this->_nil->right_child = this->_nil;
-
-		this->_root = this->_nil;
+		this->bstclear(this->_root);
+		this->t_alloc.destroy(this->_nil->key);
+		this->t_alloc.deallocate(this->_nil->key, 1);
+		this->n_alloc.destroy(this->_nil);
+		this->n_alloc.deallocate(this->_nil, 1);
 	}
 
 	template < typename T, class Compare, class Allocator>
@@ -34,6 +35,7 @@ namespace ft
 		this->_nil->parent = NULL;
 		this->_nil->left_child = this->_nil;
 		this->_nil->right_child = this->_nil;
+		this->_nil->is_nil = true;
 
 		this->_root = this->_nil;
 		if (clone._root != clone._nil)
@@ -41,10 +43,12 @@ namespace ft
 			this->insertnode(*clone._root->key);
 			bstclone(clone._root, clone._nil);
 		}
+
+		this->_size = clone._size;
 	}
 
 	template < typename T, class Compare, class Allocator>
-	bst<T, Compare, Allocator>&	bst<T, Compare, Allocator>::operator=(bst& clone)
+	bst<T, Compare, Allocator>&	bst<T, Compare, Allocator>::operator=(const bst& clone)
 	{
 		this->~bst();
 		this->_nil = this->allocatenode(T());
@@ -52,6 +56,7 @@ namespace ft
 		this->_nil->parent = NULL;
 		this->_nil->left_child = this->_nil;
 		this->_nil->right_child = this->_nil;
+		this->_nil->is_nil = true;
 
 		this->_root = this->_nil;
 		if (clone._root != clone._nil)
@@ -59,6 +64,8 @@ namespace ft
 			this->insertnode(*clone._root->key);
 			bstclone(clone._root, clone._nil);
 		}
+
+		this->_size = clone._size;
 
 		return (*this);
 	}
@@ -76,16 +83,6 @@ namespace ft
 				this->insertnode(*x->right_child->key); 
 			bstclone(x->right_child, nil);
 		}
-	}
-
-	template < typename T, class Compare, class Allocator>
-	bst<T, Compare, Allocator>::~bst(void)
-	{
-		this->bstclear(this->_root);
-		this->t_alloc.destroy(this->_nil->key);
-		this->t_alloc.deallocate(this->_nil->key, 1);
-		this->n_alloc.destroy(this->_nil);
-		this->n_alloc.deallocate(this->_nil, 1);
 	}
 
 	template < typename T, class Compare, class Allocator>
@@ -152,16 +149,17 @@ namespace ft
 	{
 		node<T> *newnode = this->allocatenode(key);
 
-		// *newnode->key(key);
 		newnode->parent = this->_nil;
 		newnode->left_child = this->_nil;
 		newnode->right_child = this->_nil;
+		newnode->is_nil = false;
 		
 		if (this->_root == this->_nil)
 			this->_root = newnode;
 		else
 			this->bstinsert(newnode);
 		this->setextrema(newnode);
+		this->_size++;
 	}
 
 	template < typename T, class Compare, class Allocator>
@@ -192,11 +190,12 @@ namespace ft
 			this->t_alloc.deallocate(x->key, 1);
 			this->n_alloc.destroy(x);
 			this->n_alloc.deallocate(x, 1);
+			this->_size--;
 		}
 	}
 
 	template < typename T, class Compare, class Allocator>
-	node<T>*    bst<T, Compare, Allocator>::searchnode(T key)
+	node<T>*    bst<T, Compare, Allocator>::searchnode(T key) const
 	{
 		return (this->bstsearch(this->_root, key));
 	}
@@ -219,7 +218,7 @@ namespace ft
 	}
 
 	template < typename T, class Compare, class Allocator>
-	ft::node<T>* bst<T, Compare, Allocator>::bstsearch(node<T> *x, T key)
+	ft::node<T>* bst<T, Compare, Allocator>::bstsearch(node<T> *x, T key) const
 	{
 		if (x == this->_nil)
 			return (NULL);
@@ -342,5 +341,31 @@ namespace ft
 			y->left_child = z->left_child;
 			y->left_child->parent = y;
 		}
+	}
+
+	template < typename T, class Compare, class Allocator>
+	bool		bst<T, Compare, Allocator>::empty(void) const
+	{
+		if (this->_root == this->_nil)
+			return (true);
+		return (false);
+	}
+
+	template < typename T, class Compare, class Allocator>
+	size_t		bst<T, Compare, Allocator>::size(void) const
+	{
+		return (this->_size);
+	}
+
+	template < typename T, class Compare, class Allocator>
+	size_t		bst<T, Compare, Allocator>::max_size(void) const
+	{
+		return (this->n_alloc.max_size());
+	}
+
+	template < typename T, class Compare, class Allocator>
+	typename bst<T, Compare, Allocator>::node_allocator	bst<T, Compare, Allocator>::get_allocator(void) const
+	{
+		return (this->n_alloc);
 	}
 }

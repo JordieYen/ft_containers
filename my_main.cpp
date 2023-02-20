@@ -7,6 +7,7 @@
 #include <stack>
 #include <iterator>
 #include "ft_is_integral.hpp"
+#include "ft_map.hpp"
 
 
 using std::cout;
@@ -18,7 +19,7 @@ void	printvector(T& _vector, std::string name)
 	// size(void), capacity(void), empty(void) test
 	cout << "\033[34m";
 	cout << name << ": [";
-	for (int i = 0; i < _vector.size(); i++)
+	for (size_t i = 0; i < _vector.size(); i++)
 		cout << " " << _vector[i];
 	cout << "] size: " << _vector.size();
 	cout << " capacity: " << _vector.capacity();
@@ -340,16 +341,180 @@ void	stack_test(void)
 	cout << "\n------------------------ Stack test end ------------------------\n" << endl;
 }
 
+template <class T>
+void	printmapdata(T _map, std::string name)
+{
+	// empty(void), size(void), top(void) test
+	cout << "\033[34m";
+	cout << name << " : ";
+	for (typename T::iterator it = _map.begin(); it != _map.end(); it++)
+		cout << "[" << it->first << ", " << it->second << "] ";
+	cout << "size: " << _map.size();
+	cout << " empty: ";
+	if (_map.empty() == 0)
+		cout << "false";
+	else
+		cout << "true ";
+	cout << "\033[0m" << endl;
+}
+
 void	map_test(void)
 {
-	std::map<std::string, int> realmap;
+	cout << "\n----------------------- Map test start -----------------------" << endl;
 
+	std::map<int, std::string>	realmap;
+	ft::map<int, std::string>	mymap;
+
+	cout << "\nInitialized stacks with default constructor:" << endl;
+	printmapdata(realmap, "realmap");
+	printmapdata(mymap, "mymap  ");
+
+	cout << "\nRan max_size() on maps: " << endl;
+	cout << "\033[34mrealmap : " << realmap.max_size() << "\033[0m" << endl; 
+	cout << "\033[34mmymap   : " << mymap.max_size() << "\033[0m" << endl;
+
+	cout << "\nInserted [9, 1]:" << endl;
+	realmap.insert(std::make_pair(9, "one"));
+	realmap.insert(std::make_pair(1, "two"));
+	mymap.insert(ft::make_pair(9, "one"));
+	mymap.insert(ft::make_pair(1, "two"));
+	printmapdata(realmap, "realmap");
+	printmapdata(mymap, "mymap  ");
+	cout << "Ran clear() on maps :" << endl;
+	realmap.clear();
+	mymap.clear();
+	printmapdata(realmap, "realmap");
+	printmapdata(mymap, "mymap  ");
+
+	cout << "\nInserted [9, 1, 10, 2, 3, 5]:" << endl;
+	realmap.insert(std::make_pair(9, "one"));
+	realmap.insert(std::make_pair(1, "two"));
+	realmap.insert(std::make_pair(10, "three"));
+	realmap.insert(std::make_pair(2, "four"));
+	realmap.insert(std::make_pair(3, "five"));
+	realmap.insert(std::make_pair(5, "six"));
+	mymap.insert(ft::make_pair(9, "one"));
+	mymap.insert(ft::make_pair(1, "two"));
+	mymap.insert(ft::make_pair(10, "three"));
+	mymap.insert(ft::make_pair(2, "four"));
+	mymap.insert(ft::make_pair(3, "five"));
+	mymap.insert(ft::make_pair(5, "six"));
+	printmapdata(realmap, "realmap");
+	printmapdata(mymap, "mymap  ");
+	cout << "Ran insert(begin(), (11, 'seven')); on maps :" << endl;
+	realmap.insert(realmap.begin(), std::make_pair(11, "seven"));
+	mymap.insert(mymap.begin(), ft::make_pair(11, "seven"));
+	printmapdata(realmap, "realmap");
+	printmapdata(mymap, "mymap  ");
+
+	cout << "\nRan erase(2) on maps :" << endl;
+	realmap.erase(2);
+	mymap.erase(2);
+	printmapdata(realmap, "realmap");
+	printmapdata(mymap, "mymap  ");
+	cout << "Ran erase(begin()) on maps :" << endl;
+	realmap.erase(realmap.begin());
+	mymap.erase(mymap.begin());
+	printmapdata(realmap, "realmap");
+	printmapdata(mymap, "mymap  ");
+
+	cout << "\nRan at(10) on maps :" << endl;
+	cout << "\033[34mrealmap.at(10) : " << realmap.at(10) << "\033[0m" << endl;
+	cout << "\033[34mmymap.at(10)   : " << mymap.at(10) << "\033[0m" << endl;
+	// cout << "Ran at(10) on maps :" << endl;
+	// cout << "\033[34mrealmap.at(10) : " << realmap.at(20) << "\033[0m" << endl;
+	// cout << "\033[34mmymap.at(10)   : " << mymap.at(20) << "\033[0m" << endl;
+
+	cout << "\nRan map[10] on maps :" << endl;
+	cout << "\033[34mrealmap[10] : " << realmap[10] << "\033[0m" << endl;
+	cout << "\033[34mmymap[10]   : " << mymap[10] << "\033[0m" << endl;
+
+	cout << "\nRan map.find(5) on maps :" << endl;
+	cout << "\033[34mrealmap.find(5) : " << realmap.find(5)->first << ", " << realmap.find(5)->second << "\033[0m" << endl;
+	cout << "\033[34mmymap.find(5)   : " << mymap.find(5)->first << ", " << mymap.find(5)->second << "\033[0m" << endl;
+	// cout << "\nRan map.find(6) on maps :" << endl;
+	// cout << "\033[34mrealmap.find(6) : " << realmap.find(6)->first << ", " << realmap.find(6)->second << "\033[0m" << endl;
+	// cout << "\033[34mmymap.find(6)   : " << mymap.find(6)->first << ", " << mymap.find(6)->second << "\033[0m" << endl;
+
+	cout << "\nRan map.count(5) on maps :" << endl;
+	cout << "\033[34mrealmap.count(5) : " << realmap.count(5) << "\033[0m" << endl;
+	cout << "\033[34mmymap.count(5)   : " << mymap.count(5) << "\033[0m" << endl;
+	cout << "Ran map.count(6) on maps :" << endl;
+	cout << "\033[34mrealmap.count(6) : " << realmap.count(6) << "\033[0m" << endl;
+	cout << "\033[34mmymap.count(6)   : " << mymap.count(6) << "\033[0m" << endl;
+
+	cout << "\nRan map.lower_bound(5) on maps :" << endl;
+	cout << "\033[34mrealmap.lower_bound(5) : " << realmap.lower_bound(5)->first << ", " << realmap.lower_bound(5)->second << "\033[0m" << endl;
+	cout << "\033[34mmymap.lower_bound(5)   : " << mymap.lower_bound(5)->first << ", " << realmap.lower_bound(5)->second << "\033[0m" << endl;
+	cout << "Ran map.lower_bound(6) on maps :" << endl;
+	cout << "\033[34mrealmap.lower_bound(6) : " << realmap.lower_bound(6)->first << ", " << realmap.lower_bound(6)->second << "\033[0m" << endl;
+	cout << "\033[34mmymap.lower_bound(6)   : " << mymap.lower_bound(6)->first << ", " << realmap.lower_bound(6)->second << "\033[0m" << endl;
+	cout << "Ran map.lower_bound(0) on maps :" << endl;
+	cout << "\033[34mrealmap.lower_bound(0) : " << realmap.lower_bound(0)->first << ", " << realmap.lower_bound(0)->second << "\033[0m" << endl;
+	cout << "\033[34mmymap.lower_bound(0)   : " << mymap.lower_bound(0)->first << ", " << realmap.lower_bound(0)->second << "\033[0m" << endl;
+
+	cout << "\nRan map.equal_range(5) on maps :" << endl;
+	std::pair<std::map<int, std::string>::iterator, std::map<int, std::string>::iterator>	realpr = realmap.equal_range(5);
+	ft::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator>	mypr = mymap.equal_range(5);
+
+	cout <<  "\033[34mrealmap   :" ;
+	for (std::map<int, std::string>::iterator it = realpr.first; it != realpr.second; it++)
+		cout << it->first << " ";
+	cout << "\033[0m" << endl;
+	cout <<  "\033[34mmymap     :" ;
+	for (ft::map<int, std::string>::iterator it = mypr.first; it != mypr.second; it++)
+		cout << it->first << " ";
+	cout << "\033[0m" << endl;
+
+	cout << "Ran map.equal_range(6) on maps :" << endl;
+	std::pair<std::map<int, std::string>::iterator, std::map<int, std::string>::iterator>	realpr1 = realmap.equal_range(6);
+	ft::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator>	mypr1 = mymap.equal_range(6);
+
+	cout <<  "\033[34mrealmap   :" ;
+	for (std::map<int, std::string>::iterator it = realpr1.first; it != realpr1.second; it++)
+		cout << it->first << " ";
+	cout << "\033[0m" << endl;
+	cout <<  "\033[34mmymap     :" ;
+	for (ft::map<int, std::string>::iterator it = mypr1.first; it != mypr1.second; it++)
+		cout << it->first << " ";
+	cout << "\033[0m" << endl;
+
+	cout << "\nRan erase(begin(), begin() + 1) on maps :" << endl;
+	realmap.erase(realmap.begin(), ++realmap.begin());
+	mymap.erase(mymap.begin(), mymap.begin() + 1);
+	printmapdata(realmap, "realmap");
+	printmapdata(mymap, "mymap  ");
+
+	cout << "\nIterated through maps with map iterator :" << endl;
+	cout <<  "\033[34mmymap     :" ;
+	for (std::map<int, std::string>::iterator it = realmap.begin(); it != realmap.end(); it++)
+		cout << it->first << " ";
+	cout << "\033[0m" << endl;
+
+	cout <<  "\033[34mmymap     :" ;
+	for (ft::map<int, std::string>::iterator it = mymap.begin(); it != mymap.end(); it++)
+		cout << it->first << " ";
+	cout << "\033[0m" << endl;
+
+	cout << "Iterated through maps with map reverse_iterator :" << endl;
+	cout <<  "\033[34mmymap     :" ;
+	for (std::map<int, std::string>::reverse_iterator it = realmap.rbegin(); it != realmap.rend(); it++)
+		cout << it->first << " ";
+	cout << "\033[0m" << endl;
+
+	cout <<  "\033[34mmymap     :" ;
+	for (ft::map<int, std::string>::reverse_iterator it = mymap.rbegin(); it != mymap.rend(); it++)
+		cout << it->first << " ";
+	cout << "\033[0m" << endl;
+
+	cout << "\n------------------------ Map test end ------------------------\n" << endl;
 }
 
 int	main(void)
 {
 	vector_test();
-	stack_test();
+	// stack_test();
+	map_test();
 
 	// system("leaks con");
 

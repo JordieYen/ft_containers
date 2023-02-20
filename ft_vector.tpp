@@ -5,6 +5,7 @@ namespace ft
 	template <typename T, class Allocator>
 	vector<T, Allocator>::vector(const allocator_type& alloc)
 	{
+		this->allocator = alloc;
 		this->_vector = this->allocator.allocate(0);
 		this->_capacity = 0;
 		this->_size = 0;
@@ -13,6 +14,7 @@ namespace ft
 	template <typename T, class Allocator>
 	vector<T, Allocator>::vector(size_t n, const value_type& val, const allocator_type& alloc)
 	{
+		this->allocator = alloc;
 		this->_vector = this->allocator.allocate(n);
 		this->_capacity = n;
 		this->_size = n;
@@ -33,6 +35,7 @@ namespace ft
 		int	counter = 0;
 		for (InputIterator i = first; i != last; i++)
 			counter++;
+		this->allocator = alloc;
 		this->_vector = this->allocator.allocate(counter);
 		this->_capacity = counter;
 		this->_size = counter;
@@ -133,13 +136,13 @@ namespace ft
 	template <typename T, class Allocator>
 	void	vector<T, Allocator>::assign(size_t i, T value)
 	{
-		if (i < this->_capacity)
+		if (i < (size_t)this->_capacity)
 		{
-			if (i > this->_size)
+			if (i > (size_t)this->_size)
 			{
-				for (int n = 0; n < i; n++)
+				for (size_t n = 0; n < i; n++)
 				{
-					if (n < this->_size)
+					if (n < (size_t)this->_size)
 						this->_vector[n] = value;
 					else
 						this->allocator.construct(&this->_vector[n], value);
@@ -149,7 +152,7 @@ namespace ft
 			{
 				for (int n = 0; n < this->_size; n++)
 				{
-					if (n < i)
+					if ((size_t)n < i)
 						this->_vector[n] = value;
 					else
 						this->allocator.destroy(&this->_vector[n]);
@@ -173,7 +176,7 @@ namespace ft
 	template <typename T, class Allocator>
 	T&	vector<T, Allocator>::at(size_t index)
 	{
-		if (index >= this->_size)
+		if (index >= (size_t)this->_size)
 			throw std::out_of_range("my vector");
 		return (this->_vector[index]);
 	}
@@ -183,7 +186,7 @@ namespace ft
 	{
 		T	*new_vector;
 
-		if (size > this->_capacity)
+		if (size > (size_t)this->_capacity)
 		{
 			new_vector = this->allocator.allocate(size);
 			for (int i = 0; i < this->_size; i++)
@@ -238,21 +241,21 @@ namespace ft
 		T	*new_vector;
 		int	temp_capacity = this->_capacity;
 
-		if (size > this->_capacity)
+		if (size > (size_t)this->_capacity)
 		{
-			while (size > temp_capacity)
+			while (size > (size_t)temp_capacity)
 				temp_capacity = temp_capacity * 2;
 			new_vector = this->create_vector(temp_capacity);
-			for (int i = this->_size; i < size; i++)
+			for (size_t i = this->_size; i < size; i++)
 				this->allocator.construct(&new_vector[i], value);
 			this->destroy_vector();
 			this->_vector = new_vector;
 			this->_capacity = temp_capacity;
 			this->_size = size;
 		}
-		if (size > this->_size)
+		if (size > (size_t)this->_size)
 		{
-			for (int i = this->_size; i < size; i++)
+			for (size_t i = this->_size; i < size; i++)
 				this->allocator.construct(&this->_vector[i], value);
 			this->_size = size;
 		}
@@ -315,16 +318,16 @@ namespace ft
 
 		if (this->validate_iterator(pos) == false)
 			return ;
-		if (this->_size + n > this->_capacity)
+		if ((size_t)this->_size + n > (size_t)this->_capacity)
 		{
-			while (this->_size + n > temp_capacity)
+			while ((size_t)this->_size + n > (size_t)temp_capacity)
 				temp_capacity *= 2;
 			new_vector = this->allocator.allocate(temp_capacity);
 			for (Iterator<T> it = this->begin(); it != this->end(); it++)
 			{
 				if (it == pos)
 				{
-					for (int j = 0; j < n; j++)
+					for (size_t j = 0; j < n; j++)
 					{
 						this->allocator.construct(&new_vector[min], val);
 						min++;
@@ -387,11 +390,11 @@ namespace ft
 		else
 		{
 			min = dif - n - 1;
-			for (int j = this->size() - 1; j > min; j--)
+			for (size_t j = this->size() - 1; (size_t)j > (size_t)min; j--)
 			{
-				if (j + n > this->size() - 1)
+				if ((size_t)j + n > this->size() - 1)
 					this->allocator.construct(&this->_vector[j + n], this->_vector[j]);
-				else if (j + n >= dif + n)
+				else if ((size_t)j + n >= (size_t)dif + n)
 					this->_vector[j + n] = this->_vector[j];
 				else
 				{
@@ -411,9 +414,9 @@ namespace ft
 
 		if (this->validate_iterator(pos) == false)
 			return (0);
-		for (int i = 0; i < this->size(); i++)
+		for (size_t i = 0; i < this->size(); i++)
 		{
-			if (dif == i)
+			if ((size_t)dif == i)
 			{
 				this->allocator.destroy(&this->_vector[i]);
 				if (i + 1 != this->size())
@@ -437,9 +440,9 @@ namespace ft
 			return (0);
 		if (first == last)
 			return (last);
-		for (int i = 0; i < this->size(); i++)
+		for (size_t i = 0; i < this->size(); i++)
 		{
-			if (first_dif == i)
+			if ((size_t)first_dif == i)
 			{
 				this->allocator.destroy(&this->_vector[i]);
 				if (i + dif != this->size())

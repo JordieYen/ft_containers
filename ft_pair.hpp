@@ -14,7 +14,7 @@ namespace ft
 		pair(void);
 		pair(const first_type& a, const second_type& b);
 		template<class U, class V>	pair(const pair<U, V>& clone);
-		// pair& operator=(const pair& other);
+		pair& operator=(const pair& other);
 
 		void swap (pair& pr);
 
