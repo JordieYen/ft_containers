@@ -15,15 +15,15 @@
 namespace ft
 {
 	template <typename T, class Allocator = std::allocator<T> >
-	class vector : public ft::Iterator<T>
+	class vector 
 	{
 		public:
 			typedef T															value_type;
 			typedef Allocator													allocator_type;
 			typedef value_type&													reference;
 			typedef const value_type&											const_reference;
-			typedef typename std::allocator_traits<Allocator>::pointer			pointer;
-			typedef typename std::allocator_traits<Allocator>::const_pointer	const_pointer;
+			typedef value_type*													pointer;
+			typedef const pointer												const_pointer;
 			typedef typename ft::Iterator<T>									iterator;
 			typedef const iterator												const_iterator;
 			typedef typename ft::reverse_iterator<iterator>						reverse_iterator;

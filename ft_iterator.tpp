@@ -5,7 +5,8 @@ namespace ft
 	template<typename T>
 	Iterator<T>::Iterator(void)
 	{
-		this->base = nullptr;
+		// this->base = nullptr;
+		this->base = NULL;
 	}
 
 	template<typename T>

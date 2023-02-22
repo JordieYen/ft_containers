@@ -47,7 +47,7 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	vector<T, Allocator>::vector(const vector& clone)
+	vector<T, Allocator>::vector(const vector<T, Allocator>& clone)
 	{
 		this->allocator = clone.allocator;
 		this->_capacity = clone._capacity;

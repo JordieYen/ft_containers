@@ -247,7 +247,7 @@ namespace ft
 	template<class Key, class T, class Compare , class Allocator>
 	void	map<Key, T, Compare, Allocator>::clear(void)
 	{
-		for (map<Key, T, Compare, Allocator>::iterator it = this->begin(); it != this->end(); it++)
+		for (map<Key, T, Compare, Allocator>::iterator it = this->begin(); it != this->end(); ++it)
 			this->_bt.deletenode(*(it));
 	}
 

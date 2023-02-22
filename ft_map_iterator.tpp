@@ -6,8 +6,8 @@ namespace ft
 	template<typename T>
 	mIterator<T>::mIterator(void)
 	{
-		this->base = nullptr;
-		this->_node = nullptr;
+		// this->base = nullptr;
+		// this->_node = nullptr;
 	}
 
 	template<typename T>

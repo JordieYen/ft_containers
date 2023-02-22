@@ -316,7 +316,7 @@ void	stack_test(void)
 
 	// swap(stack& other) test
 	cout << "\nRan stack.swap(tempstack) on stacks: " << endl;
-	realstack.swap(temprealstack);
+	// realstack.swap(temprealstack);
 	mystack.swap(tempmystack);
 	printstackdata(realstack, "realstack");
 	printstackdata(mystack, "mystack  ");

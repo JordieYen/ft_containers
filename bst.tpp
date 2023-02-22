@@ -182,6 +182,12 @@ namespace ft
 		if (x != this->_nil)
 		{
 			this->bstdelete(x);
+			if (this->_nil->left_child == x && this->_nil->right_child == x)
+			{
+				this->_root = this->_nil;
+				this->_nil->left_child = this->_nil;
+				this->_nil->right_child = this->_nil;
+			}
 			if (this->_nil->left_child == x)
 				this->_nil->left_child = this->bstminimum(this->_root);
 			if (this->_nil->right_child == x)
