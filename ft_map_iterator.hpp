@@ -39,6 +39,7 @@ namespace ft
 			void		operator-=(int n);
 			T&			operator*();
 			T			*operator->();
+			T			*operator->() const;
 
 			T				*base;
 			ft::node<T>		*_node;

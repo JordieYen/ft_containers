@@ -108,6 +108,12 @@ namespace ft
 	}
 
 	template<typename T>
+	T*	mIterator<T>::operator->() const
+	{
+		return (this->base);
+	}
+
+	template<typename T>
 	mIterator<T>	mIterator<T>::operator+(int n)
 	{
 		mIterator<T>	temp(this->_node);
