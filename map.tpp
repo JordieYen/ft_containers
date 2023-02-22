@@ -56,7 +56,7 @@ namespace ft
 	template<class Key, class T, class Compare , class Allocator>
 	typename map<Key, T, Compare, Allocator>::const_iterator			map<Key, T, Compare, Allocator>::begin(void) const
 	{
-		typename map<Key, T, Compare, Allocator>::const_iterator	it(this->_bt._nil->left_child);
+		typename map<Key, T, Compare, Allocator>::const_iterator	it(this->begin());
 
 		return (it);
 	}
@@ -64,9 +64,9 @@ namespace ft
 	template<class Key, class T, class Compare , class Allocator>
 	typename map<Key, T, Compare, Allocator>::const_iterator			map<Key, T, Compare, Allocator>::end(void) const
 	{
-		typename map<Key, T, Compare, Allocator>::const_iterator	it(this->_bt._nil->right_child);
+		typename map<Key, T, Compare, Allocator>::const_iterator	it(this->end());
 		
-		it++;
+		// it++;
 		return (it);
 	}
 
@@ -161,21 +161,28 @@ namespace ft
 		ft::node<typename map<Key, T, Compare, Allocator>::value_type>	*temp;
 		typename map<Key, T, Compare, Allocator>::iterator				it;
 		bool															is_dup;
+		// ft::pair<typename map<Key, T, Compare, Allocator>::iterator, bool>	pool;
 		
 		temp = this->_bt.searchnode(val);
 		if (temp)
 		{
 			it._node = temp;
-			it.base = it._node->key;
 			is_dup = false;
 		}
 		else
 		{
 			this->_bt.insertnode(val);
 			it._node = this->_bt.searchnode(val);
-			it.base = it._node->key;
 			is_dup = true;
 		}
+		it.base = it._node->key;
+		// std::cout << "lel" << std::endl;
+		// pool = ft::make_pair(it, is_dup);
+		// std::cout << "lel" << std::endl;
+		// std::cout << "lel" << std::endl;
+		// if (is_dup == true)
+		// 	std::cout << (pool.first)->second << std::endl;
+		// std::cout << "lel" << std::endl;
 		return (ft::make_pair(it, is_dup));
 	}
 

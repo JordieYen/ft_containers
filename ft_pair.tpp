@@ -10,10 +10,10 @@ namespace ft
 	}
 
 	template <class T1, class T2>
-	pair<T1, T2>::pair(const first_type& a, const second_type& b) : first(a)
+	pair<T1, T2>::pair(const first_type& a, const second_type& b) : first(a), second(b)
 	{
 		// this->first = a;
-		this->second = b;
+		// this->second = b;
 	}
 
 	template <class T1, class T2>
