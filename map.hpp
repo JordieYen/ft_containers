@@ -1,13 +1,13 @@
 #ifndef FTMAP_HPP
 # define FTMAP_HPP
 
-#include <iostream>
-#include <memory>
-#include <string>
-#include "ft_pair.hpp"
-#include "bst.hpp"
-#include "ft_map_iterator.hpp"
-#include "ft_reverse_iterator.hpp"
+# include <iostream>
+# include <memory>
+# include <string>
+# include "ft_pair.hpp"
+# include "bst.hpp"
+# include "ft_map_iterator.hpp"
+# include "ft_reverse_iterator.hpp"
 # include "ft_lexicographical_compare.hpp"
 # include "ft_enable_if.hpp"
 # include "ft_is_integral.hpp"
@@ -125,6 +125,6 @@ namespace ft
 }
 
 
-#include "ft_map.tpp"
+#include "map.tpp"
 
 #endif

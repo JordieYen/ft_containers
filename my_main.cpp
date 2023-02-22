@@ -7,7 +7,7 @@
 #include <stack>
 #include <iterator>
 #include "ft_is_integral.hpp"
-#include "ft_map.hpp"
+#include "map.hpp"
 
 
 using std::cout;
