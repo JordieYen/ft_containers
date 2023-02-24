@@ -25,7 +25,7 @@ namespace ft
 
 			mIterator(void);
 			mIterator(node_ptr node);
-			mIterator(const mIterator& clone);
+			mIterator(const mIterator<typename ft::remove_const<T>::type>& clone);
 			mIterator&	operator=(const mIterator<T>& clone);
 			~mIterator(void);
 

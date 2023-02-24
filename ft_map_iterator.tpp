@@ -18,7 +18,7 @@ namespace ft
 	}
 
 	template<typename T>
-	mIterator<T>::mIterator(const mIterator& clone) : _node(clone._node)
+	mIterator<T>::mIterator(const mIterator<typename ft::remove_const<T>::type>& clone) : _node(clone._node)
 	{
 		this->base = this->_node->key;
 	}
