@@ -15,8 +15,6 @@
 
 namespace ft
 {
-
-
 	template< class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > >
 	class map
 	{
@@ -41,7 +39,8 @@ namespace ft
 			{
 				public:
 					value_compare(Compare pred) : comp(pred) {}
-					bool operator()(value_type& x, value_type& y) const
+					template <typename V, typename U>
+					bool operator()(V& x, U& y) const
 					{
 						return comp(x.first, y.first);
 					}
@@ -77,7 +76,8 @@ namespace ft
 
 			ft::pair<iterator,bool>					insert(const value_type& val); //
 			iterator								insert(iterator position, const value_type& val); //
-			void									insert(iterator first, iterator last);
+			template<class InputIterator>
+			void									insert(InputIterator first, InputIterator last);
 
 			iterator								erase(iterator position); //
 			size_type								erase(const key_type& key); //

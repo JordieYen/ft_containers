@@ -7,9 +7,11 @@
 # include <memory>
 # include "ft_iterator_traits.hpp"
 # include "bst.hpp"
+# include "ft_remove_const.hpp"
 
 namespace ft
-{	
+{
+
 	template <typename T>
 	struct mIterator
 	{
@@ -19,15 +21,16 @@ namespace ft
 			typedef	typename ft::iterator_traits<T*>::pointer				pointer;
 			typedef	typename ft::iterator_traits<T*>::reference				reference;
 			typedef	typename ft::iterator_traits<T*>::iterator_category		iterator_category;
+			typedef ft::node<typename ft::remove_const<T>::type >*			node_ptr;
 
 			mIterator(void);
-			mIterator(ft::node<T> *node);
+			mIterator(node_ptr node);
 			mIterator(const mIterator& clone);
-			mIterator&	operator=(const mIterator& clone);
+			mIterator&	operator=(const mIterator<T>& clone);
 			~mIterator(void);
 
-			ft::node<T>*			minimum(ft::node<T> *x);
-			ft::node<T>*			maximum(ft::node<T> *x);
+			node_ptr			minimum(node_ptr x);
+			node_ptr			maximum(node_ptr x);
 
 			mIterator	operator+(int n);
 			mIterator	operator-(int n);
@@ -37,27 +40,27 @@ namespace ft
 			mIterator	operator--(int);
 			void		operator+=(int n);
 			void		operator-=(int n);
-			T&			operator*();
+			T&			operator*() const;
 			T			*operator->();
 			T			*operator->() const;
 
 			T				*base;
-			ft::node<T>		*_node;
+			node_ptr		_node;
 
 	};
 
-	template <typename T>
-	bool		operator<(mIterator<T> current, mIterator<T> other);
-	template <typename T>
-	bool		operator>(mIterator<T> current, mIterator<T> other);
-	template <typename T>
-	bool		operator<=(mIterator<T> current, mIterator<T> other);
-	template <typename T>
-	bool		operator>=(mIterator<T> current, mIterator<T> other);
-	template <typename T>
-	bool		operator==(mIterator<T> current, mIterator<T> other);
-	template <typename T>
-	bool		operator!=(mIterator<T> current, mIterator<T> other);
+	template <typename T, typename U>
+	bool		operator<(mIterator<T> current, mIterator<U> other);
+	template <typename T, typename U>
+	bool		operator>(mIterator<T> current, mIterator<U> other);
+	template <typename T, typename U>
+	bool		operator<=(mIterator<T> current, mIterator<U> other);
+	template <typename T, typename U>
+	bool		operator>=(mIterator<T> current, mIterator<U> other);
+	template <typename T, typename U>
+	bool		operator==(mIterator<T> current, mIterator<U> other);
+	template <typename T, typename U>
+	bool		operator!=(mIterator<T> current, mIterator<U> other);
 }
 
 #include "ft_map_iterator.tpp"

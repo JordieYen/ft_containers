@@ -11,21 +11,20 @@ namespace ft
 	}
 
 	template<typename T>
-	mIterator<T>::mIterator(ft::node<T> *node)
+	mIterator<T>::mIterator(node_ptr node)
 	{
 		this->base = node->key;
 		this->_node = node;
 	}
 
 	template<typename T>
-	mIterator<T>::mIterator(const mIterator& clone)
+	mIterator<T>::mIterator(const mIterator& clone) : _node(clone._node)
 	{
-		this->base = clone.base;
-		this->_node = clone._node;
+		this->base = this->_node->key;
 	}
 
 	template<typename T>
-	mIterator<T>&	mIterator<T>::operator=(const mIterator& clone)
+	mIterator<T>&	mIterator<T>::operator=(const mIterator<T>& clone)
 	{
 		this->base = clone.base;
 		this->_node = clone._node;
@@ -96,7 +95,7 @@ namespace ft
 	}
 
 	template<typename T>
-	T&	mIterator<T>::operator*()
+	T&	mIterator<T>::operator*() const
 	{
 		return (*this->base);
 	}
@@ -133,40 +132,40 @@ namespace ft
 		return (temp);
 	}
 
-	template<typename T>
-	bool		operator==(mIterator<T> current, mIterator<T> other)
+	template <typename T, typename U>
+	bool		operator==(mIterator<T> current, mIterator<U> other)
 	{
 		if (current._node == other._node)
 			return (true);
 		return (false);
 	}
 
-	template<typename T>
-	bool		operator!=(mIterator<T> current, mIterator<T> other)
+	template <typename T, typename U>
+	bool		operator!=(mIterator<T> current, mIterator<U> other)
 	{
 		if (current._node != other._node)
 			return (true);
 		return (false);
 	}
 
-	template<typename T>
-	bool		operator<(mIterator<T> current, mIterator<T> other)
+	template <typename T, typename U>
+	bool		operator<(mIterator<T> current, mIterator<U> other)
 	{
 		if (current._node->key->first < other._node->key->first)
 			return (true);
 		return (false);
 	}
 
-	template<typename T>
-	bool		operator>(mIterator<T> current, mIterator<T> other)
+	template <typename T, typename U>
+	bool		operator>(mIterator<T> current, mIterator<U> other)
 	{
 		if (current._node->key->first > other._node->key->first)
 			return (true);
 		return (false);
 	}
 
-	template<typename T>
-	bool		operator<=(mIterator<T> current, mIterator<T> other)
+	template <typename T, typename U>
+	bool		operator<=(mIterator<T> current, mIterator<U> other)
 	{
 		if (current._node->key->first == other._node->key->first)
 			return (true);
@@ -175,8 +174,8 @@ namespace ft
 		return (false);
 	}
 
-	template<typename T>
-	bool		operator>=(mIterator<T> current, mIterator<T> other)
+	template <typename T, typename U>
+	bool		operator>=(mIterator<T> current, mIterator<U> other)
 	{
 		if (current._node->key->first == other._node->key->first)
 			return (true);
@@ -200,9 +199,9 @@ namespace ft
 	}
 
 	template < typename T>
-	ft::node<T>*		mIterator<T>::minimum(ft::node<T> *x)
+	typename mIterator<T>::node_ptr		mIterator<T>::minimum(node_ptr x)
 	{
-		ft::node<T> *y = x;
+		typename mIterator<T>::node_ptr	y = x;
 
 		while (y->left_child->is_nil != true)
 			y = y->left_child;
@@ -210,9 +209,9 @@ namespace ft
 	}
 
 	template<typename T>
-	ft::node<T>*	mIterator<T>::maximum(ft::node<T> *x)
+	typename mIterator<T>::node_ptr	mIterator<T>::maximum(node_ptr x)
 	{
-		ft::node<T> *y = x;
+		typename mIterator<T>::node_ptr	y = x;
 
 		while (y->right_child->is_nil != true)
 			y = y->right_child;

@@ -17,6 +17,14 @@ namespace ft
 		{
 				this->key = key;
 		}
+		node(const ft::node<T>& clone)
+		{
+			this->key = clone.key;
+			this->left_child = clone.left_child;
+			this->right_child = clone.right_child;
+			this->parent = clone.parent;
+			this->is_nil = clone.is_nil;
+		}
 		~node(){};
 
 		void  printdata(std::string name)
@@ -86,10 +94,13 @@ namespace ft
 			void		bstclear(node<T> *x);
 			node<T>*	allocatenode(T key);
 
+			size_t			_size;
 			node_allocator	n_alloc;
 			allocator_type	t_alloc;
+
+		public:
 			compare			comp;
-			size_t			_size;
+
 	};
 }
 

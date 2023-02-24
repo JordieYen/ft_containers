@@ -58,7 +58,7 @@ namespace ft
 	}
 
 	template <class Iter>
-	reverse_iterator<Iter>& reverse_iterator<Iter>::operator++()
+	reverse_iterator<Iter> reverse_iterator<Iter>::operator++()
 	{
 		reverse_iterator temp(*this);
 
@@ -88,7 +88,7 @@ namespace ft
 	}
 
 	template <class Iter>
-	reverse_iterator<Iter>& reverse_iterator<Iter>::operator--()
+	reverse_iterator<Iter> reverse_iterator<Iter>::operator--()
 	{
 		reverse_iterator temp(*this);
 

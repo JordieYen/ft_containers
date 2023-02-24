@@ -45,28 +45,26 @@ namespace ft
 	}
 
 	template<class Key, class T, class Compare , class Allocator>
-	typename map<Key, T, Compare, Allocator>::iterator			map<Key, T, Compare, Allocator>::end(void)
+	typename map<Key, T, Compare, Allocator>::const_iterator			map<Key, T, Compare, Allocator>::begin(void) const
 	{
-		ft::mIterator<ft::pair<const Key, T> >	it(this->_bt._nil->right_child);
-		
-		it++;
+		ft::mIterator<const ft::pair<const Key, T> >	it(this->_bt._nil->left_child);
+
 		return (it);
 	}
 
 	template<class Key, class T, class Compare , class Allocator>
-	typename map<Key, T, Compare, Allocator>::const_iterator			map<Key, T, Compare, Allocator>::begin(void) const
+	typename map<Key, T, Compare, Allocator>::iterator			map<Key, T, Compare, Allocator>::end(void)
 	{
-		typename map<Key, T, Compare, Allocator>::const_iterator	it(this->begin());
-
+		ft::mIterator<ft::pair<const Key, T> >	it(this->_bt._nil);
+		
 		return (it);
 	}
-
+	
 	template<class Key, class T, class Compare , class Allocator>
 	typename map<Key, T, Compare, Allocator>::const_iterator			map<Key, T, Compare, Allocator>::end(void) const
 	{
-		typename map<Key, T, Compare, Allocator>::const_iterator	it(this->end());
+		ft::mIterator<const ft::pair<const Key, T> >	it(this->_bt._nil);
 		
-		// it++;
 		return (it);
 	}
 
@@ -161,7 +159,6 @@ namespace ft
 		ft::node<typename map<Key, T, Compare, Allocator>::value_type>	*temp;
 		typename map<Key, T, Compare, Allocator>::iterator				it;
 		bool															is_dup;
-		// ft::pair<typename map<Key, T, Compare, Allocator>::iterator, bool>	pool;
 		
 		temp = this->_bt.searchnode(val);
 		if (temp)
@@ -176,18 +173,12 @@ namespace ft
 			is_dup = true;
 		}
 		it.base = it._node->key;
-		// std::cout << "lel" << std::endl;
-		// pool = ft::make_pair(it, is_dup);
-		// std::cout << "lel" << std::endl;
-		// std::cout << "lel" << std::endl;
-		// if (is_dup == true)
-		// 	std::cout << (pool.first)->second << std::endl;
-		// std::cout << "lel" << std::endl;
 		return (ft::make_pair(it, is_dup));
 	}
 
 	template<class Key, class T, class Compare , class Allocator>
-	void	map<Key, T, Compare, Allocator>::insert(iterator first, iterator last)
+	template<class InputIterator>
+	void	map<Key, T, Compare, Allocator>::insert(InputIterator first, InputIterator last)
 	{
 		for (;first != last; first++)
 			this->insert(*(first));
@@ -286,8 +277,8 @@ namespace ft
 	{
 		typename map<Key, T, Compare, Allocator>::const_iterator	it;
 
-		it.base = this->_bt.searchnode(ft::make_pair(key, T()));
-		if (it.base == NULL)
+		it._node = this->_bt.searchnode(ft::make_pair(key, T()));
+		if (it._node == NULL)
 			return (this->end());
 		it.base = it._node->key;
 		return (it);

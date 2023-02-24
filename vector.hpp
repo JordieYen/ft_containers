@@ -109,6 +109,6 @@ namespace ft
 	void	swap(const vector<T>& current, const vector<T>& other);
 }
 
-#include "ft_vector.tpp"
+#include "vector.tpp"
 
 #endif

@@ -26,11 +26,11 @@ namespace ft
 			pointer									operator->(void) const;
 			reference								operator[] (difference_type n) const;
 			reverse_iterator						operator+ (difference_type n) const;
-			reverse_iterator&						operator++(void);
+			reverse_iterator						operator++(void);
 			reverse_iterator						operator++(int);
 			reverse_iterator&						operator+= (difference_type n);
 			reverse_iterator						operator- (difference_type n) const;
-			reverse_iterator&						operator--(void);
+			reverse_iterator						operator--(void);
 			reverse_iterator						operator--(int);
 			reverse_iterator&						operator-= (difference_type n);
 			iterator_type							base(void) const;

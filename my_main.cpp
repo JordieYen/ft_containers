@@ -1,4 +1,4 @@
-#include "ft_vector.hpp"
+#include "vector.hpp"
 #include "ft_stack.hpp"
 #include "ft_reverse_iterator.hpp"
 #include <iostream>
@@ -506,23 +506,18 @@ void	map_test(void)
 	for (ft::map<int, std::string>::reverse_iterator it = mymap.rbegin(); it != mymap.rend(); it++)
 		cout << it->first << " ";
 	cout << "\033[0m" << endl;
-	
-	// ft::map<int, std::string>	temp;
-	// ft::pair<ft::map<int, std::string>::iterator, bool>	test;
 
-	// test = temp.insert(ft::make_pair(42, "lol"));
-	// cout << "bruh = " << (test.first)->first << ", " << (test.first)->second << endl;
+	ft::map<int, std::string>::const_iterator cit = mymap.begin();
 
 	cout << "\n------------------------ Map test end ------------------------\n" << endl;
 }
 
 int	main(void)
 {
-	vector_test();
+	// vector_test();
 	// stack_test();
 	map_test();
 
 	// system("leaks con");
-
 	return (0);
 }

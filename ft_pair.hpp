@@ -18,7 +18,7 @@ namespace ft
 
 		void swap (pair& pr);
 
-		const first_type	first;
+		first_type			first;
 		second_type			second;
 	};
 

@@ -13,7 +13,7 @@ DGREY="\e[1;90m"
 include_path="../"
 srcs="srcs"
 
-CC="g++"
+CC="c++"
 CFLAGS="-Wall -Wextra -Werror -std=c++98"
 # CFLAGS+=" -fsanitize=address -g3"
 
