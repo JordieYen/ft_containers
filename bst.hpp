@@ -81,6 +81,9 @@ namespace ft
 
 			node<T>			*_root;
 			node<T>			*_nil;
+			size_t			_size;
+			node_allocator	n_alloc;
+			allocator_type	t_alloc;
 
 		private:
 			void		bstclone(node<T> *x, node<T> *nil);
@@ -94,16 +97,11 @@ namespace ft
 			void		bstclear(node<T> *x);
 			node<T>*	allocatenode(T key);
 
-			size_t			_size;
-			node_allocator	n_alloc;
-			allocator_type	t_alloc;
-
 		public:
 			compare			comp;
 
 	};
 }
-
 
 # include "bst.tpp"
 

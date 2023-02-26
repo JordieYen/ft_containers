@@ -27,6 +27,7 @@ int		main(void)
 
 	TESTED_NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
 	lst.clear();
+	std::cout << "sheesh" << std::endl;
 
 	printSize(mp);
 

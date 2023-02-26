@@ -36,8 +36,8 @@ namespace ft
 			Iterator&	operator=(const Iterator& clone);
 			~Iterator(void);
 
-			Iterator	operator+(int n);
-			Iterator	operator-(int n);
+			Iterator	operator+(int n) const;
+			Iterator	operator-(int n) const;
 			Iterator	operator++();
 			Iterator	operator++(int);
 			Iterator	operator--();

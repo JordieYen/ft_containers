@@ -26,7 +26,7 @@ namespace ft
 		InputIterator last, const key_compare& comp, const allocator_type& alloc) : _bt(comp, alloc), _comp(comp), _alloc(alloc)
 	{
 		for (; first != last; ++first)
-			this->_bt.insertnode(*(first));
+			this->insert(*(first));
 	}
 
 	template<class Key, class T, class Compare , class Allocator>
@@ -234,10 +234,12 @@ namespace ft
 	template<class Key, class T, class Compare , class Allocator>
 	void	map<Key, T, Compare, Allocator>::swap( map& other )
 	{
-		map<Key, T, Compare, Allocator> temp_map(other);
-
-		other = *this;
-		*this = temp_map;
+		std::swap(this->_bt._root, other._bt._root);
+		std::swap(this->_bt._nil, other._bt._nil);
+		std::swap(this->_bt._size, other._bt._size);
+		std::swap(this->_bt.n_alloc, other._bt.n_alloc);
+		std::swap(this->_bt.t_alloc, other._bt.t_alloc);
+		std::swap(this->_bt.comp, other._bt.comp);
 	}
 
 	template<class Key, class T, class Compare , class Allocator>
@@ -383,6 +385,8 @@ namespace ft
 	{
 		bool	ret;
 
+		if (current == other)
+			return false;
 		ret = ft::lexicographical_compare(current.begin(), current.end(), other.begin(), other.end(), current._bt.comp);
 		return (ret);
 	}
@@ -392,6 +396,8 @@ namespace ft
 	{
 		bool	ret;
 
+		if (current == other)
+			return true;
 		ret = ft::lexicographical_compare(other.begin(), other.end(), current.begin(), current.end(), current._bt.comp);
 		return (!(ret));
 	}
@@ -401,6 +407,8 @@ namespace ft
 	{
 		bool	ret;
 
+		if (current == other)
+			return false;
 		ret = ft::lexicographical_compare(other.begin(), other.end(), current.begin(), current.end(), current._bt.comp);
 		return (ret);
 	}
@@ -410,6 +418,8 @@ namespace ft
 	{
 		bool	ret;
 
+		if (current == other)
+			return true;
 		ret = ft::lexicographical_compare(current.begin(), current.end(), other.begin(), other.end(), current._bt.comp);
 		return (!(ret));
 	}

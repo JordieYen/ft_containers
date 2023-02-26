@@ -1,55 +1,24 @@
-BEFORE SWAP
-foo contains:
-size: 7
-max_size: 230584300921369395
-
-Content is:
-- key: a | value: 7
-- key: b | value: 6
-- key: c | value: 5
-- key: d | value: 4
-- key: e | value: 3
-- key: f | value: 2
-- key: g | value: 1
-###############################################
-bar contains:
-size: 4
-max_size: 230584300921369395
-
-Content is:
-- key: w | value: 15
-- key: x | value: 10
-- key: y | value: 5
-- key: z | value: 0
-###############################################
-a 7 -- w 15
-w 15 -- a 7
-AFTER SWAP
-foo contains:
-size: 4
-max_size: 230584300921369395
-
-Content is:
-- key: w | value: 15
-- key: x | value: 10
-- key: y | value: 5
-- key: z | value: 0
-###############################################
-bar contains:
-size: 7
-max_size: 230584300921369395
-
-Content is:
-- key: a | value: 7
-- key: b | value: 6
-- key: c | value: 5
-- key: d | value: 4
-- key: e | value: 3
-- key: f | value: 2
-- key: g | value: 1
-###############################################
-Iterator validity:
-a 7 -- a 7
-w 15 -- w 15
-1
-1
+############### [0] ###############
+eq: 1 | ne: 0
+lt: 0 | le: 1
+gt: 0 | ge: 1
+############### [1] ###############
+eq: 1 | ne: 0
+lt: 0 | le: 1
+gt: 0 | ge: 1
+############### [2] ###############
+eq: 0 | ne: 1
+lt: 1 | le: 1
+gt: 0 | ge: 0
+############### [3] ###############
+eq: 0 | ne: 1
+lt: 0 | le: 0
+gt: 1 | ge: 1
+############### [4] ###############
+eq: 0 | ne: 1
+lt: 1 | le: 1
+gt: 0 | ge: 0
+############### [5] ###############
+eq: 0 | ne: 1
+lt: 0 | le: 0
+gt: 1 | ge: 1

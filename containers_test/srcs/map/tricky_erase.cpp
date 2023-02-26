@@ -69,7 +69,6 @@ int		main(void)
 	 *  12   20  22    24  27    29  33    38     43    45    47    49   51    54       60      90
 	 *
 	 * */
-
 	ft_erase(mp, 25); // right != NULL; left != NULL
 	ft_erase(mp, 55); // right != NULL; left != NULL
 

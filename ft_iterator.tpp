@@ -84,7 +84,7 @@ namespace ft
 	}
 
 	template<typename T>
-	Iterator<T>	Iterator<T>::operator+(int n)
+	Iterator<T>	Iterator<T>::operator+(int n) const
 	{
 		Iterator	temp(this->base);
 
@@ -94,7 +94,7 @@ namespace ft
 	}
 
 	template<typename T>
-	Iterator<T>	Iterator<T>::operator-(int n)
+	Iterator<T>	Iterator<T>::operator-(int n) const
 	{
 		Iterator	temp(this->base);
 
