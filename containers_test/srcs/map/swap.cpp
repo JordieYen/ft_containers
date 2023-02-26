@@ -29,6 +29,9 @@ int main (void)
 	std::cout << "bar contains:" << std::endl;
 	printSize(bar);
 
+	std::cout << it_foo->first << " " << it_foo->second << " -- " << bar.begin()->first << " " << bar.begin()->second << std::endl;
+	std::cout << it_bar->first << " " << it_bar->second << " -- " << foo.begin()->first << " " << foo.begin()->second << std::endl;
+
 	foo.swap(bar);
 
 	std::cout << "AFTER SWAP" << std::endl;
@@ -39,6 +42,8 @@ int main (void)
 	printSize(bar);
 
 	std::cout << "Iterator validity:" << std::endl;
+	std::cout << it_foo->first << " " << it_foo->second << " -- " << bar.begin()->first << " " << bar.begin()->second << std::endl;
+	std::cout << it_bar->first << " " << it_bar->second << " -- " << foo.begin()->first << " " << foo.begin()->second << std::endl;
 	std::cout << (it_foo == bar.begin()) << std::endl;
 	std::cout << (it_bar == foo.begin()) << std::endl;
 

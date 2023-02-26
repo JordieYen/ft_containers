@@ -25,8 +25,8 @@ namespace ft
 	map<Key, T, Compare, Allocator>::map(typename ft::enable_if<!ft::is_integral<InputIterator>::value,InputIterator>::type first,
 		InputIterator last, const key_compare& comp, const allocator_type& alloc) : _bt(comp, alloc), _comp(comp), _alloc(alloc)
 	{
-		for (; first != last; first++)
-			this->_bt.insertnode(*first);
+		for (; first != last; ++first)
+			this->_bt.insertnode(*(first));
 	}
 
 	template<class Key, class T, class Compare , class Allocator>
@@ -71,7 +71,7 @@ namespace ft
 	template<class Key, class T, class Compare , class Allocator>
 	typename map<Key, T, Compare, Allocator>::reverse_iterator	map<Key, T, Compare, Allocator>::rbegin(void)
 	{
-		typename map<Key, T, Compare, Allocator>::reverse_iterator	it(this->_bt._nil->right_child);
+		typename map<Key, T, Compare, Allocator>::reverse_iterator	it(this->_bt._nil);
 
 		return (it);
 	}
@@ -81,14 +81,13 @@ namespace ft
 	{
 		typename map<Key, T, Compare, Allocator>::reverse_iterator	it(this->_bt._nil->left_child);
 		
-		it++;
 		return (it);
 	}
 
 	template<class Key, class T, class Compare , class Allocator>
 	typename map<Key, T, Compare, Allocator>::const_reverse_iterator	map<Key, T, Compare, Allocator>::rbegin(void) const
 	{
-		typename map<Key, T, Compare, Allocator>::const_reverse_iterator	it(this->_bt._nil->right_child);
+		typename map<Key, T, Compare, Allocator>::const_reverse_iterator	it(this->_bt._nil);
 
 		return (it);
 	}
@@ -98,7 +97,6 @@ namespace ft
 	{
 		typename map<Key, T, Compare, Allocator>::const_reverse_iterator	it(this->_bt._nil->left_child);
 		
-		it++;
 		return (it);
 	}
 
@@ -229,7 +227,7 @@ namespace ft
 	typename map<Key, T, Compare, Allocator>::iterator	map<Key, T, Compare, Allocator>::erase(iterator first, iterator last)
 	{
 		for (;first != last;)
-			this->erase(++first);
+			this->erase(first++);
 		return (first);
 	}
 
@@ -367,7 +365,7 @@ namespace ft
 	{
 		bool	ret;
 
-		ret = ft::equal(current.begin(), current.end(), other.begin());
+		ret = ft::equal(current.begin(), current.end(), other.begin(), other.end());
 		return (ret);
 	}
 
@@ -376,7 +374,7 @@ namespace ft
 	{
 		bool	ret;
 
-		ret = ft::equal(current.begin(), current.end(), other.begin());
+		ret = ft::equal(current.begin(), current.end(), other.begin(), other.end());
 		return (!(ret));
 	}
 

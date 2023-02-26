@@ -32,13 +32,13 @@ int		main(void)
 	TESTED_NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
 	printSize(mp);
 
-	ft_erase(mp, ++mp.begin());
+	ft_erase(mp, ++mp.begin()); // 0
 
-	ft_erase(mp, mp.begin());
-	ft_erase(mp, --mp.end());
+	ft_erase(mp, mp.begin()); // 1
+	ft_erase(mp, --mp.end()); // 2
 
-	ft_erase(mp, mp.begin(), ++(++(++mp.begin())));
-	ft_erase(mp, --(--(--mp.end())), --mp.end());
+	ft_erase(mp, mp.begin(), ++(++(++mp.begin()))); // 3
+	ft_erase(mp, --(--(--mp.end())), --mp.end()); // 4
 
 	mp[10] = "Hello";
 	mp[11] = "Hi there";

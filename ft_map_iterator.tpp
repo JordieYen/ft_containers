@@ -37,7 +37,7 @@ namespace ft
 	}
 
 	template<typename T>
-	mIterator<T>	mIterator<T>::operator++(int)
+	mIterator<T>&	mIterator<T>::operator++()
 	{
 		if (this->_node->is_nil == true)
 			this->_node = this->_node->left_child;
@@ -57,16 +57,16 @@ namespace ft
 	}
 
 	template<typename T>
-	mIterator<T>	mIterator<T>::operator++()
+	mIterator<T>	mIterator<T>::operator++(int)
 	{
 		mIterator	temp(this->_node);
 
-		(*this)++;
+		++(*this);
 		return (temp);
 	}
 
 	template<typename T>
-	mIterator<T>	mIterator<T>::operator--(int)
+	mIterator<T>&	mIterator<T>::operator--()
 	{
 		if (this->_node->is_nil == true)
 			this->_node = this->_node->right_child;
@@ -86,11 +86,11 @@ namespace ft
 	}
 
 	template<typename T>
-	mIterator<T>	mIterator<T>::operator--()
+	mIterator<T>	mIterator<T>::operator--(int)
 	{
 		mIterator	temp(this->_node);
 
-		(*this)--;
+		(--(*this));
 		return (temp);
 	}
 
@@ -113,7 +113,7 @@ namespace ft
 	}
 
 	template<typename T>
-	mIterator<T>	mIterator<T>::operator+(int n)
+	mIterator<T>	mIterator<T>::operator+(int n) const
 	{
 		mIterator<T>	temp(this->_node);
 
@@ -123,7 +123,7 @@ namespace ft
 	}
 
 	template<typename T>
-	mIterator<T>	mIterator<T>::operator-(int n)
+	mIterator<T>	mIterator<T>::operator-(int n) const
 	{
 		mIterator	temp(this->_node);
 

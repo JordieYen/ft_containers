@@ -18,7 +18,8 @@ namespace ft
 
 			reverse_iterator(void);
 			explicit reverse_iterator (iterator_type it);
-			reverse_iterator (const reverse_iterator<Iter>& other);
+			template <typename U>
+			reverse_iterator (const reverse_iterator<U>& other);
 			~reverse_iterator(void);
 
 			template< class U > reverse_iterator&	operator=( const reverse_iterator<U>& other );
@@ -26,11 +27,11 @@ namespace ft
 			pointer									operator->(void) const;
 			reference								operator[] (difference_type n) const;
 			reverse_iterator						operator+ (difference_type n) const;
-			reverse_iterator						operator++(void);
+			reverse_iterator&						operator++(void);
 			reverse_iterator						operator++(int);
 			reverse_iterator&						operator+= (difference_type n);
 			reverse_iterator						operator- (difference_type n) const;
-			reverse_iterator						operator--(void);
+			reverse_iterator&						operator--(void);
 			reverse_iterator						operator--(int);
 			reverse_iterator&						operator-= (difference_type n);
 			iterator_type							base(void) const;

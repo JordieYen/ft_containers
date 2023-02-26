@@ -507,8 +507,6 @@ void	map_test(void)
 		cout << it->first << " ";
 	cout << "\033[0m" << endl;
 
-	ft::map<int, std::string>::const_iterator cit = mymap.begin();
-
 	cout << "\n------------------------ Map test end ------------------------\n" << endl;
 }
 

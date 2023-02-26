@@ -32,11 +32,11 @@ namespace ft
 			node_ptr			minimum(node_ptr x);
 			node_ptr			maximum(node_ptr x);
 
-			mIterator	operator+(int n);
-			mIterator	operator-(int n);
-			mIterator	operator++();
+			mIterator	operator+(int n) const;
+			mIterator	operator-(int n) const;
+			mIterator&	operator++();
 			mIterator	operator++(int);
-			mIterator	operator--();
+			mIterator&	operator--();
 			mIterator	operator--(int);
 			void		operator+=(int n);
 			void		operator-=(int n);
@@ -44,8 +44,9 @@ namespace ft
 			T			*operator->();
 			T			*operator->() const;
 
+			// typename ft::remove_const<T>::type				*base;
 			T				*base;
-			node_ptr		_node;
+			node_ptr										_node;
 
 	};
 

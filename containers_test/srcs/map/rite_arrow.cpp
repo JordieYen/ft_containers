@@ -34,7 +34,7 @@ int		main(void)
 	printPair(ite--);
 	printPair(--ite);
 	printPair(ite--);
-
+	std::cout << "test" << std::endl;
 	(*it).second.m();
 	(*ite).second.m();
 
