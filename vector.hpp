@@ -25,7 +25,7 @@ namespace ft
 			typedef value_type*													pointer;
 			typedef const pointer												const_pointer;
 			typedef typename ft::Iterator<T>									iterator;
-			typedef const iterator												const_iterator;
+			typedef typename ft::Iterator<const T>								const_iterator;
 			typedef typename ft::reverse_iterator<iterator>						reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 			typedef std::ptrdiff_t												difference_type;
@@ -43,46 +43,50 @@ namespace ft
 			vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value,InputIterator>::type first,
 				InputIterator last, const allocator_type& alloc = allocator_type());
 
-			Allocator			get_allocator(void); //
-			size_t				size(void) const; //
-			int					capacity(void); //
-			T					*data(void); //
+			Allocator			get_allocator(void);
+			size_t				size(void) const;
+			int					capacity(void) const;
+			T					*data(void);
 
-			size_t				max_size(void); //
-			T&					front(void); //
-			T&					back(void); //
-			bool				empty(void); //
-			void				swap(vector& other); //
+			size_t				max_size(void) const;
+			T&					front(void) const;
+			T&					back(void) const;
+			bool				empty(void);
+			void				swap(vector& other);
 
-			void				clear(void); //
-			void				assign(size_t i, T value); //
-			T&					at(size_t index); //
-			void				reserve(size_t size); //
-			void				push_back(T value); //
-			void				pop_back(void); //
-			void				resize(size_t size); //
-			void				resize(size_t size, T value); //
+			void				clear(void);
+			void				assign(size_t i, T value);
+			template< class InputIt >
+			void				assign( InputIt first, InputIt last, typename ft::enable_if<!is_integral<InputIt>::value>::type* = 0);
+			T&					at(size_t index) const;
+			void				reserve(size_t size);
+			void				push_back(T value);
+			void				pop_back(void);
+			void				resize(size_t size);
+			void				resize(size_t size, T value);
 
-			vector<T>&			operator=(const vector& clone); //
-			T&					operator[](size_t i); //
+			vector<T>&			operator=(const vector& clone);
+			T&					operator[](size_t i);
 
-			Iterator<T>			insert(Iterator<T> pos, const value_type& val); //
-			void				insert(Iterator<T> pos, size_t n, const value_type& val); //
-			void				insert(Iterator<T> pos, Iterator<T> first, Iterator<T> last); //
-			Iterator<T>			erase(Iterator<T> pos); //
-			Iterator<T>			erase(Iterator<T> first, Iterator<T> last); //
+			Iterator<T>			insert(Iterator<T> pos, const value_type& val);
+			void				insert(Iterator<T> pos, size_t n, const value_type& val);
+			template< class InputIt >
+			void				insert(Iterator<T> pos, InputIt first, InputIt last, typename ft::enable_if<!is_integral<InputIt>::value>::type* = 0);
+			Iterator<T>			erase(Iterator<T> pos);
+			Iterator<T>			erase(Iterator<T> first, Iterator<T> last);
 
-			Iterator<T>			begin(void);
-			Iterator<T>			end(void);
-			Iterator<T>			begin(void) const;
-			Iterator<T>			end(void) const;
+			iterator			begin(void);
+			iterator			end(void);
+			const_iterator		begin(void) const;
+			const_iterator		end(void) const;
 			reverse_iterator	rbegin(void);
 			reverse_iterator	rend(void);
 			reverse_iterator	rbegin(void) const;
 			reverse_iterator	rend(void) const;
 
 		private:
-			size_t	count_iterator(Iterator<T> first, Iterator<T> last);
+			template< class InputIt >
+			size_t	count_iterator(InputIt first, InputIt last);
 			bool	validate_iterator(Iterator<T> pos);
 			void	destroy_vector(void);
 			T*		create_vector(size_t new_capacity);

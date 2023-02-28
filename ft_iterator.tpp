@@ -34,14 +34,14 @@ namespace ft
 	}
 
 	template<typename T>
-	Iterator<T>	Iterator<T>::operator++(int)
+	Iterator<T>&	Iterator<T>::operator++()
 	{
 		this->base++;
 		return (*this);
 	}
 
 	template<typename T>
-	Iterator<T>	Iterator<T>::operator++()
+	Iterator<T>	Iterator<T>::operator++(int)
 	{
 		Iterator	temp(this->base);
 
@@ -50,14 +50,14 @@ namespace ft
 	}
 
 	template<typename T>
-	Iterator<T>	Iterator<T>::operator--(int)
+	Iterator<T>&	Iterator<T>::operator--()
 	{
 		this->base--;
 		return (*this);
 	}
 
 	template<typename T>
-	Iterator<T>	Iterator<T>::operator--()
+	Iterator<T>	Iterator<T>::operator--(int)
 	{
 		Iterator	temp(this->base);
 
@@ -101,6 +101,14 @@ namespace ft
 		for (int i = 0; i < n; i++)
 			temp.base--;
 		return (temp);
+	}
+
+	template<typename T>
+	typename Iterator<T>::difference_type	Iterator<T>::operator-(Iterator<T> other) const
+	{
+		difference_type ret = this->base - other.base;
+
+		return (ret);
 	}
 
 	template<typename T>

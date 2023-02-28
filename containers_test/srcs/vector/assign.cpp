@@ -16,7 +16,9 @@ int		main(void)
 	printSize(vct);
 	printSize(vct_two);
 
+	std::cout << "lol---------" << std::endl;
 	vct_three.assign(vct.begin(), vct.end());
+	std::cout << "lol---------" << std::endl;
 	vct.assign(vct_two.begin(), vct_two.end());
 	vct_two.assign(2, 42);
 	vct_four.assign(4, 21);

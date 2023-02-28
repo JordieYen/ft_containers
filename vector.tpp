@@ -79,7 +79,7 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	int	vector<T, Allocator>::capacity(void)
+	int	vector<T, Allocator>::capacity(void) const
 	{
 		return (this->_capacity);
 	}
@@ -91,19 +91,19 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	size_t	vector<T, Allocator>::max_size(void)
+	size_t	vector<T, Allocator>::max_size(void) const
 	{
 		return (this->allocator.max_size());
 	}
 
 	template <typename T, class Allocator>
-	T&	vector<T, Allocator>::front(void)
+	T&	vector<T, Allocator>::front(void) const
 	{
 		return (this->_vector[0]);
 	}
 
 	template <typename T, class Allocator>
-	T&	vector<T, Allocator>::back(void)
+	T&	vector<T, Allocator>::back(void) const
 	{
 		return (this->_vector[this->_size - 1]);
 	}
@@ -174,7 +174,43 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	T&	vector<T, Allocator>::at(size_t index)
+	template< class InputIt >
+	void	vector<T, Allocator>::assign( InputIt first, InputIt last, typename ft::enable_if<!is_integral<InputIt>::value>::type*)
+	{
+		int	dist = this->count_iterator(first, last);
+		int	i = 0;
+
+		if (dist > this->_capacity)
+		{
+			for (int j = 0; j < this->_size; j++)
+				this->allocator.destroy(&this->_vector[j]);
+			this->allocator.deallocate(this->_vector, this->_capacity);
+			this->_capacity = dist;
+			this->_size = dist;
+			this->_vector = this->allocator.allocate(this->_capacity);
+			for (int j = 0; j < this->_size; j++, first++)
+				this->allocator.construct(&this->_vector[j], (*first));
+		}
+		else
+		{
+			for (; first != last; first++, i++)
+			{
+				if (i < this->_size)
+					this->_vector[i] = *first;
+				else if (i < this->_capacity)
+					this->allocator.construct(&this->_vector[i], *first);
+			}
+			while (i < this->_size)
+			{
+				// std::cout << "lol" << std::endl;
+				this->allocator.destroy(&this->_vector[i++]);
+			}
+			this->_size = dist;
+		}
+	}
+
+	template <typename T, class Allocator>
+	T&	vector<T, Allocator>::at(size_t index) const
 	{
 		if (index >= (size_t)this->_size)
 			throw std::out_of_range("my vector");
@@ -357,24 +393,25 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	void	vector<T, Allocator>::insert(Iterator<T> pos, Iterator<T> first, Iterator<T> last)
+	template< class InputIt >
+	void	vector<T, Allocator>::insert(Iterator<T> pos, InputIt first, InputIt last, typename ft::enable_if<!is_integral<InputIt>::value>::type*)
 	{
 		T				*new_vector;
 		int				min = 0;
 		int				temp_capacity = this->_capacity;
 		difference_type	dif = pos.base - this->begin().base;
-		difference_type	n = last.base - first.base;
+		difference_type	n = count_iterator(first, last);
 
 		if (this->_size + n > this->_capacity)
 		{
 			while (this->_size + n > temp_capacity)
 				temp_capacity *= 2;
 			new_vector = this->allocator.allocate(temp_capacity);
-			for (Iterator<T> it = this->begin(); it != this->end(); it++)
+			for (Iterator<T> it = this->begin(); it != this->end() + 1; it++)
 			{
 				if (it == pos)
 				{
-					for (Iterator<T> sec_it = first; sec_it != last; sec_it++)
+					for (InputIt sec_it = first; sec_it != last; sec_it++)
 					{
 						this->allocator.construct(&new_vector[min], *sec_it);
 						min++;
@@ -473,18 +510,18 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	Iterator<T>	vector<T, Allocator>::begin(void) const
+	Iterator<const T>	vector<T, Allocator>::begin(void) const
 	{
-		Iterator<T>	temp;
+		Iterator<const T>	temp;
 
 		temp.base = &this->_vector[0];
 		return(temp);
 	}
 
 	template <typename T, class Allocator>
-	Iterator<T>	vector<T, Allocator>::end(void) const
+	Iterator<const T>	vector<T, Allocator>::end(void) const
 	{
-		Iterator<T>	temp;
+		Iterator<const T>	temp;
 
 		temp.base = &this->_vector[this->_size];
 		return(temp);
@@ -523,12 +560,13 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	size_t	vector<T, Allocator>::count_iterator(Iterator<T> first, Iterator<T> last)
+	template< class InputIt >
+	size_t	vector<T, Allocator>::count_iterator(InputIt first, InputIt last)
 	{
 		size_t	i;
 
 		i = 0;
-		for (Iterator<T> it = first; it != last; it++)
+		for (InputIt it = first; it != last; it++)
 			i++;
 		return (i);
 	}

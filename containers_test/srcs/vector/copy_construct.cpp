@@ -10,11 +10,13 @@ int		main(void)
 	std::cout << "len: " << (ite - it) << std::endl;
 	for (; it != ite; ++it)
 		*it = (ite - it);
+	printSize(vct);
 
 	it = vct.begin();
 	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_range(it, --(--ite));
 	for (int i = 0; it != ite; ++it)
 		*it = ++i * 5;
+	printSize(vct);
 
 	it = vct.begin();
 	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_copy(vct);

@@ -36,17 +36,18 @@ namespace ft
 			Iterator&	operator=(const Iterator& clone);
 			~Iterator(void);
 
-			Iterator	operator+(int n) const;
-			Iterator	operator-(int n) const;
-			Iterator	operator++();
-			Iterator	operator++(int);
-			Iterator	operator--();
-			Iterator	operator--(int);
-			void		operator+=(int n);
-			void		operator-=(int n);
-			T&			operator*();
-			T			*operator->();
-			T&			operator[](int i);
+			Iterator		operator+(int n) const;
+			Iterator		operator-(int n) const;
+			difference_type	operator-(Iterator other) const;
+			Iterator&		operator++();
+			Iterator		operator++(int);
+			Iterator&		operator--();
+			Iterator		operator--(int);
+			void			operator+=(int n);
+			void			operator-=(int n);
+			T&				operator*();
+			T				*operator->();
+			T&				operator[](int i);
 
 			T	*base;
 	};
