@@ -613,8 +613,8 @@ namespace ft
 	{
 		bool	ret;
 
-		ret = ft::equal(current.begin(), current.end(), other.begin(), other.end());
-		return (ret);
+		ret = ft::equal(current.begin(), current.end(), other.begin());
+		return ((current.size() == other.size()) && ret);
 	}
 
 	template <typename T, class Allocator>
@@ -622,8 +622,8 @@ namespace ft
 	{
 		bool	ret;
 
-		ret = ft::equal(current.begin(), current.end(), other.begin(), other.end());
-		return (!(ret));
+		ret = ft::equal(current.begin(), current.end(), other.begin());
+		return (!((current.size() == other.size()) && ret));
 	}
 
 	template <typename T, class Allocator>
