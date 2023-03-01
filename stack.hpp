@@ -28,37 +28,37 @@ namespace ft
 
 			friend bool	operator==(const stack<T, Container>& current, const stack<T, Container>& other)
 			{
-				return (current._stack == other._stack);
+				return (current.c == other.c);
 			}
 
 			friend bool	operator<(const stack<T, Container>& current, const stack<T, Container>& other)
 			{
-				return (current._stack < other._stack);
+				return (current.c < other.c);
 			}
 
-		protected:
+		// protected:
 			container_type	c;
 	};
 
 	template <class T, class Container>
 	bool	operator!=(const stack<T, Container>& current, const stack<T, Container>& other)
 	{
-		return (!(current == other));
+		return (!(current.c == other.c));
 	}
 	template <class T, class Container>
 	bool	operator<=(const stack<T, Container>& current, const stack<T, Container>& other)
 	{
-		return (!(other < current));
+		return (!(other.c < current.c));
 	}
 	template <class T, class Container>
 	bool	operator>(const stack<T, Container>& current, const stack<T, Container>& other)
 	{
-		return (other < current);
+		return (other.c < current.c);
 	}
 	template <class T, class Container>
 	bool	operator>=(const stack<T, Container>& current, const stack<T, Container>& other)
 	{
-		return (!(current < other));
+		return (!(current.c < other.c));
 	}
 }
 
