@@ -1,9 +1,9 @@
-#include "ft_stack.hpp"
+#include "stack.hpp"
 
 namespace ft
 {
 	template <class T, class Container>
-	stack<T, Container>::stack(const container_type& ctnr) : _stack(ctnr)
+	stack<T, Container>::stack(const container_type& ctnr) : c(ctnr)
 	{
 	}
 
@@ -15,49 +15,49 @@ namespace ft
 	template <class T, class Container>
 	stack<T, Container>::stack( const stack<T, Container>& other )
 	{
-		this->_stack = other._stack;
+		this->c = other.c;
 	}
 
 	template <class T, class Container>
 	stack<T, Container>& stack<T, Container>::operator=( const stack<T, Container>& other )
 	{
-		this->_stack = other._stack;
+		this->c = other.c;
 		return (*this);
 	}
 
 	template <class T, class Container>
 	bool	stack<T, Container>::empty(void)
 	{
-		return (this->_stack.empty());
+		return (this->c.empty());
 	}
 
 	template <class T, class Container>
 	size_t	stack<T, Container>::size(void)
 	{
-		return (this->_stack.size());
+		return (this->c.size());
 	}
 
 	template <class T, class Container>
 	T	stack<T, Container>::top(void)
 	{
-		return (this->_stack[this->size() - 1]);
+		return (this->c.back());
 	}
 
 	template <class T, class Container>
 	void	stack<T, Container>::push(T val)
 	{
-		this->_stack.push_back(val);
+		this->c.push_back(val);
 	}
 	
 	template <class T, class Container>
 	void	stack<T, Container>::pop(void)
 	{
-		this->_stack.pop_back();
+		this->c.pop_back();
 	}
 
 	template <class T, class Container>
 	void	stack<T, Container>::swap(stack& other)
 	{
-		this->_stack.swap(other._stack);
+		this->c.swap(other.c);
 	}
 }

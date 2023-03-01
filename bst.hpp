@@ -51,7 +51,6 @@ namespace ft
 		public:
 			typedef Allocator														allocator_type;
 			typedef	typename allocator_type::template rebind< node<T> >::other		node_allocator;
-			// typedef	typename allocator_type::template rebind< T >::other			t_allocator;
 			typedef Compare															compare;
 
 			explicit bst(const compare& compp = compare(), const allocator_type& alloc = allocator_type());

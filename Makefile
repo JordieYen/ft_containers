@@ -1,6 +1,6 @@
 NAME = con
 
-SRCS = my_main.cpp
+SRCS = main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

@@ -37,7 +37,7 @@ namespace ft
 			}
 
 		protected:
-			container_type	_stack;
+			container_type	c;
 	};
 
 	template <class T, class Container>
@@ -62,6 +62,6 @@ namespace ft
 	}
 }
 
-#include "ft_stack.tpp"
+#include "stack.tpp"
 
 #endif

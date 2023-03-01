@@ -1,5 +1,5 @@
 #include "vector.hpp"
-#include "ft_stack.hpp"
+#include "stack.hpp"
 #include "ft_reverse_iterator.hpp"
 #include <iostream>
 #include <vector>
@@ -513,8 +513,8 @@ void	map_test(void)
 int	main(void)
 {
 	// vector_test();
-	// stack_test();
-	map_test();
+	stack_test();
+	// map_test();
 
 	// system("leaks con");
 	return (0);
