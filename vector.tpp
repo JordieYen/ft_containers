@@ -109,7 +109,7 @@ namespace ft
 	}
 
 	template <typename T, class Allocator>
-	bool	vector<T, Allocator>::empty(void)
+	bool	vector<T, Allocator>::empty(void) const
 	{
 		if (this->_size == 0)
 			return (true);
@@ -119,10 +119,9 @@ namespace ft
 	template <typename T, class Allocator>
 	void	vector<T, Allocator>::swap(vector& other)
 	{
-		vector<T, Allocator> temp_vector(other);
-
-		other = *this;
-		*this = temp_vector;
+		std::swap(this->_capacity, other._capacity);
+		std::swap(this->_size, other._size);
+		std::swap(this->_vector, other._vector);
 	}
 
 	template <typename T, class Allocator>
@@ -280,7 +279,11 @@ namespace ft
 		if (size > (size_t)this->_capacity)
 		{
 			while (size > (size_t)temp_capacity)
+			{
+				if (temp_capacity == 0)
+					temp_capacity = 1;
 				temp_capacity = temp_capacity * 2;
+			}
 			new_vector = this->create_vector(temp_capacity);
 			for (size_t i = this->_size; i < size; i++)
 				this->allocator.construct(&new_vector[i], value);
@@ -329,9 +332,7 @@ namespace ft
 		int	i = 0;
 		int	ret = 0;
 
-		if (this->validate_iterator(pos) == false)
-			return (0);
-		for (Iterator<T> it = this->begin(); it != this->end(); it++)
+		for (Iterator<T> it = this->begin(); it != this->end() + 1; it++)
 		{
 			if (it == pos)
 			{
@@ -348,18 +349,20 @@ namespace ft
 	void	vector<T, Allocator>::insert(Iterator<T> pos, size_t n, const value_type& val)
 	{
 		T				*new_vector;
-		difference_type	dif = pos.base - this->begin().base;
+		difference_type	dif = count_iterator(this->begin(), pos);
 		int				min = 0;
 		int				temp_capacity = this->_capacity;
 
-		if (this->validate_iterator(pos) == false)
-			return ;
 		if ((size_t)this->_size + n > (size_t)this->_capacity)
 		{
 			while ((size_t)this->_size + n > (size_t)temp_capacity)
+			{
+				if (temp_capacity == 0)
+					temp_capacity = 1;
 				temp_capacity *= 2;
+			}
 			new_vector = this->allocator.allocate(temp_capacity);
-			for (Iterator<T> it = this->begin(); it != this->end(); it++)
+			for (Iterator<T> it = this->begin(); it != this->end() + 1; it++)
 			{
 				if (it == pos)
 				{
@@ -381,7 +384,7 @@ namespace ft
 			min = dif - n - 1;
 			for (int j = this->size() - 1; j > min; j--)
 			{
-				if (j + n > this->size() - 1)
+				if (j + n > this->size() )
 					this->allocator.construct(&this->_vector[j + n], this->_vector[j]);
 				else if (j + n >= dif + n)
 					this->_vector[j + n] = this->_vector[j];
@@ -405,7 +408,11 @@ namespace ft
 		if (this->_size + n > this->_capacity)
 		{
 			while (this->_size + n > temp_capacity)
+			{
+				if (temp_capacity == 0)
+					temp_capacity = 1;
 				temp_capacity *= 2;
+			}
 			new_vector = this->allocator.allocate(temp_capacity);
 			for (Iterator<T> it = this->begin(); it != this->end() + 1; it++)
 			{
@@ -468,13 +475,13 @@ namespace ft
 	template <typename T, class Allocator>
 	Iterator<T>	vector<T, Allocator>::erase(Iterator<T> first, Iterator<T> last)
 	{
-		difference_type	first_dif = first.base - this->begin().base;
-		difference_type	last_dif = last.base - this->begin().base;
+		difference_type	first_dif = count_iterator(this->begin(), first);
+		difference_type	last_dif = count_iterator(this->begin(), last);
 		difference_type	dif = last_dif - first_dif;
 		int				ret = first_dif;
 
-		if (this->validate_iterator(first) == false || this->validate_iterator(last) == false || dif < 0)
-			return (0);
+		// if (this->validate_iterator(first) == false || this->validate_iterator(last) == false || dif < 0)
+		// 	return (0);
 		if (first == last)
 			return (last);
 		for (size_t i = 0; i < this->size(); i++)
@@ -530,7 +537,7 @@ namespace ft
 	template <typename T, class Allocator>
 	typename vector<T, Allocator>::reverse_iterator	vector<T, Allocator>::rbegin(void)
 	{
-		typename vector<T, Allocator>::reverse_iterator	temp(this->end() - 1);
+		typename vector<T, Allocator>::const_reverse_iterator	temp(this->end());
 
 		return(temp);
 	}
@@ -538,23 +545,23 @@ namespace ft
 	template <typename T, class Allocator>
 	typename vector<T, Allocator>::reverse_iterator	vector<T, Allocator>::rend(void)
 	{
-		typename vector<T, Allocator>::reverse_iterator	temp(this->begin() - 1);
+		typename vector<T, Allocator>::reverse_iterator	temp(this->begin());
 
 		return(temp);
 	}
 
 	template <typename T, class Allocator>
-	typename vector<T, Allocator>::reverse_iterator	vector<T, Allocator>::rbegin(void) const
+	typename vector<T, Allocator>::const_reverse_iterator	vector<T, Allocator>::rbegin(void) const
 	{
-		typename vector<T, Allocator>::reverse_iterator	temp(this->end() - 1);
+		typename vector<T, Allocator>::const_reverse_iterator	temp(this->end());
 
 		return(temp);
 	}
 
 	template <typename T, class Allocator>
-	typename vector<T, Allocator>::reverse_iterator	vector<T, Allocator>::rend(void) const
+	typename vector<T, Allocator>::const_reverse_iterator	vector<T, Allocator>::rend(void) const
 	{
-		typename vector<T, Allocator>::reverse_iterator	temp(this->begin() - 1);
+		typename vector<T, Allocator>::const_reverse_iterator	temp(this->begin());
 
 		return(temp);
 	}
@@ -606,7 +613,7 @@ namespace ft
 	{
 		bool	ret;
 
-		ret = ft::equal(current.begin(), current.end(), other.begin());
+		ret = ft::equal(current.begin(), current.end(), other.begin(), other.end());
 		return (ret);
 	}
 
@@ -615,7 +622,7 @@ namespace ft
 	{
 		bool	ret;
 
-		ret = ft::equal(current.begin(), current.end(), other.begin());
+		ret = ft::equal(current.begin(), current.end(), other.begin(), other.end());
 		return (!(ret));
 	}
 

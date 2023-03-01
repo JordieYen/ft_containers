@@ -18,18 +18,18 @@ int		main(void)
 		vct[i] = std::string((vct.size() - i), i + 65);
 	printSize(vct);
 
-	checkErase(vct, vct.erase(vct.begin() + 2));
+	checkErase(vct, vct.erase(vct.begin() + 2)); // 0
 
-	checkErase(vct, vct.erase(vct.begin()));
-	checkErase(vct, vct.erase(vct.end() - 1));
+	checkErase(vct, vct.erase(vct.begin())); // 1
+	checkErase(vct, vct.erase(vct.end() - 1)); // 2
 
-	checkErase(vct, vct.erase(vct.begin(), vct.begin() + 3));
-	checkErase(vct, vct.erase(vct.end() - 3, vct.end() - 1));
+	checkErase(vct, vct.erase(vct.begin(), vct.begin() + 3)); // 3
+	checkErase(vct, vct.erase(vct.end() - 3, vct.end() - 1)); // 4
 
 	vct.push_back("Hello");
 	vct.push_back("Hi there");
 	printSize(vct);
-	checkErase(vct, vct.erase(vct.end() - 3, vct.end()));
+	checkErase(vct, vct.erase(vct.end() - 3, vct.end())); // 5
 
 	vct.push_back("ONE");
 	vct.push_back("TWO");

@@ -11,6 +11,7 @@
 # include "ft_lexicographical_compare.hpp"
 # include "ft_enable_if.hpp"
 # include "ft_is_integral.hpp"
+# include "ft_remove_const.hpp"
 
 namespace ft
 {
@@ -51,7 +52,7 @@ namespace ft
 			size_t				max_size(void) const;
 			T&					front(void) const;
 			T&					back(void) const;
-			bool				empty(void);
+			bool				empty(void) const;
 			void				swap(vector& other);
 
 			void				clear(void);
@@ -81,8 +82,8 @@ namespace ft
 			const_iterator		end(void) const;
 			reverse_iterator	rbegin(void);
 			reverse_iterator	rend(void);
-			reverse_iterator	rbegin(void) const;
-			reverse_iterator	rend(void) const;
+			const_reverse_iterator	rbegin(void) const;
+			const_reverse_iterator	rend(void) const;
 
 		private:
 			template< class InputIt >

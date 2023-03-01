@@ -10,19 +10,20 @@ namespace ft
 	}
 
 	template<typename T>
-	Iterator<T>::Iterator(T *value)
+	Iterator<T>::Iterator(typename ft::remove_const<T>::type *value)
 	{
 		this->base = value;
 	}
 
 	template<typename T>
-	Iterator<T>::Iterator(const Iterator& clone)
+	Iterator<T>::Iterator(const Iterator<typename ft::remove_const<T>::type>& clone)
 	{
 		this->base = clone.base;
 	}
 
 	template<typename T>
-	Iterator<T>&	Iterator<T>::operator=(const Iterator& clone)
+	template<typename U>
+	Iterator<T>&	Iterator<T>::operator=(const Iterator<U>& clone)
 	{
 		this->base = clone.base;
 		return (*this);
@@ -45,7 +46,7 @@ namespace ft
 	{
 		Iterator	temp(this->base);
 
-		this->base++;
+		++(*this);
 		return (temp);
 	}
 
@@ -61,7 +62,7 @@ namespace ft
 	{
 		Iterator	temp(this->base);
 
-		this->base--;
+		--(*this);
 		return (temp);
 	}
 
@@ -104,47 +105,48 @@ namespace ft
 	}
 
 	template<typename T>
-	typename Iterator<T>::difference_type	Iterator<T>::operator-(Iterator<T> other) const
+	template<typename Iter>
+	typename Iterator<T>::difference_type	Iterator<T>::operator-(Iter other) const
 	{
 		difference_type ret = this->base - other.base;
 
 		return (ret);
 	}
 
-	template<typename T>
-	bool		operator==(Iterator<T> current, Iterator<T> other)
+	template <typename T, typename U>
+	bool		operator==(Iterator<T> current, Iterator<U> other)
 	{
 		if (current.base == other.base)
 			return (true);
 		return (false);
 	}
 
-	template<typename T>
-	bool		operator!=(Iterator<T> current, Iterator<T> other)
+	template <typename T, typename U>
+	bool		operator!=(Iterator<T> current, Iterator<U> other)
 	{
 		if (current.base != other.base)
 			return (true);
 		return (false);
 	}
 
-	template<typename T>
-	bool		operator<(Iterator<T> current, Iterator<T> other)
+	template <typename T, typename U>
+	bool		operator<(Iterator<T> current, Iterator<U> other)
 	{
 		if (current.base < other.base)
 			return (true);
 		return (false);
 	}
 
-	template<typename T>
-	bool		operator>(Iterator<T> current, Iterator<T> other)
+	template <typename T, typename U>
+	bool		operator>(Iterator<T> current, Iterator<U> other)
 	{
 		if (current.base > other.base)
 			return (true);
 		return (false);
 	}
 
-	template<typename T>
-	bool		operator<=(Iterator<T> current, Iterator<T> other)
+	template <typename T, typename U>
+	bool		operator<=(Iterator<T> current, Iterator<U> other)
 	{
 		if (current.base == other.base)
 			return (true);
@@ -153,8 +155,8 @@ namespace ft
 		return (false);
 	}
 
-	template<typename T>
-	bool		operator>=(Iterator<T> current, Iterator<T> other)
+	template <typename T, typename U>
+	bool		operator>=(Iterator<T> current, Iterator<U> other)
 	{
 		if (current.base == other.base)
 			return (true);
@@ -164,16 +166,18 @@ namespace ft
 	}
 
 	template<typename T>
-	void	Iterator<T>::operator+=(int n)
+	Iterator<T>&	Iterator<T>::operator+=(int n)
 	{
 		for (int i = 0; i < n; i++)
 			this->base++;
+		return(*this);
 	}
 
 	template<typename T>
-	void	Iterator<T>::operator-=(int n)
+	Iterator<T>&	Iterator<T>::operator-=(int n)
 	{
 		for (int i = 0; i < n; i++)
 			this->base--;
+		return(*this);
 	}
 }

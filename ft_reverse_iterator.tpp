@@ -17,7 +17,7 @@ namespace ft
 	template <typename U>
 	reverse_iterator<Iter>::reverse_iterator (const reverse_iterator<U>& other)
 	{
-		this->_base = (other.base() - 1);
+		this->_base = other._base;
 	}
 
 	template <class Iter>
@@ -29,7 +29,7 @@ namespace ft
 	template< class U >
 	reverse_iterator<Iter>& reverse_iterator<Iter>::operator=( const reverse_iterator<U>& other )
 	{
-		this->_base = other.base();
+		this->_base = other._base;
 		return (*this);
 	}
 
@@ -48,14 +48,17 @@ namespace ft
 	template <class Iter>
 	typename reverse_iterator<Iter>::reference reverse_iterator<Iter>::operator[] (difference_type n) const
 	{
-		return (*(this->_base - n));
+		return (*(this->_base.base - n));
 	}
 
 	template <class Iter>
 	reverse_iterator<Iter> reverse_iterator<Iter>::operator+ (difference_type n) const
 	{
-		this->_base - n;
-		return (*this);
+		reverse_iterator<Iter>	temp(*this);
+
+		for (int i = 0; i < n; i++)
+			temp._base--;
+		return (temp);
 	}
 
 	template <class Iter>
@@ -98,10 +101,13 @@ namespace ft
 	}
 
 	template <class Iter>
-	reverse_iterator<Iter> reverse_iterator<Iter>::operator- (difference_type n) const
+	reverse_iterator<Iter> reverse_iterator<Iter>::operator-(difference_type n) const
 	{
-		this->_base + n;
-		return (*this);
+		reverse_iterator<Iter>	temp(*this);
+
+		for (int i = 0; i < n; i++)
+			temp._base++;
+		return (temp);
 	}
 
 	template <class Iter>

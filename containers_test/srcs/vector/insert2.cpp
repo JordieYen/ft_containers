@@ -12,6 +12,7 @@ int		main(void)
 		vct[i] = (vct.size() - i) * 7;
 	printSize(vct);
 
+	printSize(vct2);
 	vct2.insert(vct2.begin(), vct.begin(), vct.begin() + cut);
 	printSize(vct2);
 	vct2.insert(vct2.begin(), vct.begin() + cut, vct.end());

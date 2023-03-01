@@ -30,7 +30,6 @@ namespace ft
 	{
 		for (; (first1 != last1) || (first2 != last2); ++first1, (void) ++first2)
 		{
-			// std::cout << *first2 << std::endl;
 			if (!(*first1 == *first2))
 				return false;
 		}

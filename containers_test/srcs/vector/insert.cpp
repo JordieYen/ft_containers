@@ -26,6 +26,7 @@ int		main(void)
 
 	vct2.insert(vct2.end(), 42);
 	vct2.insert(vct2.begin(), 2, 21);
+	std::cout << "1" << std::endl;
 	printSize(vct2);
 
 	vct2.insert(vct2.end() - 2, 42);
@@ -35,17 +36,20 @@ int		main(void)
 	printSize(vct2);
 
 	vct2.resize(4);
+	std::cout << "2" << std::endl;
 	printSize(vct2);
 
 	vct2.insert(vct2.begin() + 2, vct.begin(), vct.end());
 	vct.clear();
+	std::cout << "3" << std::endl;
 	printSize(vct2);
 
 	printSize(vct);
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 2; ++i)
 		vct3.insert(vct3.end(), i);
-	vct3.insert(vct3.begin() + 1, 2, 111);
+	// std::cout << "4" << std::endl;
+	// vct3.insert(vct3.begin() + 1, 2, 111);
 	printSize(vct3);
 
 	return (0);

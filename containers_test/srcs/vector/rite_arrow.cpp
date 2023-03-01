@@ -16,6 +16,7 @@ int		main(void)
 	it = vct.rbegin();
 	ite = vct.rbegin();
 
+	std::cout << *(ite) << std::endl;
 	std::cout << *(++ite) << std::endl;
 	std::cout << *(ite++) << std::endl;
 	std::cout << *ite++ << std::endl;

@@ -6,6 +6,7 @@
 # include <iterator>
 # include <memory>
 # include "ft_iterator_traits.hpp"
+# include "ft_remove_const.hpp"
 
 namespace ft
 {
@@ -31,39 +32,66 @@ namespace ft
 			typedef	typename ft::iterator_traits<T*>::iterator_category		iterator_category;
 
 			Iterator(void);
-			Iterator(T *value);
-			Iterator(const Iterator& clone);
-			Iterator&	operator=(const Iterator& clone);
+			Iterator(typename ft::remove_const<T>::type *value);
+			Iterator(const Iterator<typename ft::remove_const<T>::type>& clone);
+			template<typename U>
+			Iterator<T>&	operator=(const Iterator<U>& clone);
 			~Iterator(void);
 
 			Iterator		operator+(int n) const;
 			Iterator		operator-(int n) const;
-			difference_type	operator-(Iterator other) const;
+			template<typename Iter>
+			difference_type	operator-(Iter other) const;
 			Iterator&		operator++();
 			Iterator		operator++(int);
 			Iterator&		operator--();
 			Iterator		operator--(int);
-			void			operator+=(int n);
-			void			operator-=(int n);
+			Iterator&		operator+=(int n);
+			Iterator&		operator-=(int n);
 			T&				operator*();
 			T				*operator->();
 			T&				operator[](int i);
 
-			T	*base;
+			typename ft::remove_const<T>::type	*base;
 	};
 
+	template <typename T, typename U>
+	bool		operator<(Iterator<T> current, Iterator<U> other);
+	template <typename T, typename U>
+	bool		operator>(Iterator<T> current, Iterator<U> other);
+	template <typename T, typename U>
+	bool		operator<=(Iterator<T> current, Iterator<U> other);
+	template <typename T, typename U>
+	bool		operator>=(Iterator<T> current, Iterator<U> other);
+	template <typename T, typename U>
+	bool		operator==(Iterator<T> current, Iterator<U> other);
+	template <typename T, typename U>
+	bool		operator!=(Iterator<T> current, Iterator<U> other);
 	template <typename T>
-	bool		operator<(Iterator<T> current, Iterator<T> other);
+	Iterator<T>		operator+(int n, Iterator<T> other)
+	{
+		Iterator<T>	temp(other);
+
+		for (int i = 0; i < n; i++)
+			temp.base++;
+		return (temp);
+	}
 	template <typename T>
-	bool		operator>(Iterator<T> current, Iterator<T> other);
-	template <typename T>
-	bool		operator<=(Iterator<T> current, Iterator<T> other);
-	template <typename T>
-	bool		operator>=(Iterator<T> current, Iterator<T> other);
-	template <typename T>
-	bool		operator==(Iterator<T> current, Iterator<T> other);
-	template <typename T>
-	bool		operator!=(Iterator<T> current, Iterator<T> other);
+	Iterator<T>		operator-(int n, Iterator<T> other)
+	{
+		Iterator<T>	temp(other);
+
+		for (int i = 0; i < n; i++)
+			temp.base--;
+		return (temp);
+	}
+	// template <typename T, typename U>
+	// std::ptrdiff_t	operator-(T current, U other)
+	// {
+	// 	std::ptrdiff_t ret = current.base - other.base();
+
+	// 	return (ret);
+	// }
 }
 
 #include "ft_iterator.tpp"
