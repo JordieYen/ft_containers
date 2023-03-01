@@ -77,6 +77,7 @@ namespace ft
 			node<T>*	iterativesearchnode(T key);
 			void		printBT(void);
 			node<T>*	bstsuccessor(node<T> *x);
+			void		bstclear(node<T> *x);
 
 			node<T>			*_root;
 			node<T>			*_nil;
@@ -93,7 +94,6 @@ namespace ft
 			void		bsttransplant(node<T> *u, node<T> *v);
 			void		bstdelete(node<T> *z);
 			void		printBT(const std::string& prefix, const node<T>* node, bool isLeft);
-			void		bstclear(node<T> *x);
 			node<T>*	allocatenode(T key);
 
 		public:

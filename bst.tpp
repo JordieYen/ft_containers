@@ -20,7 +20,6 @@ namespace ft
 	template < typename T, class Compare, class Allocator>
 	bst<T, Compare, Allocator>::~bst(void)
 	{
-		this->bstclear(this->_root);
 		this->t_alloc.destroy(this->_nil->key);
 		this->t_alloc.deallocate(this->_nil->key, 1);
 		this->n_alloc.destroy(this->_nil);

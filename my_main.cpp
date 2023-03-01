@@ -342,7 +342,7 @@ void	stack_test(void)
 }
 
 template <class T>
-void	printmapdata(T _map, std::string name)
+void	printmapdata(T& _map, std::string name)
 {
 	// empty(void), size(void), top(void) test
 	cout << "\033[34m";
@@ -507,14 +507,27 @@ void	map_test(void)
 		cout << it->first << " ";
 	cout << "\033[0m" << endl;
 
+	// for (ft::map<int, std::string>::iterator it = mymap.begin(); it != mymap.end(); it ++)
+	// 	std::cout << it->first << " " << it->second << std::endl;
+
+	// ft::map<int, std::string> p = mymap;
+
+	// p[10] = "bruh";
+
+	// for (ft::map<int, std::string>::iterator it = p.begin(); it != p.end(); it ++)
+	// 	std::cout << it->first << " " << it->second << std::endl;
+
+	// for (ft::map<int, std::string>::iterator it = mymap.begin(); it != mymap.end(); it ++)
+	// 	std::cout << it->first << " " << it->second << std::endl;
+
 	cout << "\n------------------------ Map test end ------------------------\n" << endl;
 }
 
 int	main(void)
 {
 	// vector_test();
-	stack_test();
-	// map_test();
+	// stack_test();
+	map_test();
 
 	// system("leaks con");
 	return (0);
