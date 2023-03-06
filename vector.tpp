@@ -434,11 +434,11 @@ namespace ft
 		else
 		{
 			min = dif - n - 1;
-			for (size_t j = this->size() - 1; (size_t)j > (size_t)min; j--)
+			for (int j = (int)this->size() - 1; j > min; j--)
 			{
-				if ((size_t)j + n > this->size() - 1)
+				if (j + n > (int)this->size() - 1)
 					this->allocator.construct(&this->_vector[j + n], this->_vector[j]);
-				else if ((size_t)j + n >= (size_t)dif + n)
+				else if (j + n >= dif + n)
 					this->_vector[j + n] = this->_vector[j];
 				else
 				{

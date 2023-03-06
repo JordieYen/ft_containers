@@ -525,9 +525,9 @@ void	map_test(void)
 
 int	main(void)
 {
-	// vector_test();
+	vector_test();
 	// stack_test();
-	map_test();
+	// map_test();
 
 	// system("leaks con");
 	return (0);
