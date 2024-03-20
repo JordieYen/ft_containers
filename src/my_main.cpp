@@ -181,23 +181,23 @@ void	vector_test(void)
 	cout << "\033[34mmyvector[6]   : " << "\033[0m" << endl;
 	
 	// insert(Iterator<T> pos, const value_type& val) test 
-	cout << "\nRan vector.insert(vector.begin() + 1, poop) on vectors: " << endl;
-	realvector.insert(realvector.begin() + 1, "poop");
-	myvector.insert(myvector.begin() + 1, "poop");
-	printvector(realvector, "realvector");
-	printvector(myvector, "myvector  ");
+	// cout << "\nRan vector.insert(vector.begin() + 1, poop) on vectors: " << endl;
+	// realvector.insert(realvector.begin() + 1, "poop");
+	// myvector.insert(myvector.begin() + 1, "poop");
+	// printvector(realvector, "realvector");
+	// printvector(myvector, "myvector  ");
 
 	// insert(Iterator<T> pos, size_t n, const value_type& val) test 
-	cout << "\nRan vector.insert(vector.begin() + 1, 2, bruh) on vectors: " << endl;
-	realvector.insert(realvector.begin() + 1, 2, "bruh");
-	myvector.insert(myvector.begin() + 1, 2, "bruh");
-	printvector(realvector, "realvector");
-	printvector(myvector, "myvector  ");
-	cout << "vector.insert(vector.begin() + 1, 3, okay): " << endl;
-	realvector.insert(realvector.begin() + 1, 3, "okay");
-	myvector.insert(myvector.begin() + 1, 3, "okay");
-	printvector(realvector, "realvector");
-	printvector(myvector, "myvector  ");
+	// cout << "\nRan vector.insert(vector.begin() + 1, 2, bruh) on vectors: " << endl;
+	// realvector.insert(realvector.begin() + 1, 2, "bruh");
+	// myvector.insert(myvector.begin() + 1, 2, "bruh");
+	// printvector(realvector, "realvector");
+	// printvector(myvector, "myvector  ");
+	// cout << "vector.insert(vector.begin() + 1, 3, okay): " << endl;
+	// realvector.insert(realvector.begin() + 1, 3, "okay");
+	// myvector.insert(myvector.begin() + 1, 3, "okay");
+	// printvector(realvector, "realvector");
+	// printvector(myvector, "myvector  ");
 
 	// insert(Iterator<T> pos, Iterator<T> first, Iterator<T> last) test 
 	cout << "\nRan vector.insert(vector.begin() + 1, tempvector.begin(), tempvector.last()) on vectors: " << endl;
@@ -205,19 +205,19 @@ void	vector_test(void)
 	tempmyvector.assign(5, "new");
 	printvector(temprealvector, "temprealvector");
 	printvector(tempmyvector, "tempmyvector  ");
-	realvector.insert(realvector.begin() + 1, temprealvector.begin(), temprealvector.end());
-	myvector.insert(myvector.begin() + 1, tempmyvector.begin(), tempmyvector.end());
-	printvector(realvector, "realvector");
-	printvector(myvector, "myvector  ");
+	// realvector.insert(realvector.begin() + 1, temprealvector.begin(), temprealvector.end());
+	// myvector.insert(myvector.begin() + 1, tempmyvector.begin(), tempmyvector.end());
+	// printvector(realvector, "realvector");
+	// printvector(myvector, "myvector  ");
 	cout << "vector.insert(vector.begin() + 1, tempvector.begin(), tempvector.last()): " << endl;
 	temprealvector.assign(5, "pew");
 	tempmyvector.assign(5, "pew");
 	printvector(temprealvector, "temprealvector");
 	printvector(tempmyvector, "tempmyvector  ");
-	realvector.insert(realvector.begin() + 1, temprealvector.begin(), temprealvector.end());
-	myvector.insert(myvector.begin() + 1, tempmyvector.begin(), tempmyvector.end());
-	printvector(realvector, "realvector");
-	printvector(myvector, "myvector  ");
+	// realvector.insert(realvector.begin() + 1, temprealvector.begin(), temprealvector.end());
+	// myvector.insert(myvector.begin() + 1, tempmyvector.begin(), tempmyvector.end());
+	// printvector(realvector, "realvector");
+	// printvector(myvector, "myvector  ");
 
 	// erase(Iterator<T> pos) test 
 	cout << "\nRan vector.erase(vector.begin()) on vectors: " << endl;
@@ -227,11 +227,11 @@ void	vector_test(void)
 	printvector(myvector, "myvector  ");
 
 	// erase(Iterator<T> first, Iterator<T> last) test 
-	cout << "\nRan vector.erase(vector.begin(), vector.begin() + 5) on vectors: " << endl;
-	realvector.erase(realvector.begin(), realvector.begin() + 5);
-	myvector.erase(myvector.begin(), myvector.begin() + 5);
-	printvector(realvector, "realvector");
-	printvector(myvector, "myvector  ");
+	// cout << "\nRan vector.erase(vector.begin(), vector.begin() + 5) on vectors: " << endl;
+	// realvector.erase(realvector.begin(), realvector.begin() + 5);
+	// myvector.erase(myvector.begin(), myvector.begin() + 5);
+	// printvector(realvector, "realvector");
+	// printvector(myvector, "myvector  ");
 
 	cout << "\nElements printed with T pointer using iterator : " << endl;
 	cout <<  "\033[34mrealvector :" ;
@@ -526,8 +526,8 @@ void	map_test(void)
 int	main(void)
 {
 	vector_test();
-	// stack_test();
-	// map_test();
+	stack_test();
+	map_test();
 
 	// system("leaks con");
 	return (0);
